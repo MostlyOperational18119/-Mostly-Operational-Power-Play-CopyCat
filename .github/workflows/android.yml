@@ -2,7 +2,7 @@ name: Android CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "DamienCV"]
   pull_request:
     branches: [ "master" ]
 
@@ -24,3 +24,8 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: output
+        path: TeamCode/build/outputs/apk/debug/TeamCode-debug.apk
