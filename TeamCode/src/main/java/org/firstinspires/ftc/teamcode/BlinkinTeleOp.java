@@ -15,12 +15,15 @@ public class BlinkinTeleOp extends LinearOpMode {
         telemetry.addLine("Initialized LED driver.");
         telemetry.update();
         waitForStart();
+        pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE_GREEN;
 
         while(opModeIsActive()) {
             if(gamepad1.a) {
-                blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE_GREEN);
+                pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE_GREEN;
+                blinkinLedDriver.setPattern(pattern);
             } if(gamepad1.b) {
-                blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.LAWN_GREEN);
+                pattern = RevBlinkinLedDriver.BlinkinPattern.LAWN_GREEN;
+                blinkinLedDriver.setPattern(pattern);
             }
             telemetry.addLine(pattern.name());
             telemetry.update();
