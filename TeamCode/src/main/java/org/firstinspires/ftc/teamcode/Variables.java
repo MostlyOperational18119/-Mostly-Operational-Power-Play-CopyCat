@@ -29,7 +29,9 @@ public class Variables {
     public enum BlinkinColor {
         RAINBOW,
         RED,
+        RED_PULSE,
         ORANGE,
+        ORANGE_PULSE,
         BLUE,
         GREEN,
         GREEN_PULSE,

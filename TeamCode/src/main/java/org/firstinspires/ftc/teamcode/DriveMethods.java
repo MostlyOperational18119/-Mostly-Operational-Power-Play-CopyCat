@@ -536,6 +536,10 @@ public class DriveMethods extends LinearOpMode{
             case GREEN_PULSE:
                 pattern = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_FOREST_PALETTE;
                 break;
+            case ORANGE_PULSE:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE;
+            case RED_PULSE:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.STROBE_RED;
         }
         sleep(1000);
         blinkinLedDriver.setPattern(pattern);
