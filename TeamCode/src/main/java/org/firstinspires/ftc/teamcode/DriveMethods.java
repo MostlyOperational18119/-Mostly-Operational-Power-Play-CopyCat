@@ -507,7 +507,7 @@ public class DriveMethods extends LinearOpMode{
         pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
         blinkinLedDriver.setPattern(pattern);
     }
-    public void setBlinkinColor(BlinkinColor colorEnum) {
+    public void setBlinkinColor(BlinkinColor colorEnum)  {
         switch(colorEnum) {
             case RAINBOW:
                 pattern = RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE;
@@ -537,5 +537,7 @@ public class DriveMethods extends LinearOpMode{
                 pattern = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_FOREST_PALETTE;
                 break;
         }
+        sleep(1000);
+        blinkinLedDriver.setPattern(pattern);
     }
 }

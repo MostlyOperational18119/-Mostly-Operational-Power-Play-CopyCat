@@ -38,22 +38,22 @@ public class BBHighCVBlinkin extends DriveMethods{
         initMotorsBlueBlinkin();
         clawClamp();
         sleep(500);
-        switch (pipeline.getCurrentResults()) {
-            case 1:
-                setBlinkinColor(Variables.BlinkinColor.PURPLE);
-                break;
-            case 2:
-                setBlinkinColor(Variables.BlinkinColor.GREEN);
-                break;
-            case 3:
-                setBlinkinColor(Variables.BlinkinColor.YELLOW);
-                break;
-        }
+        result = pipeline.getCurrentResultsStr();
         while(!isStarted()) {
             telemetry.addLine("result: " + pipeline.getCurrentResultsStr());
             telemetry.update();
             result = pipeline.getCurrentResultsStr();
-
+            switch (result) {
+                case "purple":
+                    setBlinkinColor(Variables.BlinkinColor.PURPLE);
+                    break;
+                case "green":
+                    setBlinkinColor(Variables.BlinkinColor.GREEN);
+                    break;
+                case "yellow":
+                    setBlinkinColor(Variables.BlinkinColor.YELLOW);
+                    break;
+            }
         }
 
         waitForStart();
@@ -90,7 +90,7 @@ public class BBHighCVBlinkin extends DriveMethods{
 
         }
         setBlinkinColor(Variables.BlinkinColor.GREEN_PULSE);
-        // Done Parking! :)
+        // D
 
         while (opModeIsActive()) {
 
