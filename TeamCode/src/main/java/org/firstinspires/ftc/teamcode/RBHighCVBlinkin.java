@@ -8,9 +8,9 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-@Autonomous(name ="BBHighCVBlinkin", group = "A")
+@Autonomous(name ="RBHighCVBlinkin", group = "A")
 //@Disabled
-public class BBHighCVBlinkin extends DriveMethods{
+public class RBHighCVBlinkin extends DriveMethods{
     OpenCvWebcam webcam;
     private String result;
 
@@ -35,10 +35,10 @@ public class BBHighCVBlinkin extends DriveMethods{
 
 
 
-        initMotorsBlueBlinkin();
+        initMotorsBlue();
         clawClamp();
         sleep(500);
-        result = pipeline.getCurrentResultsStr();
+
         while(!isStarted()) {
             telemetry.addLine("result: " + pipeline.getCurrentResultsStr());
             telemetry.update();
@@ -58,28 +58,26 @@ public class BBHighCVBlinkin extends DriveMethods{
 
         waitForStart();
 
-        GoToHeight(300);
 
+
+        GoToHeight(300);
         driveForDistance(0.1, Variables.Direction.FORWARD,0.35,0);
         driveForDistance(0.65, Variables.Direction.LEFT,0.35,0);
         driveForDistance(1.22, Variables.Direction.FORWARD,0.35,0);
-        driveForDistance(0.36, Variables.Direction.RIGHT, 0.35,0);
+        driveForDistance(0.38, Variables.Direction.RIGHT, 0.35,0);
         goToHigh();
-        driveForDistance(0.07, Variables.Direction.FORWARD,0.2,0);
-        sleep(500);
-        GoToHeight(4150);
+        driveForDistance(0.13, Variables.Direction.FORWARD,0.2,0);
         sleep(500);
         clawRelease();
         sleep(200);
-        goToHigh();
-        sleep(500);
         driveForDistance(0.17, Variables.Direction.BACKWARD,0.35,0);
         goToDown();
         sleep(500);
         driveForDistance(0.35, Variables.Direction.LEFT, 0.35,0);
+        //Divergence point
         switch(result){
             case "purple":
-                driveForDistance(1.50, Variables.Direction.RIGHT, 0.35,0);
+                driveForDistance(1.5, Variables.Direction.RIGHT, 0.35,0);
                 break;
             case "yellow":
                 driveForDistance(0.7, Variables.Direction.RIGHT, 0.35,0);
@@ -90,7 +88,7 @@ public class BBHighCVBlinkin extends DriveMethods{
 
         }
         setBlinkinColor(Variables.BlinkinColor.GREEN_PULSE);
-        // Done!
+
 
         while (opModeIsActive()) {
 
