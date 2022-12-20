@@ -34,6 +34,7 @@ public class Meet3Teleop extends DriveMethods {
         runtime.reset();
         double leftY;
         double leftX;
+        double rightY;
         double rightX;
         double speedDiv = 2;
         // Can we deleat Clamp & Relase Pos?
@@ -56,6 +57,7 @@ public class Meet3Teleop extends DriveMethods {
             //update doubles
             leftY = -gamepad1.left_stick_y;
             leftX = gamepad1.left_stick_x;
+            rightY = -gamepad1.right_stick_y;
             rightX = gamepad1.right_stick_x;
 
             if((runtime.seconds() >= 90.0) & Variables.pattern != RevBlinkinLedDriver.BlinkinPattern.ORANGE) {
