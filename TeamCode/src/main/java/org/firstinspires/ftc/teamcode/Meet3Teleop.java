@@ -7,6 +7,7 @@ import static org.firstinspires.ftc.teamcode.Variables.motorFR;
 import static org.firstinspires.ftc.teamcode.Variables.motorSlide;
 import static org.firstinspires.ftc.teamcode.Variables.runtime;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -57,7 +58,18 @@ public class Meet3Teleop extends DriveMethods {
             leftX = gamepad1.left_stick_x;
             rightX = gamepad1.right_stick_x;
 
-
+            if((runtime.seconds() >= 90.0) & Variables.pattern != RevBlinkinLedDriver.BlinkinPattern.ORANGE) {
+                setBlinkinColor(Variables.BlinkinColor.ORANGE);
+            }
+            if((runtime.seconds() >= 100.0) & Variables.pattern != RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE) {
+                setBlinkinColor(Variables.BlinkinColor.ORANGE_PULSE);
+            }
+            if((runtime.seconds() >= 110.0) & Variables.pattern != RevBlinkinLedDriver.BlinkinPattern.RED) {
+                setBlinkinColor(Variables.BlinkinColor.RED);
+            }
+            if((runtime.seconds() >= 115.0) & Variables.pattern != RevBlinkinLedDriver.BlinkinPattern.STROBE_RED) {
+                setBlinkinColor(Variables.BlinkinColor.RED_PULSE);
+            }
             if (gamepad2.x) {
                 clawClamp();
             }
