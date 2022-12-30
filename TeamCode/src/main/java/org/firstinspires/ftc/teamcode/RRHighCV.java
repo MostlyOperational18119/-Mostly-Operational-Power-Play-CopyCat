@@ -29,7 +29,6 @@ public class RRHighCV extends DriveMethods{
             }
             @Override
             public void onError(int errorCode) {
-
             }
         });
 

@@ -64,6 +64,7 @@ public class RedAllianceSide extends DriveMethods{
         goToDown();
         sleep(500);
 
+
         //Divergence point
         switch(result){
             case "purple":
