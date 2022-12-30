@@ -449,18 +449,25 @@ public class DriveMethods extends LinearOpMode{
 
     //This is a universal heading
     public void rotateToHeading(int angleHeading){
+        telemetry.addLine("Trying to rotate!");
+        telemetry.update();
         double target = angleHeading;
         double current = getCumulativeZ();
         double error = target- current;
+        double aggresivness = 120;
 
-        while(Math.abs(error) < 2) {
+        while(Math.abs(error) > 2) {
             current = getCumulativeZ();
             error = target - current;
-            
-            motorFL.setPower((error / 120) + 0.05);
-            motorBL.setPower((error / 120) + 0.05);
-            motorFR.setPower((error / 120) + 0.05);
-            motorBR.setPower((error / 120) + 0.05);
+            if (Math.abs(error) > 5) {
+                aggresivness = 60;
+            } else {
+                aggresivness = 120;
+            }
+            motorFL.setPower(-(error / aggresivness)/* + 0.05*/);
+            motorBL.setPower(-(error / aggresivness)/* + 0.05*/);
+            motorFR.setPower((error / aggresivness)/* + 0.05*/);
+            motorBR.setPower((error / aggresivness)/* + 0.05*/);
 
 
             telemetry.addLine("Current (Cumulative) Z:  " + current);
