@@ -8,9 +8,9 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-@Autonomous(name ="RedAllianceSide", group = "A")
+@Autonomous(name ="RedOppSide", group = "A")
 //@Disabled
-public class RedAllianceSide extends DriveMethods{
+public class RedOppSide extends DriveMethods{
     OpenCvWebcam webcam;
     private String result;
 
@@ -60,9 +60,11 @@ public class RedAllianceSide extends DriveMethods{
         sleep(500);
         clawRelease();
         sleep(200);
-        driveForDistance(0.17, Variables.Direction.BACKWARD,0.35,0);
+        driveForDistance(0.16, Variables.Direction.BACKWARD,0.35,0);
         goToDown();
-        sleep(500);
+        rotateToHeading(90);
+        driveForDistance(.2, Variables.Direction.FORWARD, .35, 0);
+
 
 
         //Divergence point

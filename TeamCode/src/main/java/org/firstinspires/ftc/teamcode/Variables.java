@@ -45,8 +45,8 @@ public class Variables {
     public static double clicksPerRotation = 537.6;
     public static double rotationsPerMeter = 1/0.3015928947;
 
-    public static final double Clamp = 0.76;
-    public static final double Release = 0.66;
+    public static final double Clamp = 0.25;
+    public static final double Release = 0.52;
 
     public static final int downHeight = 0;
     public static final int collectHeight = 200;
@@ -55,7 +55,7 @@ public class Variables {
     public static final int highHeight = 4200;
 
 
-    // Grbber #1 Clamp: 0.5, Release: 0.75
-    // grbber #2 Clamp: 0.41, Release: 0.52
-    // grbber #3 Clamp: 0.25, Release: 0.52
+    // Grabber #1 Clamp: 0.5, Release: 0.75,
+    // grabber #2 Clamp: 0.41, Release: 0.52
+    // grabber #3 Clamp: 0.25, Release: 0.52
 }
