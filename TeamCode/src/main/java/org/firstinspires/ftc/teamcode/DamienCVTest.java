@@ -42,6 +42,10 @@ public class DamienCVTest extends LinearOpMode {
             telemetry.addData("Overhead time ms", webcam.getOverheadTimeMs());
             telemetry.addData("Theoretical max FPS", webcam.getCurrentPipelineMaxFps());
             telemetry.addData("Result From Image Processing", pipeline.getCurrentResultsStr());
+            telemetry.addLine("DPAD_DOWN: NORMAL VIEW");
+            telemetry.addLine("DPAD_UP: PURPLE MASK");
+            telemetry.addLine("DPAD_LEFT: YELLOW MASK");
+            telemetry.addLine("DPAD_RIGHT: GREEN MASK");
             telemetry.update();
 
             if (gamepad1.right_bumper) {

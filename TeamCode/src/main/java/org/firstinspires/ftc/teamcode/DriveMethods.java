@@ -5,6 +5,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -448,18 +449,25 @@ public class DriveMethods extends LinearOpMode{
 
     //This is a universal heading
     public void rotateToHeading(int angleHeading){
+        telemetry.addLine("Trying to rotate!");
+        telemetry.update();
         double target = angleHeading;
         double current = getCumulativeZ();
         double error = target- current;
+        double aggresivness = 120;
 
-        while(Math.abs(error) < 2) {
+        while(Math.abs(error) > 2) {
             current = getCumulativeZ();
             error = target - current;
-            
-            motorFL.setPower((error / 120) + 0.05);
-            motorBL.setPower((error / 120) + 0.05);
-            motorFR.setPower((error / 120) + 0.05);
-            motorBR.setPower((error / 120) + 0.05);
+            if (Math.abs(error) > 5) {
+                aggresivness = 60;
+            } else {
+                aggresivness = 120;
+            }
+            motorFL.setPower(-(error / aggresivness)/* + 0.05*/);
+            motorBL.setPower(-(error / aggresivness)/* + 0.05*/);
+            motorFR.setPower((error / aggresivness)/* + 0.05*/);
+            motorBR.setPower((error / aggresivness)/* + 0.05*/);
 
 
             telemetry.addLine("Current (Cumulative) Z:  " + current);
@@ -553,5 +561,66 @@ public class DriveMethods extends LinearOpMode{
         motorFR.setDirection(DcMotorSimple.Direction.FORWARD);
         motorBR.setDirection(DcMotorSimple.Direction.FORWARD);
         calibrateNavXIMU();
+    }
+    public void initMotorsBlueBlinkin() {
+        motorFL  = hardwareMap.get(DcMotor.class, "motorFL");
+        motorBL = hardwareMap.get(DcMotor.class, "motorBL");
+        motorFR  = hardwareMap.get(DcMotor.class, "motorFR");
+        motorBR = hardwareMap.get(DcMotor.class, "motorBR");
+        motorSlide = hardwareMap.get(DcMotor.class,"motorLS");
+        servoGrabberThing = hardwareMap.get(Servo.class, "grabber");
+
+        blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+
+        motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorBL.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorFR.setDirection(DcMotorSimple.Direction.FORWARD);
+        motorBR.setDirection(DcMotorSimple.Direction.FORWARD);
+        calibrateNavXIMU();
+
+        pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
+        blinkinLedDriver.setPattern(pattern);
+    }
+    public void initBlinkinOnly() {
+        blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+        pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
+        blinkinLedDriver.setPattern(pattern);
+    }
+    public void setBlinkinColor(BlinkinColor colorEnum)  {
+        switch(colorEnum) {
+            case RAINBOW:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE;
+                break;
+            case RED:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
+                break;
+            case ORANGE:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.ORANGE;
+                break;
+            case GREEN:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
+                break;
+            case YELLOW:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.YELLOW;
+                break;
+            case BLUE:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
+                break;
+            case PURPLE:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.HOT_PINK;
+                break;
+            case PINK:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.HOT_PINK;
+                break;
+            case GREEN_PULSE:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_FOREST_PALETTE;
+                break;
+            case ORANGE_PULSE:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE;
+            case RED_PULSE:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.STROBE_RED;
+        }
+        sleep(1000);
+        blinkinLedDriver.setPattern(pattern);
     }
 }

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -14,6 +15,8 @@ public class Variables {
     public static DcMotor motorFR;          //motor03
     public static DcMotor motorBR;          //motor04
     public static DcMotor motorSlide;
+    public static RevBlinkinLedDriver blinkinLedDriver;
+    public static RevBlinkinLedDriver.BlinkinPattern pattern;
     public enum Direction {
         FORWARD,
         BACKWARD,
@@ -22,6 +25,20 @@ public class Variables {
         ROTATE_LEFT,
         ROTATE_RIGHT,
         ROTATE,
+        ;
+    }
+    public enum BlinkinColor {
+        RAINBOW,
+        RED,
+        RED_PULSE,
+        ORANGE,
+        ORANGE_PULSE,
+        BLUE,
+        GREEN,
+        GREEN_PULSE,
+        YELLOW,
+        PURPLE,
+        PINK,
         ;
     }
 
