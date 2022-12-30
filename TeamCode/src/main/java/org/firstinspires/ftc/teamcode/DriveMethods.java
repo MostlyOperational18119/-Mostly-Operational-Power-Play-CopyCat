@@ -285,6 +285,8 @@ public class DriveMethods extends LinearOpMode{
 //            motorBR.setPower(BRPower + (rotateError / 100));
 //        }
 //    }
+
+
     public void driveForDistance(double distanceMeters, Direction movementDirection, double power, double targetRotation) { // distance: 2, strafe: false, power: 0.5
         targetZ = targetRotation;
         motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -298,6 +300,7 @@ public class DriveMethods extends LinearOpMode{
         motorBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorBR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        int doRotateOnly = 0;
         power = Math.abs(power);
         switch (movementDirection) {
             case FORWARD:
@@ -334,6 +337,7 @@ public class DriveMethods extends LinearOpMode{
                  motorFR.setPower(power);
                  motorBR.setPower(power);
                 // targetZ = getCurrentZ();
+                targetZ = targetRotation;
 
                 break;
             case ROTATE_RIGHT:
@@ -342,7 +346,23 @@ public class DriveMethods extends LinearOpMode{
                  motorFR.setPower(-power);
                  motorBR.setPower(-power);
                 // targetZ = getCurrentZ();
+                targetZ = targetRotation;
 
+                break;
+            case ROTATE:
+                if(targetZ > getCurrentZ()) {
+                    motorFL.setPower(power);
+                    motorBL.setPower(power);
+                    motorFR.setPower(-power);
+                    motorBR.setPower(-power);
+                    // swap if broken
+                } if(targetZ < getCurrentZ()) {
+                    motorFL.setPower(-power);
+                    motorBL.setPower(-power);
+                    motorFR.setPower(power);
+                    motorBR.setPower(power);
+                }
+                doRotateOnly = 1;
                 break;
 
         }
@@ -365,7 +385,7 @@ public class DriveMethods extends LinearOpMode{
         double currentZ = getCurrentZ();
         double rotateError = targetZ - currentZ;
 
-        while (targetPos >= avgPosition) {
+        while ((targetPos >= avgPosition) & doRotateOnly == 0) {
             FLPosition = Math.abs(motorFL.getCurrentPosition());
             BLPosition = Math.abs(motorBL.getCurrentPosition());
             FRPosition = Math.abs(motorFR.getCurrentPosition());
@@ -376,10 +396,37 @@ public class DriveMethods extends LinearOpMode{
 
             avgPosition = (int) (FLPosition + BLPosition + FRPosition + BRPosition) / 4;
             motorFL.setPower(FLPower - (rotateError / 150));
-            motorBL.setPower(BLPower - (rotateError / 150));
-            motorFR.setPower(FRPower + (rotateError / 150));
-            motorBR.setPower(BRPower + (rotateError / 150));
+                motorBL.setPower(BLPower - (rotateError / 150));
+                motorFR.setPower(FRPower + (rotateError / 150));
+                motorBR.setPower(BRPower + (rotateError / 150));
 
+            telemetry.addLine("MotorFL Power " + motorFL.getPower());
+            telemetry.addLine("MotorBL Power " + motorBL.getPower());
+            telemetry.addLine("MotorFR Power " + motorFR.getPower());
+            telemetry.addLine("MotorBR Power " + motorBR.getPower());
+
+            telemetry.addLine("Current Position: " + avgPosition);
+            telemetry.addLine("targetPos " + targetPos);
+
+            telemetry.addLine("Cumulative Z " + getCumulativeZ());
+            telemetry.addLine("Current Z " + getCurrentZ());
+            telemetry.addLine("Error " + rotateError);
+            telemetry.update();
+        }
+        while (doRotateOnly == 1 & (getCurrentZ() != targetZ)) {
+            FLPosition = Math.abs(motorFL.getCurrentPosition());
+            BLPosition = Math.abs(motorBL.getCurrentPosition());
+            FRPosition = Math.abs(motorFR.getCurrentPosition());
+            BRPosition = Math.abs(motorBR.getCurrentPosition());
+
+            currentZ = getCurrentZ();
+            rotateError = targetZ - currentZ;
+
+            avgPosition = (int) (FLPosition + BLPosition + FRPosition + BRPosition) / 4;
+            motorFL.setPower(-(rotateError / 150));
+            motorBL.setPower(-(rotateError / 150));
+            motorFR.setPower(rotateError / 150);
+            motorBR.setPower(rotateError / 150);
             telemetry.addLine("MotorFL Power " + motorFL.getPower());
             telemetry.addLine("MotorBL Power " + motorBL.getPower());
             telemetry.addLine("MotorFR Power " + motorFR.getPower());
@@ -398,6 +445,31 @@ public class DriveMethods extends LinearOpMode{
         motorBL.setPower(0);
         motorFR.setPower(0);
         motorBR.setPower(0);
+    }
+
+    //This is a universal heading
+    public void rotateToHeading(int angleHeading){
+        double target = angleHeading;
+        double current = getCumulativeZ();
+        double error = target- current;
+
+        while(Math.abs(error) < 2) {
+            current = getCumulativeZ();
+            error = target - current;
+            
+            motorFL.setPower((error / 120) + 0.05);
+            motorBL.setPower((error / 120) + 0.05);
+            motorFR.setPower((error / 120) + 0.05);
+            motorBR.setPower((error / 120) + 0.05);
+
+
+            telemetry.addLine("Current (Cumulative) Z:  " + current);
+            telemetry.addLine("Target Z: " + target);
+            telemetry.addLine("Error " + error);
+            telemetry.addLine("Power: " + (error/120));
+            telemetry.update();
+
+        }
     }
 
     public void GoToHeight(int Clicks) {
