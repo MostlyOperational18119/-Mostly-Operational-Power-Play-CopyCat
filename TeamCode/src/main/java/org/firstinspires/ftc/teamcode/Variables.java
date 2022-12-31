@@ -72,7 +72,7 @@ public class Variables {
     public static final int highHeight = 4200;
 
 
-    // Grabber #1 Clamp: 0.5, Release: 0.75,
+    // Grabber #1 Clamp: 0.44, Release: 0.54,
     // grabber #2 Clamp: 0.41, Release: 0.52
     // grabber #3 Clamp: 0.25, Release: 0.52
 }
