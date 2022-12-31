@@ -447,36 +447,73 @@ public class DriveMethods extends LinearOpMode{
         motorBR.setPower(0);
     }
 
-    //This is a universal heading
-    public void rotateToHeading(int angleHeading){
-        telemetry.addLine("Trying to rotate!");
-        telemetry.update();
-        double target = angleHeading;
-        double current = getCumulativeZ();
-        double error = target- current;
-        double aggresivness = 120;
+//    //This is a universal heading
+//    public void rotateToHeading(int angleHeading){
+//        telemetry.addLine("Trying to rotate!");
+//        telemetry.update();
+//        double target = angleHeading;
+//        double current = getCumulativeZ();
+//        double error = target- current;
+//        double aggresivness = 100;
+//
+//        while(Math.abs(error) > 2) {
+//            current = getCumulativeZ();
+//            error = target - current;
+//            if (Math.abs(error) > 5) {
+//                aggresivness = 40;
+//            } else {
+//                aggresivness = 100;
+//            }
+//            motorFL.setPower(-(error / aggresivness)/* + 0.05*/);
+//            motorBL.setPower(-(error / aggresivness)/* + 0.05*/);
+//            motorFR.setPower((error / aggresivness)/* + 0.05*/);
+//            motorBR.setPower((error / aggresivness)/* + 0.05*/);
+//
+//
+//            telemetry.addLine("Current (Cumulative) Z:  " + current);
+//            telemetry.addLine("Target Z: " + target);
+//            telemetry.addLine("Error " + error);
+//            telemetry.addLine("Power: " + (error/120));
+//            telemetry.update();
+//
+//        }
+//    }
 
-        while(Math.abs(error) > 2) {
-            current = getCumulativeZ();
-            error = target - current;
-            if (Math.abs(error) > 5) {
-                aggresivness = 60;
-            } else {
-                aggresivness = 120;
-            }
-            motorFL.setPower(-(error / aggresivness)/* + 0.05*/);
-            motorBL.setPower(-(error / aggresivness)/* + 0.05*/);
-            motorFR.setPower((error / aggresivness)/* + 0.05*/);
-            motorBR.setPower((error / aggresivness)/* + 0.05*/);
-
-
-            telemetry.addLine("Current (Cumulative) Z:  " + current);
-            telemetry.addLine("Target Z: " + target);
+    public void rotateAngle(int angle) {
+        double target = getCumulativeZ() + angle;
+        double error = target - getCumulativeZ();
+        double power = 0;
+        while(Math.abs(error) > 10) {
+            error = target - getCumulativeZ();
+            power = error/100;
+            motorFL.setPower(-power);
+            motorBL.setPower(-power);
+            motorFR.setPower(power);
+            motorBR.setPower(power);
+            telemetry.addLine("Current (Cumulative) Z:  " + getCumulativeZ());
             telemetry.addLine("Error " + error);
-            telemetry.addLine("Power: " + (error/120));
+            telemetry.addLine("Power: " + power);
             telemetry.update();
-
         }
+        while(Math.abs(error) > 1) {
+            error = target - getCumulativeZ();
+            power = (Math.abs(error)/error) * 0.15;
+            motorFL.setPower(-power);
+            motorBL.setPower(-power);
+            motorFR.setPower(power);
+            motorBR.setPower(power);
+            telemetry.addLine("Current (Cumulative) Z:  " + getCumulativeZ());
+            telemetry.addLine("Error " + error);
+            telemetry.addLine("Power: " + power);
+            telemetry.update();
+        }
+        stopMotors();
+        telemetry.addLine("Current (Cumulative) Z:  " + getCumulativeZ());
+        telemetry.addLine("Error " + error);
+        telemetry.addLine("Power: " + power);
+        telemetry.update();
+
+
     }
 
     public void GoToHeight(int Clicks) {
@@ -535,6 +572,13 @@ public class DriveMethods extends LinearOpMode{
     public void goToHigh(){
         GoToHeight(highHeight);
     }
+    public void goToFifth() {
+        GoToHeight(fifthHeight);
+    }
+    public void goToFourth() {
+        GoToHeight(fourthHeight);
+    }
+
 
     public void initMotorsSecondBot() {
         motorFL  = hardwareMap.get(DcMotor.class, "motorFL");

@@ -2,9 +2,10 @@ package org.firstinspires.ftc.teamcode;
 
 import static java.lang.Math.random;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name="BlinkinOver1HZ", group="A")
+@Autonomous(name="BlinkinOver1HZ", group="A")
 public class BlinkinOver1HZ extends DriveMethods {
     int currentRandNum = 0;
     int rngdegnum = 69;
@@ -47,6 +48,10 @@ public class BlinkinOver1HZ extends DriveMethods {
 //        }
         waitForStart();
         resetRuntime();
+        rotateAngle(90);
+        driveForDistance(0.5, Variables.Direction.FORWARD, 0.2, getCumulativeZ());
+        rotateAngle(-90);
+        telemetry.clearAll();
 //        telemetry.addLine("\"Oops\", accidentally created this.");
 
         while (opModeIsActive()) {
@@ -85,7 +90,6 @@ public class BlinkinOver1HZ extends DriveMethods {
 //            } else {
 //                telemetry.update();
 //            }
-        rotateToHeading(rngdegnum);
     }
     }
 }
