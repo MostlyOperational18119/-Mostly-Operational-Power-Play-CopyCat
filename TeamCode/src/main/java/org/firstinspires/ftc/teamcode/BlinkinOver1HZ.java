@@ -85,7 +85,7 @@ public class BlinkinOver1HZ extends DriveMethods {
 //            } else {
 //                telemetry.update();
 //            }
-        rotateToHeading(rngdegnum);
+//        rotateToHeading(rngdegnum);
     }
     }
 }
