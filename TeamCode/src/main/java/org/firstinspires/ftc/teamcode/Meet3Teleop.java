@@ -156,13 +156,9 @@ public class Meet3Teleop extends DriveMethods {
 
 
             if(gamepad2.left_stick_y != 0){
-                    slideTarget += (int) -gamepad2.left_stick_y * 25;
-                    aggressiveness = 1250;
-                    int dif2 = slideTarget - Math.abs(motorSlide.getCurrentPosition());
-                if (dif2>0){
-                    motorSlide.setPower((Math.abs(dif2)/dif2) * (1000/aggressiveness));
-                }
-                    sleep(50);
+                slideTarget += (int) -gamepad2.left_stick_y * 50;
+                aggressiveness = 1250;
+                sleep(50);
                 if (sPosition<300 && sPosition>0){
                     targetHeight = 1;
                 }
@@ -203,6 +199,7 @@ public class Meet3Teleop extends DriveMethods {
             motorSlide.setPower(((slideDifference / aggressiveness) + holdingPower));
 
             telemetry.addLine(slideDifference + "..difference");
+            telemetry.addLine("power:" + motorSlide.getPower());
             telemetry.addLine(Math.abs(motorSlide.getCurrentPosition()) + "..position");
             telemetry.addLine(slideTarget + "..target");
             telemetry.addLine(((slideDifference / aggressiveness) + holdingPower) + "..power");

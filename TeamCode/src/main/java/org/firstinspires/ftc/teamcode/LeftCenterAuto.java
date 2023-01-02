@@ -8,9 +8,9 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-@Autonomous(name ="RightCenter", group = "A")
+@Autonomous(name ="LeftCenter", group = "A")
 //@Disabled
-public class RightCenterAuto extends DriveMethods{
+public class LeftCenterAuto extends DriveMethods{
     OpenCvWebcam webcam;
     private String result;
 
@@ -51,9 +51,9 @@ public class RightCenterAuto extends DriveMethods{
 
         GoToHeight(300);
         driveForDistance(0.1, Variables.Direction.FORWARD,0.35);
-        driveForDistance(0.65, Variables.Direction.LEFT,0.35);
-        driveForDistance(0.63, Variables.Direction.FORWARD,0.35);
-        driveForDistance(0.34, Variables.Direction.LEFT, 0.35);
+        driveForDistance(0.63, Variables.Direction.RIGHT,0.35);
+        driveForDistance(0.55, Variables.Direction.FORWARD,0.35);
+        driveForDistance(0.33, Variables.Direction.RIGHT, 0.35);
         goToHigh();
         driveForDistance(0.07, Variables.Direction.FORWARD,0.2);
         sleep(500);
@@ -62,17 +62,17 @@ public class RightCenterAuto extends DriveMethods{
         driveForDistance(0.135, Variables.Direction.BACKWARD,0.35);
         goToDown();
         sleep(500);
-        driveForDistance(0.35, Variables.Direction.RIGHT, 0.35);
+        driveForDistance(0.35, Variables.Direction.LEFT, 0.35);
         driveForDistance(0.6, Variables.Direction.FORWARD, 0.35);
         switch(result){
-            case "green":
+            case "purple":
                 //You're where you need to be!
                 break;
             case "yellow":
-                driveForDistance(0.7, Variables.Direction.RIGHT, 0.35);
+                driveForDistance(0.7, Variables.Direction.LEFT, 0.35);
                 break;
-            case "purple":
-                driveForDistance(1.37, Variables.Direction.RIGHT, 0.35);
+            case "green":
+                driveForDistance(1.37, Variables.Direction.LEFT, 0.35);
                 break;
 
 
