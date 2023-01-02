@@ -51,19 +51,19 @@ public class RedOppSide extends DriveMethods{
 
 
         GoToHeight(300);
-        driveForDistance(0.1, Variables.Direction.FORWARD,0.35,0);
-        driveForDistance(0.65, Variables.Direction.LEFT,0.35,0);
-        driveForDistance(1.22, Variables.Direction.FORWARD,0.35,0);
-        driveForDistance(0.38, Variables.Direction.RIGHT, 0.35,0);
+        driveForDistance(0.1, Variables.Direction.FORWARD,0.35);
+        driveForDistance(0.65, Variables.Direction.LEFT,0.35);
+        driveForDistance(1.22, Variables.Direction.FORWARD,0.35);
+        driveForDistance(0.38, Variables.Direction.RIGHT, 0.35);
         goToHigh();
-        driveForDistance(0.13, Variables.Direction.FORWARD,0.2,0);
+        driveForDistance(0.13, Variables.Direction.FORWARD,0.2);
         sleep(500);
         clawRelease();
         sleep(200);
-        driveForDistance(0.16, Variables.Direction.BACKWARD,0.35,0);
+        driveForDistance(0.16, Variables.Direction.BACKWARD,0.35);
         goToDown();
         rotateToHeading(90, 0.2);
-        driveForDistance(.2, Variables.Direction.FORWARD, .35, getCumulativeZ());
+        driveForDistance(.2, Variables.Direction.FORWARD, .35);
 
 
 
