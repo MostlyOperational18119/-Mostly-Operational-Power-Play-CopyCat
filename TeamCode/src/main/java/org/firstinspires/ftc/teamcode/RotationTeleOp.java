@@ -13,10 +13,18 @@ public class RotationTeleOp extends DriveMethods {
         waitForStart();
         while(opModeIsActive()) {
             rotationZ += Math.floor(gamepad1.right_stick_x * 5);
+            if(gamepad1.right_bumper) {
+                rotationZ = 0;
+            }
             if(gamepad1.a) {
                 rotateToHeading(rotationZ,0.2);
             }
+            telemetry.addData("Target Rotation Z: ", rotationZ);
+            telemetry.addData("Current Rotation Z: ",getCurrentZ());
+            telemetry.update();
+            // To make the rotation change at a resonable rate
             sleep(100);
+
         }
     }
 }
