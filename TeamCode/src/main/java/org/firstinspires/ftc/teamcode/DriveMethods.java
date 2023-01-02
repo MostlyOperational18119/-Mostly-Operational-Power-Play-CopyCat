@@ -448,7 +448,7 @@ public class DriveMethods extends LinearOpMode{
     }
 
     //This is a universal heading
-    public void rotateToHeading(int angleHeading){
+    public void rotateToHeading(int angleHeading, double power){
         telemetry.addLine("Trying to rotate!");
         telemetry.update();
         double target = angleHeading;
@@ -459,6 +459,7 @@ public class DriveMethods extends LinearOpMode{
         while(Math.abs(error) > 2) {
             current = getCumulativeZ();
             error = target - current;
+
             if (Math.abs(error) > 5) {
                 aggresivness = 60;
             } else {
@@ -470,14 +471,26 @@ public class DriveMethods extends LinearOpMode{
             motorBR.setPower((error / aggresivness)/* + 0.05*/);
 
 
+            motorFL.setPower(((error / 120) + 0.05) * power);
+            motorBL.setPower(((error / 120) + 0.05) * power);
+            motorFR.setPower((-((error / 120) + 0.05)) * power);
+            motorBR.setPower((-((error / 120) + 0.05)) * power);
+//            motorFL.setPower(power);
+//            motorBL.setPower(power);
+//            motorFR.setPower(-power);
+//            motorBR.setPower(-power);
+
+
+
             telemetry.addLine("Current (Cumulative) Z:  " + current);
             telemetry.addLine("Target Z: " + target);
             telemetry.addLine("Error " + error);
-            telemetry.addLine("Power: " + (error/120));
+            telemetry.addLine("Power: " + power);
             telemetry.update();
 
         }
     }
+
 
     public void GoToHeight(int Clicks) {
         int target = (Clicks);

@@ -62,8 +62,8 @@ public class RedOppSide extends DriveMethods{
         sleep(200);
         driveForDistance(0.16, Variables.Direction.BACKWARD,0.35,0);
         goToDown();
-        rotateToHeading(90);
-        driveForDistance(.2, Variables.Direction.FORWARD, .35, 0);
+        rotateToHeading(90, 0.2);
+        driveForDistance(.2, Variables.Direction.FORWARD, .35, getCumulativeZ());
 
 
 
