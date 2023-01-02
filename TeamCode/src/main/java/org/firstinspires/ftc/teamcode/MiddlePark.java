@@ -21,7 +21,7 @@ public class MiddlePark extends DriveMethods {
 
         waitForStart();
 
-        driveForDistance(0.4, Direction.FORWARD, 0.5,0);
+        driveForDistance(0.4, Direction.FORWARD, 0.5);
 
         while(opModeIsActive()) {
 

@@ -51,9 +51,8 @@ public class RedOppSide extends DriveMethods{
 
         waitForStart();
 
-
-
         GoToHeight(collectHeight);
+        GoToHeight(300);
         driveForDistance(0.1, Variables.Direction.FORWARD,0.35);
         driveForDistance(0.65, Variables.Direction.LEFT,0.35);
         driveForDistance(1.22, Variables.Direction.FORWARD,0.35);
@@ -72,7 +71,6 @@ public class RedOppSide extends DriveMethods{
         goToLow();
         driveForDistance(.75, Variables.Direction.BACKWARD, .35);
         rotateAngle(90);
-
         goToDown();
         rotateToHeading(90, 0.2);
         driveForDistance(.2, Variables.Direction.FORWARD, .35);

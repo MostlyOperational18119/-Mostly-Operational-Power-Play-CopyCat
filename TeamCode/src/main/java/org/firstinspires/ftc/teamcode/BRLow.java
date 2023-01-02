@@ -12,17 +12,17 @@ public class BRLow extends DriveMethods {
         waitForStart();
 
         GoToHeight(1950);
-        driveForDistance(0.05, Direction.FORWARD, 0.35, 0);
-        driveForDistance(0.19, Direction.RIGHT, 0.35, 0);
-        driveForDistance(0.15, Direction.FORWARD, 0.35, 0);
+        driveForDistance(0.05, Direction.FORWARD, 0.35);
+        driveForDistance(0.19, Direction.RIGHT, 0.35);
+        driveForDistance(0.15, Direction.FORWARD, 0.35);
         sleep(500);
         clawRelease();
         sleep(1000);
-        driveForDistance(0.3, Direction.BACKWARD, 0.35, 0);
+        driveForDistance(0.3, Direction.BACKWARD, 0.35);
 
         GoToHeight(0);
 
-        driveForDistance(0.5, Direction.RIGHT, .35, 0);
+        driveForDistance(0.5, Direction.RIGHT, .35);
 
         while(opModeIsActive()) {
 
