@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.teamcode.Variables.collectHeight;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -44,26 +46,34 @@ public class RedOppSide extends DriveMethods{
             telemetry.update();
             result = pipeline.getCurrentResultsStr();
 
+
         }
 
         waitForStart();
 
-
-
+        GoToHeight(collectHeight);
         GoToHeight(300);
-        driveForDistance(0.1, Variables.Direction.FORWARD,0.35,0);
-        driveForDistance(0.65, Variables.Direction.LEFT,0.35,0);
-        driveForDistance(1.22, Variables.Direction.FORWARD,0.35,0);
-        driveForDistance(0.38, Variables.Direction.RIGHT, 0.35,0);
+        driveForDistance(0.1, Variables.Direction.FORWARD,0.35);
+        driveForDistance(0.65, Variables.Direction.LEFT,0.35);
+        driveForDistance(1.22, Variables.Direction.FORWARD,0.35);
+        driveForDistance(0.38, Variables.Direction.RIGHT, 0.35);
         goToHigh();
-        driveForDistance(0.13, Variables.Direction.FORWARD,0.2,0);
+        driveForDistance(0.13, Variables.Direction.FORWARD,0.2);
         sleep(500);
         clawRelease();
         sleep(200);
-        driveForDistance(0.16, Variables.Direction.BACKWARD,0.35,0);
+        driveForDistance(0.16, Variables.Direction.BACKWARD,0.35);
+        goToLow();
+        rotateAngle(-90);
+        driveForDistance(.75, Variables.Direction.FORWARD, .35);
+        goToFifth();
+        clawClamp();
+        goToLow();
+        driveForDistance(.75, Variables.Direction.BACKWARD, .35);
+        rotateAngle(90);
         goToDown();
-        rotateToHeading(90);
-        driveForDistance(.2, Variables.Direction.FORWARD, .35, 0);
+        rotateToHeading(90, 0.2);
+        driveForDistance(.2, Variables.Direction.FORWARD, .35);
 
 
 

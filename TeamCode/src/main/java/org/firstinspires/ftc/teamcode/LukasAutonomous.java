@@ -29,23 +29,23 @@ public class LukasAutonomous extends DriveMethods {
 
         waitForStart();
 
-        driveForDistance(1.95,Direction.LEFT,0.4,0);
+        driveForDistance(1.95,Direction.LEFT,0.4);
         sleep(100);
-        driveForDistance(0.1,Direction.FORWARD,0.4,0);
+        driveForDistance(0.1,Direction.FORWARD,0.4);
         sleep(500);
-        driveForDistance(0.1,Direction.BACKWARD,0.4,0);
+        driveForDistance(0.1,Direction.BACKWARD,0.4);
         sleep(100);
-        driveForDistance(0.3,Direction.RIGHT,0.4,0);
+        driveForDistance(0.3,Direction.RIGHT,0.4);
         sleep(100);
-        driveForDistance(1.4,Direction.FORWARD,0.4,0);
+        driveForDistance(1.4,Direction.FORWARD,0.4);
         sleep(100);
-        driveForDistance(1.4,Direction.BACKWARD,0.4,0);
+        driveForDistance(1.4,Direction.BACKWARD,0.4);
         sleep(100);
-        driveForDistance(0.3,Direction.LEFT,0.4,0);
+        driveForDistance(0.3,Direction.LEFT,0.4);
         sleep(100);
-        driveForDistance(0.1,Direction.FORWARD,0.4,0);
+        driveForDistance(0.1,Direction.FORWARD,0.4);
         sleep(500);
-        driveForDistance(0.1,Direction.BACKWARD,0.4,0);
+        driveForDistance(0.1,Direction.BACKWARD,0.4);
 
 
 
@@ -53,17 +53,17 @@ public class LukasAutonomous extends DriveMethods {
 
 
         while (opModeIsActive()) {
-            driveForDistance(0.3,Direction.RIGHT,0.4,0);
+            driveForDistance(0.3,Direction.RIGHT,0.4);
             sleep(100);
-            driveForDistance(1.4,Direction.FORWARD,0.4,0);
+            driveForDistance(1.4,Direction.FORWARD,0.4);
             sleep(100);
-            driveForDistance(1.4,Direction.BACKWARD,0.4,0);
+            driveForDistance(1.4,Direction.BACKWARD,0.4);
             sleep(100);
-            driveForDistance(0.28,Direction.LEFT,0.4,0);
+            driveForDistance(0.28,Direction.LEFT,0.4);
             sleep(100);
-            driveForDistance(0.1,Direction.FORWARD,0.4,0);
+            driveForDistance(0.1,Direction.FORWARD,0.4);
             sleep(500);
-            driveForDistance(0.1,Direction.BACKWARD,0.4,0);
+            driveForDistance(0.1,Direction.BACKWARD,0.4);
 
 
         }

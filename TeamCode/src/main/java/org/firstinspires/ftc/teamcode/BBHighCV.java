@@ -50,12 +50,12 @@ public class BBHighCV extends DriveMethods{
 
         GoToHeight(300);
 
-        driveForDistance(0.1, Variables.Direction.FORWARD,0.35,0);
-        driveForDistance(0.65, Variables.Direction.LEFT,0.35,0);
-        driveForDistance(1.22, Variables.Direction.FORWARD,0.35,0);
-        driveForDistance(0.36, Variables.Direction.RIGHT, 0.35,0);
+        driveForDistance(0.1, Variables.Direction.FORWARD,0.35);
+        driveForDistance(0.65, Variables.Direction.LEFT,0.35);
+        driveForDistance(1.22, Variables.Direction.FORWARD,0.35);
+        driveForDistance(0.36, Variables.Direction.RIGHT, 0.35);
         goToHigh();
-        driveForDistance(0.07, Variables.Direction.FORWARD,0.2,0);
+        driveForDistance(0.07, Variables.Direction.FORWARD,0.2);
         sleep(500);
         GoToHeight(4150);
         sleep(500);
@@ -63,16 +63,16 @@ public class BBHighCV extends DriveMethods{
         sleep(200);
         goToHigh();
         sleep(500);
-        driveForDistance(0.17, Variables.Direction.BACKWARD,0.35,0);
+        driveForDistance(0.17, Variables.Direction.BACKWARD,0.35);
         goToDown();
         sleep(500);
-        driveForDistance(0.35, Variables.Direction.LEFT, 0.35,0);
+        driveForDistance(0.35, Variables.Direction.LEFT, 0.35);
         switch(result){
             case "purple":
-                driveForDistance(1.50, Variables.Direction.RIGHT, 0.35,0);
+                driveForDistance(1.50, Variables.Direction.RIGHT, 0.35);
                 break;
             case "yellow":
-                driveForDistance(0.7, Variables.Direction.RIGHT, 0.35,0);
+                driveForDistance(0.7, Variables.Direction.RIGHT, 0.35);
                 break;
             case "green":
                 //You're where you need to be!

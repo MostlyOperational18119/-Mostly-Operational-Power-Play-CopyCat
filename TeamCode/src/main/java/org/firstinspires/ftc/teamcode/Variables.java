@@ -55,6 +55,7 @@ public class Variables {
     public static double previousHeading = 0;
     public static double intergratedHeading = 0;
     public static double targetZ;
+    public static double globalTargetRotation;
     public static boolean isImuCalibrated = false;
 
 
@@ -62,16 +63,21 @@ public class Variables {
     public static double clicksPerRotation = 537.6;
     public static double rotationsPerMeter = 1/0.3015928947;
 
-    public static final double Clamp = 0.25;
-    public static final double Release = 0.52;
+    public static final double Clamp = 0.16;
+    public static final double Release = 0.24;
 
     public static final int downHeight = 0;
     public static final int collectHeight = 200;
     public static final int lowHeight = 1850;
     public static final int midHeight = 3100;
     public static final int highHeight = 4200;
+    public static final int fifthHeight = 1700;
+    public static final int fourthHeight = 1600;
 
 
+    // Grabber #1 Clamp: 0.5, Release: 0.75,
+    // grabber #2 Clamp: 0.42, Release: 0.5
+    // grabber #3 Clamp: 0.16, Release: 0.24
     // Grabber #1 Clamp: 0.44, Release: 0.54,
     // grabber #2 Clamp: 0.41, Release: 0.52
     // grabber #3 Clamp: 0.25, Release: 0.52

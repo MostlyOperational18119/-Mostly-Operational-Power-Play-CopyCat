@@ -59,7 +59,7 @@ public class Meet3Teleop extends DriveMethods {
             leftX = gamepad1.left_stick_x;
             rightY = -gamepad1.right_stick_y;
             rightX = gamepad1.right_stick_x;
-
+/*
             if((runtime.seconds() >= 90.0) & Variables.pattern != RevBlinkinLedDriver.BlinkinPattern.ORANGE) {
                 setBlinkinColor(Variables.BlinkinColor.ORANGE);
             }
@@ -72,6 +72,7 @@ public class Meet3Teleop extends DriveMethods {
             if((runtime.seconds() >= 115.0) & Variables.pattern != RevBlinkinLedDriver.BlinkinPattern.STROBE_RED) {
                 setBlinkinColor(Variables.BlinkinColor.RED_PULSE);
             }
+*/
             if (gamepad2.x) {
                 clawClamp();
             }

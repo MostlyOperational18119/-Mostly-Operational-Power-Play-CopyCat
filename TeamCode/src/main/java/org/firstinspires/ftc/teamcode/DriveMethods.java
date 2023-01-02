@@ -287,8 +287,8 @@ public class DriveMethods extends LinearOpMode{
 //    }
 
 
-    public void driveForDistance(double distanceMeters, Direction movementDirection, double power, double targetRotation) { // distance: 2, strafe: false, power: 0.5
-        targetZ = targetRotation;
+    public void driveForDistance(double distanceMeters, Direction movementDirection, double power) { // distance: 2, strafe: false, power: 0.5
+        targetZ = globalTargetRotation;
         motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -331,39 +331,6 @@ public class DriveMethods extends LinearOpMode{
                 motorBR.setPower(-power);
                 //targetZ = getCurrentZ();
                 break;
-            case ROTATE_LEFT:
-                 motorFL.setPower(-power);
-                 motorBL.setPower(-power);
-                 motorFR.setPower(power);
-                 motorBR.setPower(power);
-                // targetZ = getCurrentZ();
-                targetZ = targetRotation;
-
-                break;
-            case ROTATE_RIGHT:
-                 motorFL.setPower(power);
-                 motorBL.setPower(power);
-                 motorFR.setPower(-power);
-                 motorBR.setPower(-power);
-                // targetZ = getCurrentZ();
-                targetZ = targetRotation;
-
-                break;
-            case ROTATE:
-                if(targetZ > getCurrentZ()) {
-                    motorFL.setPower(power);
-                    motorBL.setPower(power);
-                    motorFR.setPower(-power);
-                    motorBR.setPower(-power);
-                    // swap if broken
-                } if(targetZ < getCurrentZ()) {
-                    motorFL.setPower(-power);
-                    motorBL.setPower(-power);
-                    motorFR.setPower(power);
-                    motorBR.setPower(power);
-                }
-                doRotateOnly = 1;
-                break;
 
         }
         /*
@@ -385,7 +352,7 @@ public class DriveMethods extends LinearOpMode{
         double currentZ = getCurrentZ();
         double rotateError = targetZ - currentZ;
 
-        while ((targetPos >= avgPosition) & doRotateOnly == 0) {
+        while ((targetPos >= avgPosition)) {
             FLPosition = Math.abs(motorFL.getCurrentPosition());
             BLPosition = Math.abs(motorBL.getCurrentPosition());
             FRPosition = Math.abs(motorFR.getCurrentPosition());
@@ -413,33 +380,6 @@ public class DriveMethods extends LinearOpMode{
             telemetry.addLine("Error " + rotateError);
             telemetry.update();
         }
-        while (doRotateOnly == 1 & (getCurrentZ() != targetZ)) {
-            FLPosition = Math.abs(motorFL.getCurrentPosition());
-            BLPosition = Math.abs(motorBL.getCurrentPosition());
-            FRPosition = Math.abs(motorFR.getCurrentPosition());
-            BRPosition = Math.abs(motorBR.getCurrentPosition());
-
-            currentZ = getCurrentZ();
-            rotateError = targetZ - currentZ;
-
-            avgPosition = (int) (FLPosition + BLPosition + FRPosition + BRPosition) / 4;
-            motorFL.setPower(-(rotateError / 150));
-            motorBL.setPower(-(rotateError / 150));
-            motorFR.setPower(rotateError / 150);
-            motorBR.setPower(rotateError / 150);
-            telemetry.addLine("MotorFL Power " + motorFL.getPower());
-            telemetry.addLine("MotorBL Power " + motorBL.getPower());
-            telemetry.addLine("MotorFR Power " + motorFR.getPower());
-            telemetry.addLine("MotorBR Power " + motorBR.getPower());
-
-            telemetry.addLine("Current Position: " + avgPosition);
-            telemetry.addLine("targetPos " + targetPos);
-
-            telemetry.addLine("Cumulative Z " + getCumulativeZ());
-            telemetry.addLine("Current Z " + getCurrentZ());
-            telemetry.addLine("Error " + rotateError);
-            telemetry.update();
-        }
 
         motorFL.setPower(0);
         motorBL.setPower(0);
@@ -447,18 +387,66 @@ public class DriveMethods extends LinearOpMode{
         motorBR.setPower(0);
     }
 
-    //This is a universal heading
-    public void rotateToHeading(int angleHeading){
+//    //This is a universal heading
+//    public void rotateToHeading(int angleHeading){
+//        telemetry.addLine("Trying to rotate!");
+//        telemetry.update();
+//        double target = angleHeading;
+//        double current = getCumulativeZ();
+//        double error = target- current;
+//        double aggresivness = 100;
+//
+//        while(Math.abs(error) > 2) {
+//            current = getCumulativeZ();
+//            error = target - current;
+//            if (Math.abs(error) > 5) {
+//                aggresivness = 40;
+//            } else {
+//                aggresivness = 100;
+//            }
+//            motorFL.setPower(-(error / aggresivness)/* + 0.05*/);
+//            motorBL.setPower(-(error / aggresivness)/* + 0.05*/);
+//            motorFR.setPower((error / aggresivness)/* + 0.05*/);
+//            motorBR.setPower((error / aggresivness)/* + 0.05*/);
+//
+//
+//            telemetry.addLine("Current (Cumulative) Z:  " + current);
+//            telemetry.addLine("Target Z: " + target);
+//            telemetry.addLine("Error " + error);
+//            telemetry.addLine("Power: " + (error/120));
+//            telemetry.update();
+//
+//        }
+//    }
+
+    public void rotateAngle(int angle) {
+        double target = getCumulativeZ() + angle;
+        double error = target - getCumulativeZ();
+        double power = 0;
+        while (Math.abs(error) > 10) {
+            error = target - getCumulativeZ();
+            power = error / 100;
+            motorFL.setPower(-power);
+            motorBL.setPower(-power);
+            motorFR.setPower(power);
+            motorBR.setPower(power);
+            telemetry.addLine("Current (Cumulative) Z:  " + getCumulativeZ());
+            //This is a universal heading
+        }
+    }
+    public void rotateToHeading ( int angleHeading, double power){
         telemetry.addLine("Trying to rotate!");
         telemetry.update();
         double target = angleHeading;
         double current = getCumulativeZ();
-        double error = target- current;
+        double error = target - current;
         double aggresivness = 120;
+        globalTargetRotation = target;
 
-        while(Math.abs(error) > 2) {
+        while (Math.abs(error) > 2) {
             current = getCumulativeZ();
             error = target - current;
+
             if (Math.abs(error) > 5) {
                 aggresivness = 60;
             } else {
@@ -470,43 +458,68 @@ public class DriveMethods extends LinearOpMode{
             motorBR.setPower((error / aggresivness)/* + 0.05*/);
 
 
+            motorFL.setPower(((error / 120) + 0.05) * power);
+            motorBL.setPower(((error / 120) + 0.05) * power);
+            motorFR.setPower((-((error / 120) + 0.05)) * power);
+            motorBR.setPower((-((error / 120) + 0.05)) * power);
+
             telemetry.addLine("Current (Cumulative) Z:  " + current);
             telemetry.addLine("Target Z: " + target);
             telemetry.addLine("Error " + error);
-            telemetry.addLine("Power: " + (error/120));
+            telemetry.addLine("Power: " + power);
             telemetry.update();
-
         }
+        while (Math.abs(error) > 1) {
+            error = target - getCumulativeZ();
+            power = (Math.abs(error) / error) * 0.15;
+            motorFL.setPower(-power);
+            motorBL.setPower(-power);
+            motorFR.setPower(power);
+            motorBR.setPower(power);
+            telemetry.addLine("Current (Cumulative) Z:  " + getCumulativeZ());
+            telemetry.addLine("Error " + error);
+            telemetry.addLine("Power: " + power);
+            telemetry.update();
+        }
+        stopMotors();
+        telemetry.addLine("Current (Cumulative) Z:  " + getCumulativeZ());
+        telemetry.addLine("Error " + error);
+        telemetry.addLine("Power: " + power);
+        telemetry.update();
+
+
     }
 
-    public void GoToHeight(int Clicks) {
-        int target = (Clicks);
-        int dif = (target - Math.abs(motorSlide.getCurrentPosition()));
-        double aggressiveness = 2700;
-        double holdingPower = 0;
-        if (dif < 0) {
-            aggressiveness = 1500;
-            holdingPower = 0;
-        } if (dif > 0) {
-            aggressiveness = 1600;
-            holdingPower = 0.18;
-        }
-        motorSlide.setPower((dif / aggressiveness));
 
-        while (Math.abs(dif) >= 150) { // doesn't work when trying to go down
-            telemetry.addLine(dif + "..difference");
-            telemetry.addLine(Math.abs(motorSlide.getCurrentPosition()) + "..position");
-            telemetry.addLine(target + "..target");
-            telemetry.addLine(((dif / aggressiveness) + holdingPower) + "..power");
-            telemetry.update();
-            dif = (target - Math.abs(motorSlide.getCurrentPosition()));
-            motorSlide.setPower(((dif / aggressiveness) + holdingPower));
-            if(target == 0 && motorSlide.getCurrentPosition() < 150){
-                aggressiveness = 250;
+            public void GoToHeight ( int Clicks){
+                int target = (Clicks);
+                int dif = (target - Math.abs(motorSlide.getCurrentPosition()));
+                double aggressiveness = 2700;
+                double holdingPower = 0;
+                if (dif < 0) {
+                    aggressiveness = 1500;
+                    holdingPower = 0;
+                }
+                if (dif > 0) {
+                    aggressiveness = 1600;
+                    holdingPower = 0.18;
+                }
+                motorSlide.setPower((dif / aggressiveness));
+
+                while (Math.abs(dif) >= 150) { // doesn't work when trying to go down
+                    telemetry.addLine(dif + "..difference");
+                    telemetry.addLine(Math.abs(motorSlide.getCurrentPosition()) + "..position");
+                    telemetry.addLine(target + "..target");
+                    telemetry.addLine(((dif / aggressiveness) + holdingPower) + "..power");
+                    telemetry.update();
+                    dif = (target - Math.abs(motorSlide.getCurrentPosition()));
+                    motorSlide.setPower(((dif / aggressiveness) + holdingPower));
+                    if (target == 0 && motorSlide.getCurrentPosition() < 150) {
+                        aggressiveness = 250;
+                    }
+                }
+                motorSlide.setPower(holdingPower);
             }
-        }
-        motorSlide.setPower(holdingPower);
-    }
 
     public void GoToHeightFast(int Clicks1) {
         int target1 = (Clicks1);
@@ -527,113 +540,120 @@ public class DriveMethods extends LinearOpMode{
 //    public void clawRelease(){
 //        servoGrabberThing.setPosition(0.66);
 //    }
-    public void clawClamp(){
-        servoGrabberThing.setPosition(Clamp);
-    }
-    public void clawRelease(){
-        servoGrabberThing.setPosition(Release);
-    }
-    public void goToDown(){
-        GoToHeight(downHeight);
-    }
-    public void goToCollect(){
-        GoToHeight(collectHeight);
-    }
-    public void goToLow(){
-        GoToHeight(lowHeight);
-    }
-    public void goToMid(){
-        GoToHeight(midHeight);
-    }
-    public void goToHigh(){
-        GoToHeight(highHeight);
-    }
+            public void clawClamp () {
+                servoGrabberThing.setPosition(Clamp);
+            }
+            public void clawRelease () {
+                servoGrabberThing.setPosition(Release);
+            }
+            public void goToDown () {
+                GoToHeight(downHeight);
+            }
+            public void goToCollect () {
+                GoToHeight(collectHeight);
+            }
+            public void goToLow () {
+                GoToHeight(lowHeight);
+            }
+            public void goToMid () {
+                GoToHeight(midHeight);
+            }
+            public void goToHigh () {
+                GoToHeight(highHeight);
+            }
+            public void goToFifth () {
+                GoToHeight(fifthHeight);
+            }
+            public void goToFourth () {
+                GoToHeight(fourthHeight);
+            }
 
-    public void initMotorsSecondBot() {
-        motorFL  = hardwareMap.get(DcMotor.class, "motorFL");
-        motorBL = hardwareMap.get(DcMotor.class, "motorBL");
-        motorFR  = hardwareMap.get(DcMotor.class, "motorFR");
-        motorBR = hardwareMap.get(DcMotor.class, "motorBR");
-        
-        motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorBL.setDirection(DcMotorSimple.Direction.FORWARD);
-        motorFR.setDirection(DcMotorSimple.Direction.FORWARD);
-        motorBR.setDirection(DcMotorSimple.Direction.FORWARD);
-    }
 
-    public void initMotorsBlue() {
-        motorFL  = hardwareMap.get(DcMotor.class, "motorFL");
-        motorBL = hardwareMap.get(DcMotor.class, "motorBL");
-        motorFR  = hardwareMap.get(DcMotor.class, "motorFR");
-        motorBR = hardwareMap.get(DcMotor.class, "motorBR");
-        motorSlide = hardwareMap.get(DcMotor.class,"motorLS");
-        servoGrabberThing = hardwareMap.get(Servo.class, "grabber");
+            public void initMotorsSecondBot () {
+                motorFL = hardwareMap.get(DcMotor.class, "motorFL");
+                motorBL = hardwareMap.get(DcMotor.class, "motorBL");
+                motorFR = hardwareMap.get(DcMotor.class, "motorFR");
+                motorBR = hardwareMap.get(DcMotor.class, "motorBR");
 
-        motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorBL.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorFR.setDirection(DcMotorSimple.Direction.FORWARD);
-        motorBR.setDirection(DcMotorSimple.Direction.FORWARD);
-        calibrateNavXIMU();
-    }
-    public void initMotorsBlueBlinkin() {
-        motorFL  = hardwareMap.get(DcMotor.class, "motorFL");
-        motorBL = hardwareMap.get(DcMotor.class, "motorBL");
-        motorFR  = hardwareMap.get(DcMotor.class, "motorFR");
-        motorBR = hardwareMap.get(DcMotor.class, "motorBR");
-        motorSlide = hardwareMap.get(DcMotor.class,"motorLS");
-        servoGrabberThing = hardwareMap.get(Servo.class, "grabber");
+                motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
+                motorBL.setDirection(DcMotorSimple.Direction.FORWARD);
+                motorFR.setDirection(DcMotorSimple.Direction.FORWARD);
+                motorBR.setDirection(DcMotorSimple.Direction.FORWARD);
+            }
 
-        blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+            public void initMotorsBlue () {
+                motorFL = hardwareMap.get(DcMotor.class, "motorFL");
+                motorBL = hardwareMap.get(DcMotor.class, "motorBL");
+                motorFR = hardwareMap.get(DcMotor.class, "motorFR");
+                motorBR = hardwareMap.get(DcMotor.class, "motorBR");
+                motorSlide = hardwareMap.get(DcMotor.class, "motorLS");
+                servoGrabberThing = hardwareMap.get(Servo.class, "grabber");
 
-        motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorBL.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorFR.setDirection(DcMotorSimple.Direction.FORWARD);
-        motorBR.setDirection(DcMotorSimple.Direction.FORWARD);
-        calibrateNavXIMU();
+                motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
+                motorBL.setDirection(DcMotorSimple.Direction.REVERSE);
+                motorFR.setDirection(DcMotorSimple.Direction.FORWARD);
+                motorBR.setDirection(DcMotorSimple.Direction.FORWARD);
+                calibrateNavXIMU();
+            }
+            public void initMotorsBlueBlinkin () {
+                motorFL = hardwareMap.get(DcMotor.class, "motorFL");
+                motorBL = hardwareMap.get(DcMotor.class, "motorBL");
+                motorFR = hardwareMap.get(DcMotor.class, "motorFR");
+                motorBR = hardwareMap.get(DcMotor.class, "motorBR");
+                motorSlide = hardwareMap.get(DcMotor.class, "motorLS");
+                servoGrabberThing = hardwareMap.get(Servo.class, "grabber");
 
-        pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
-        blinkinLedDriver.setPattern(pattern);
-    }
-    public void initBlinkinOnly() {
-        blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
-        pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
-        blinkinLedDriver.setPattern(pattern);
-    }
-    public void setBlinkinColor(BlinkinColor colorEnum)  {
-        switch(colorEnum) {
-            case RAINBOW:
-                pattern = RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE;
-                break;
-            case RED:
-                pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
-                break;
-            case ORANGE:
-                pattern = RevBlinkinLedDriver.BlinkinPattern.ORANGE;
-                break;
-            case GREEN:
+                blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+
+                motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
+                motorBL.setDirection(DcMotorSimple.Direction.REVERSE);
+                motorFR.setDirection(DcMotorSimple.Direction.FORWARD);
+                motorBR.setDirection(DcMotorSimple.Direction.FORWARD);
+                calibrateNavXIMU();
+
                 pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
-                break;
-            case YELLOW:
-                pattern = RevBlinkinLedDriver.BlinkinPattern.YELLOW;
-                break;
-            case BLUE:
-                pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
-                break;
-            case PURPLE:
-                pattern = RevBlinkinLedDriver.BlinkinPattern.HOT_PINK;
-                break;
-            case PINK:
-                pattern = RevBlinkinLedDriver.BlinkinPattern.HOT_PINK;
-                break;
-            case GREEN_PULSE:
-                pattern = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_FOREST_PALETTE;
-                break;
-            case ORANGE_PULSE:
-                pattern = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE;
-            case RED_PULSE:
-                pattern = RevBlinkinLedDriver.BlinkinPattern.STROBE_RED;
+                blinkinLedDriver.setPattern(pattern);
+            }
+            public void initBlinkinOnly () {
+                blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+                pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
+                blinkinLedDriver.setPattern(pattern);
+            }
+            public void setBlinkinColor (BlinkinColor colorEnum){
+                switch (colorEnum) {
+                    case RAINBOW:
+                        pattern = RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE;
+                        break;
+                    case RED:
+                        pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
+                        break;
+                    case ORANGE:
+                        pattern = RevBlinkinLedDriver.BlinkinPattern.ORANGE;
+                        break;
+                    case GREEN:
+                        pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
+                        break;
+                    case YELLOW:
+                        pattern = RevBlinkinLedDriver.BlinkinPattern.YELLOW;
+                        break;
+                    case BLUE:
+                        pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
+                        break;
+                    case PURPLE:
+                        pattern = RevBlinkinLedDriver.BlinkinPattern.HOT_PINK;
+                        break;
+                    case PINK:
+                        pattern = RevBlinkinLedDriver.BlinkinPattern.HOT_PINK;
+                        break;
+                    case GREEN_PULSE:
+                        pattern = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_FOREST_PALETTE;
+                        break;
+                    case ORANGE_PULSE:
+                        pattern = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE;
+                    case RED_PULSE:
+                        pattern = RevBlinkinLedDriver.BlinkinPattern.STROBE_RED;
+                }
+                sleep(1000);
+                blinkinLedDriver.setPattern(pattern);
+            }
         }
-        sleep(1000);
-        blinkinLedDriver.setPattern(pattern);
-    }
-}
