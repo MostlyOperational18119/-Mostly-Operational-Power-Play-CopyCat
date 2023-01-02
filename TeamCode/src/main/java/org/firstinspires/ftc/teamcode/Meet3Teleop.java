@@ -71,7 +71,8 @@ public class Meet3Teleop extends DriveMethods {
             }
             if((runtime.seconds() >= 115.0) & Variables.pattern != RevBlinkinLedDriver.BlinkinPattern.STROBE_RED) {
                 setBlinkinColor(Variables.BlinkinColor.RED_PULSE);
-            }*/
+            }
+*/
             if (gamepad2.x) {
                 clawClamp();
             }
