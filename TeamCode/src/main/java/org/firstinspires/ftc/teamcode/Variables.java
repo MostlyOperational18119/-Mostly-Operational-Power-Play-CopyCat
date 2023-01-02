@@ -55,6 +55,7 @@ public class Variables {
     public static double previousHeading = 0;
     public static double intergratedHeading = 0;
     public static double targetZ;
+    public static double globalTargetRotation;
     public static boolean isImuCalibrated = false;
 
 

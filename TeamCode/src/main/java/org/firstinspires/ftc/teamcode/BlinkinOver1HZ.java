@@ -49,7 +49,7 @@ public class BlinkinOver1HZ extends DriveMethods {
         waitForStart();
         resetRuntime();
         rotateAngle(90);
-        driveForDistance(0.5, Variables.Direction.FORWARD, 0.2, getCumulativeZ());
+        driveForDistance(0.5, Variables.Direction.FORWARD, 0.2);
         rotateAngle(-90);
         telemetry.clearAll();
 //        telemetry.addLine("\"Oops\", accidentally created this.");
@@ -90,6 +90,7 @@ public class BlinkinOver1HZ extends DriveMethods {
 //            } else {
 //                telemetry.update();
 //            }
+//        rotateToHeading(rngdegnum);
     }
     }
 }
