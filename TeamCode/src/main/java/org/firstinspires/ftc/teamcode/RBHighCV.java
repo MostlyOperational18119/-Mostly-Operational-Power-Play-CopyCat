@@ -8,9 +8,9 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-@Autonomous(name ="RBHighCV", group = "A")
+@Autonomous(name = "RBHighCV", group = "A")
 //@Disabled
-public class RBHighCV extends DriveMethods{
+public class RBHighCV extends DriveMethods {
     OpenCvWebcam webcam;
     private String result;
 
@@ -27,6 +27,7 @@ public class RBHighCV extends DriveMethods{
             public void onOpened() {
                 webcam.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);
             }
+
             @Override
             public void onError(int errorCode) {
 
@@ -34,12 +35,11 @@ public class RBHighCV extends DriveMethods{
         });
 
 
-
         initMotorsBlue();
         clawClamp();
         sleep(500);
 
-        while(!isStarted()) {
+        while (!isStarted()) {
             telemetry.addLine("result: " + pipeline.getCurrentResultsStr());
             telemetry.update();
             result = pipeline.getCurrentResultsStr();
@@ -49,36 +49,34 @@ public class RBHighCV extends DriveMethods{
         waitForStart();
 
 
-
         GoToHeight(300);
-        driveForDistance(0.1, Variables.Direction.FORWARD,0.35,0);
-        driveForDistance(0.65, Variables.Direction.LEFT,0.35,0);
-        driveForDistance(1.22, Variables.Direction.FORWARD,0.35,0);
-        driveForDistance(0.38, Variables.Direction.RIGHT, 0.35,0);
+        driveForDistance(0.1, Variables.Direction.FORWARD, 0.35);
+        driveForDistance(0.65, Variables.Direction.LEFT, 0.35);
+        driveForDistance(1.22, Variables.Direction.FORWARD, 0.35);
+        driveForDistance(0.38, Variables.Direction.RIGHT, 0.35);
         goToHigh();
-        driveForDistance(0.13, Variables.Direction.FORWARD,0.2,0);
+        driveForDistance(0.13, Variables.Direction.FORWARD, 0.2);
         sleep(500);
         clawRelease();
         sleep(200);
-        driveForDistance(0.17, Variables.Direction.BACKWARD,0.35,0);
+        driveForDistance(0.17, Variables.Direction.BACKWARD, 0.35);
         goToDown();
         sleep(500);
-        driveForDistance(0.17, Variables.Direction.ROTATE_LEFT,0.35,90);
+//        driveForDistance(0.17, Variables.Direction.ROTATE_LEFT, 0.35, 90);
 
         //Divergence point
-        switch(result){
+        switch (result) {
             case "purple":
-                driveForDistance(1.5, Variables.Direction.RIGHT, 0.35,0);
+                driveForDistance(1.5, Variables.Direction.RIGHT, 0.35);
                 break;
             case "yellow":
-                driveForDistance(0.7, Variables.Direction.RIGHT, 0.35,0);
+                driveForDistance(0.7, Variables.Direction.RIGHT, 0.35);
                 break;
             case "green":
-                driveForDistance(0.35, Variables.Direction.LEFT, 0.35,0);
+                driveForDistance(0.35, Variables.Direction.LEFT, 0.35);
                 break;
 
         }
-
 
 
         while (opModeIsActive()) {
