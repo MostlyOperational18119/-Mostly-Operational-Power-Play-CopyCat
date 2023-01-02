@@ -508,6 +508,19 @@ public class DriveMethods extends LinearOpMode{
         motorSlide.setPower(holdingPower);
     }
 
+    public void GoToHeightFast(int Clicks1) {
+        int target1 = (Clicks1);
+        int dif1 = (target1 - Math.abs(motorSlide.getCurrentPosition()));
+        double holdingPower1 = 0;
+        if (dif1 < 0) {
+            holdingPower1 = 0;
+        } if (dif1 > 0) {
+            holdingPower1 = 0.18;
+            motorSlide.setPower(dif1);
+        }
+        motorSlide.setPower(holdingPower1);
+    }
+
 //    public void clawClamp(){
 //        servoGrabberThing.setPosition(0.76);
 //    }
