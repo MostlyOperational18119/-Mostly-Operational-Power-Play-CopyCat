@@ -53,7 +53,7 @@ public class RRHighCV extends DriveMethods{
         driveForDistance(0.1, Variables.Direction.FORWARD,0.35);
         driveForDistance(0.65, Variables.Direction.RIGHT,0.35);
         driveForDistance(1.22, Variables.Direction.FORWARD,0.35);
-        driveForDistance(0.44, Variables.Direction.LEFT, 0.35);
+        driveForDistance(0.42, Variables.Direction.LEFT, 0.35);
         goToHigh();
         driveForDistance(0.1, Variables.Direction.FORWARD,0.2);
         sleep(500);

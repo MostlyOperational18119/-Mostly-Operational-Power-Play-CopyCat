@@ -55,7 +55,7 @@ public class BRHighCV extends DriveMethods{
         driveForDistance(0.1, Variables.Direction.FORWARD,0.35);
         driveForDistance(0.62, Variables.Direction.RIGHT,0.35);
         driveForDistance(1.22, Variables.Direction.FORWARD,0.35);
-        driveForDistance(0.435, Variables.Direction.LEFT, 0.35);
+        driveForDistance(0.455, Variables.Direction.LEFT, 0.35);
         goToHigh();
         driveForDistance(0.09, Variables.Direction.FORWARD,0.2);
         sleep(1000);

@@ -53,16 +53,16 @@ public class RBHighCV extends DriveMethods {
         driveForDistance(0.1, Variables.Direction.FORWARD, 0.35);
         driveForDistance(0.65, Variables.Direction.LEFT, 0.35);
         driveForDistance(1.22, Variables.Direction.FORWARD, 0.35);
-        driveForDistance(0.38, Variables.Direction.RIGHT, 0.35);
+        driveForDistance(0.40, Variables.Direction.RIGHT, 0.35);
         goToHigh();
         driveForDistance(0.13, Variables.Direction.FORWARD, 0.2);
         sleep(500);
         clawRelease();
         sleep(200);
-        driveForDistance(0.17, Variables.Direction.BACKWARD, 0.35);
+        driveForDistance(0.15, Variables.Direction.BACKWARD, 0.35);
         goToDown();
         sleep(500);
-//        driveForDistance(0.17, Variables.Direction.ROTATE_LEFT, 0.35, 90);
+        driveForDistance(0.17, Variables.Direction.LEFT, 0.35);
 
         //Divergence point
         switch (result) {
@@ -73,7 +73,7 @@ public class RBHighCV extends DriveMethods {
                 driveForDistance(0.7, Variables.Direction.RIGHT, 0.35);
                 break;
             case "green":
-                driveForDistance(0.35, Variables.Direction.LEFT, 0.35);
+  //              driveForDistance(0.35, Variables.Direction.LEFT, 0.35);
                 break;
 
         }

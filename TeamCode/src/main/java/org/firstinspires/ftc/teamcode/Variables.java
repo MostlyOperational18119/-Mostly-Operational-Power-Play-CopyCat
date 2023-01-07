@@ -77,8 +77,8 @@ public class Variables {
 
     // Grabber #1 Clamp: 0.5, Release: 0.75,
     // grabber #2 Clamp: 0.42, Release: 0.5
-    // grabber #3 Clamp: 0.16, Release: 0.24
-    // Grabber #1 Clamp: 0.44, Release: 0.54,
+    // grabber #3 Clamp: 0.16, Release: 0.24 <-- This is known working 3 right now (1/6/23)o-
+    // ';y0/ Grabber #1 Clamp: 0.44, Release: 0.54,
     // grabber #2 Clamp: 0.41, Release: 0.52
     // grabber #3 Clamp: 0.25, Release: 0.52
 }

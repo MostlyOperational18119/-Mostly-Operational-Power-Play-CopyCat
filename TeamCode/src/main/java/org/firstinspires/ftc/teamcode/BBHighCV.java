@@ -52,7 +52,7 @@ public class BBHighCV extends DriveMethods{
 
         driveForDistance(0.1, Variables.Direction.FORWARD,0.35);
         driveForDistance(0.65, Variables.Direction.LEFT,0.35);
-        driveForDistance(1.22, Variables.Direction.FORWARD,0.35);
+        driveForDistance(1.24, Variables.Direction.FORWARD,0.35);
         driveForDistance(0.36, Variables.Direction.RIGHT, 0.35);
         goToHigh();
         driveForDistance(0.07, Variables.Direction.FORWARD,0.2);
@@ -63,7 +63,7 @@ public class BBHighCV extends DriveMethods{
         sleep(200);
         goToHigh();
         sleep(500);
-        driveForDistance(0.17, Variables.Direction.BACKWARD,0.35);
+        driveForDistance(0.14, Variables.Direction.BACKWARD,0.35);
         goToDown();
         sleep(500);
         driveForDistance(0.35, Variables.Direction.LEFT, 0.35);
