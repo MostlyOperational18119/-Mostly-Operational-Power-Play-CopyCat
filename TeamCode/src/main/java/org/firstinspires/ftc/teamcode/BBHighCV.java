@@ -66,18 +66,16 @@ public class BBHighCV extends DriveMethods{
         driveForDistance(0.14, Variables.Direction.BACKWARD,0.35);
         goToDown();
         sleep(500);
-        driveForDistance(0.35, Variables.Direction.LEFT, 0.35);
         switch(result){
             case "purple":
-                driveForDistance(1.50, Variables.Direction.RIGHT, 0.35);
+                driveForDistance(1.15, Variables.Direction.RIGHT, 0.35);
                 break;
             case "yellow":
-                driveForDistance(0.7, Variables.Direction.RIGHT, 0.35);
+                driveForDistance(0.35, Variables.Direction.RIGHT, 0.35);
                 break;
             case "green":
-                //You're where you need to be!
+                driveForDistance(0.35, Variables.Direction.LEFT, 0.35);
                 break;
-
         }
 
         while (opModeIsActive()) {

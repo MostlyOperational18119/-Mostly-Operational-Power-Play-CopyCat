@@ -55,28 +55,24 @@ public class RRHighCV extends DriveMethods{
         driveForDistance(1.22, Variables.Direction.FORWARD,0.35);
         driveForDistance(0.42, Variables.Direction.LEFT, 0.35);
         goToHigh();
-        driveForDistance(0.1, Variables.Direction.FORWARD,0.2);
+        driveForDistance(0.14, Variables.Direction.FORWARD,0.2);
         sleep(500);
         clawRelease();
         sleep(200);
         driveForDistance(0.135, Variables.Direction.BACKWARD,0.35);
         goToDown();
         sleep(500);
-        driveForDistance(0.35, Variables.Direction.RIGHT, 0.35);
         switch(result){
             case "purple":
-                //You're where you need to be!
+                driveForDistance(0.35, Variables.Direction.RIGHT, 0.35);
                 break;
             case "yellow":
-                driveForDistance(0.7, Variables.Direction.LEFT, 0.35);
+                driveForDistance(0.35, Variables.Direction.LEFT, 0.35);
                 break;
             case "green":
-                driveForDistance(1.35, Variables.Direction.LEFT, 0.35);
+                driveForDistance(1, Variables.Direction.LEFT, 0.35);
                 break;
-
-
         }
-
 
 
         while (opModeIsActive()) {
