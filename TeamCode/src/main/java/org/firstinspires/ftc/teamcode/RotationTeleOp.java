@@ -19,6 +19,9 @@ public class RotationTeleOp extends DriveMethods {
             if(gamepad1.a) {
                 rotateToHeading(rotationZ,0.2);
             }
+            if(gamepad1.b) {
+                rotateAngle(rotationZ);
+            }
             telemetry.addData("Target Rotation Z: ", rotationZ);
             telemetry.addData("Current Rotation Z: ",getCurrentZ());
             telemetry.update();
