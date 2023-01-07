@@ -5,12 +5,13 @@ import static org.firstinspires.ftc.teamcode.Variables.motorBR;
 import static org.firstinspires.ftc.teamcode.Variables.motorFL;
 import static org.firstinspires.ftc.teamcode.Variables.motorFR;
 import static org.firstinspires.ftc.teamcode.Variables.motorSlide;
+import static org.firstinspires.ftc.teamcode.Variables.runtime;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name="Meet3Teleop", group = "A")
-public class Meet3Teleop extends DriveMethods {
+public class Meet3TeleopBlinkin extends DriveMethods {
 
    
 
@@ -29,8 +30,10 @@ public class Meet3Teleop extends DriveMethods {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
+        runtime.reset();
         double leftY;
         double leftX;
+        double rightY;
         double rightX;
         double speedDiv = 2;
         // Can we deleat Clamp & Relase Pos?
@@ -53,9 +56,22 @@ public class Meet3Teleop extends DriveMethods {
             //update doubles
             leftY = -gamepad1.left_stick_y;
             leftX = gamepad1.left_stick_x;
+            rightY = -gamepad1.right_stick_y;
             rightX = gamepad1.right_stick_x;
-
-
+/*
+            if((runtime.seconds() >= 90.0) & Variables.pattern != RevBlinkinLedDriver.BlinkinPattern.ORANGE) {
+                setBlinkinColor(Variables.BlinkinColor.ORANGE);
+            }
+            if((runtime.seconds() >= 100.0) & Variables.pattern != RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE) {
+                setBlinkinColor(Variables.BlinkinColor.ORANGE_PULSE);
+            }
+            if((runtime.seconds() >= 110.0) & Variables.pattern != RevBlinkinLedDriver.BlinkinPattern.RED) {
+                setBlinkinColor(Variables.BlinkinColor.RED);
+            }
+            if((runtime.seconds() >= 115.0) & Variables.pattern != RevBlinkinLedDriver.BlinkinPattern.STROBE_RED) {
+                setBlinkinColor(Variables.BlinkinColor.RED_PULSE);
+            }
+*/
             if (gamepad2.x) {
                 clawClamp();
             }
@@ -139,9 +155,9 @@ public class Meet3Teleop extends DriveMethods {
 
 
             if(gamepad2.left_stick_y != 0){
-                    slideTarget += (int) -gamepad2.left_stick_y * 40;
-                    aggressiveness = 1250;
-                    sleep(50);
+                slideTarget += (int) -gamepad2.left_stick_y * 50;
+                aggressiveness = 1250;
+                sleep(50);
                 if (sPosition<300 && sPosition>0){
                     targetHeight = 1;
                 }
@@ -182,6 +198,7 @@ public class Meet3Teleop extends DriveMethods {
             motorSlide.setPower(((slideDifference / aggressiveness) + holdingPower));
 
             telemetry.addLine(slideDifference + "..difference");
+            telemetry.addLine("power:" + motorSlide.getPower());
             telemetry.addLine(Math.abs(motorSlide.getCurrentPosition()) + "..position");
             telemetry.addLine(slideTarget + "..target");
             telemetry.addLine(((slideDifference / aggressiveness) + holdingPower) + "..power");
@@ -193,6 +210,7 @@ public class Meet3Teleop extends DriveMethods {
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Motors", "left (%.2f), right (%.2f)");
+            telemetry.addLine("Time: " + runtime.time());
             telemetry.addLine("ClampPosition: " + clampPosition);
             telemetry.addLine("ReleasePosition: " + releasePosition);
             telemetry.addLine("SpeedDiv: " + speedDiv);
