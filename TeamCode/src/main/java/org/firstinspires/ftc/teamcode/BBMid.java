@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 @Autonomous(name ="BBMid", group = "A")
-//@Disabled
+@Disabled
 public class BBMid extends DriveMethods{
     //good
     public void runOpMode() {

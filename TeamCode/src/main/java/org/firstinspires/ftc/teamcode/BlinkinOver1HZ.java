@@ -3,9 +3,11 @@ package org.firstinspires.ftc.teamcode;
 import static java.lang.Math.random;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @Autonomous(name="BlinkinOver1HZ", group="A")
+@Disabled
 public class BlinkinOver1HZ extends DriveMethods {
     int currentRandNum = 0;
     int rngdegnum = 69;

@@ -37,6 +37,7 @@ import static org.firstinspires.ftc.teamcode.PipeColor.getValueLower;
 import static org.firstinspires.ftc.teamcode.PipeColor.getValueUpper;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -65,7 +66,7 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
  */
 
 @Autonomous(name="ColorDetection", group="Linear Opmode")
-
+@Disabled
 public class OpModeColor extends DriveMethods {
 
     // Declare OpMode members.

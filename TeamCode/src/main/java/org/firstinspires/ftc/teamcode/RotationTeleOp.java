@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp(name="RotationTeleOp",group="A")
-
+@Disabled
 public class RotationTeleOp extends DriveMethods {
     @Override
     public void runOpMode() {

@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import static org.firstinspires.ftc.teamcode.Variables.*;
 
 @Autonomous(name ="BBLow", group = "A")
+@Disabled
 public class BBLow extends DriveMethods {
     public void runOpMode() {
         initMotorsBlue();

@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 @Autonomous(name ="RRMid", group = "A")
+@Disabled
 public class RRMid extends DriveMethods{
     public void runOpMode() {
         initMotorsBlue();

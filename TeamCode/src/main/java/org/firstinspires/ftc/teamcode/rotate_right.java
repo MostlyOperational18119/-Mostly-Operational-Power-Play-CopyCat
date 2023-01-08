@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 @Autonomous(name ="rotate", group = "A")
-//@Disabled
+@Disabled
 public class rotate_right extends DriveMethods{
     public void runOpMode() {
         initMotorsBlue();

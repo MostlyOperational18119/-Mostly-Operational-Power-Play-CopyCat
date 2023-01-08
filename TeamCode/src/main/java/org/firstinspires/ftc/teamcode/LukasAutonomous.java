@@ -17,7 +17,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
 @Autonomous(name="LukasAuto", group = "A")
-//@Disabled
+@Disabled
 public class LukasAutonomous extends DriveMethods {
 
 

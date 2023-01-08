@@ -7,10 +7,12 @@ import static org.firstinspires.ftc.teamcode.Variables.motorFR;
 import static org.firstinspires.ftc.teamcode.Variables.motorSlide;
 import static org.firstinspires.ftc.teamcode.Variables.runtime;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@TeleOp(name="Meet3Teleop", group = "A")
+@TeleOp(name="Meet3TeleopBlinkin", group = "A")
+@Disabled
 public class Meet3TeleopBlinkin extends DriveMethods {
 
    

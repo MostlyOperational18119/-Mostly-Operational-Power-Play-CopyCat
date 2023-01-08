@@ -3,12 +3,14 @@ package org.firstinspires.ftc.teamcode;
 import static org.firstinspires.ftc.teamcode.Variables.motorSlide;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Autonomous(name="LiamArmTest", group="B")
+@Disabled
 public class LiamArmTest extends DriveMethods {
     DcMotor motorScissor30;
     DcMotor motorScissor60;
