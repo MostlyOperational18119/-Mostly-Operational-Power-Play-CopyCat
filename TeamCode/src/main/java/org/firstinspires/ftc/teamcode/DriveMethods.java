@@ -431,6 +431,7 @@ public class DriveMethods extends LinearOpMode{
             motorFR.setPower(power);
             motorBR.setPower(power);
             telemetry.addLine("Current (Cumulative) Z:  " + getCumulativeZ());
+            telemetry.addLine("Rotating power: " + power);
             //This is a universal heading
         }
     }
