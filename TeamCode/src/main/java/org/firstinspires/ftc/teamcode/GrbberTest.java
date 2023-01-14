@@ -12,8 +12,8 @@ public class GrbberTest extends DriveMethods{
     Servo grabber;
     public void runOpMode(){
         // LOOK IN VARIABLES FOR GRIBBER POSISITIONS, SEE NUMBER ON GRIBBER
-        double clamp = 0.18;
-        double release = 0.26;
+        double clamp = 0.48;
+        double release = 0.56;
         int i = 1;
         grabber = hardwareMap.get(Servo.class, "grabber");
         waitForStart();
