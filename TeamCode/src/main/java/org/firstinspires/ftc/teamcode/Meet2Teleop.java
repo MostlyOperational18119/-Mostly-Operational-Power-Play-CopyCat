@@ -12,9 +12,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 @TeleOp(name="Meet2Teleop", group = "A")
 public class Meet2Teleop extends DriveMethods {
 
-   
-
-
     @Override
     public void runOpMode() {
 
@@ -33,6 +30,10 @@ public class Meet2Teleop extends DriveMethods {
         double leftX;
         double rightX;
         double speedDiv = 2;
+        double motorFLPower;
+        double motorFRPower;
+        double motorBLPower;
+        double motorBRPower;
         // Can we deleat Clamp & Relase Pos?
         // LOOK IN VARIABLES FOR GRIBBER POSISITIONS, SEE NUMBER ON GRIBBER
         double clampPosition = 0.19;
@@ -64,10 +65,17 @@ public class Meet2Teleop extends DriveMethods {
             }
 
             if (!gamepad1.right_bumper) {
-                motorFL.setPower((leftY + leftX + rightX) / speedDiv);
-                motorBL.setPower((leftY - leftX + rightX) / speedDiv);
-                motorFR.setPower((leftY - leftX - rightX) / speedDiv);
-                motorBR.setPower((leftY + leftX - rightX) / speedDiv);
+                motorFLPower = (leftY + leftX + rightX) / speedDiv;
+                motorBLPower = (leftY - leftX + rightX) / speedDiv;
+                motorFRPower = (leftY - leftX - rightX) / speedDiv;
+                motorBRPower = (leftY + leftX - rightX) / speedDiv;
+ //               while ((motorFLPower < (leftY + leftX + rightX) / speedDiv)) {
+ //                   motorFLPower += ((leftY + leftX + rightX) / speedDiv) / (1 + Math.pow((Math.exp(1)), );
+ //               }
+                motorFL.setPower(motorFLPower);
+                motorBL.setPower(motorBLPower);
+                motorFR.setPower(motorFRPower);
+                motorBR.setPower(motorBRPower);
             } else {
                 motorFL.setPower(0);
                 motorBL.setPower(0);
@@ -138,7 +146,7 @@ public class Meet2Teleop extends DriveMethods {
             }
 
 
-            if(gamepad2.left_stick_y != 0){
+            if(gamepad2.left_stick_y != 0) {
                     slideTarget += (int) -gamepad2.left_stick_y * 25;
                     aggressiveness = 1250;
                     sleep(50);
