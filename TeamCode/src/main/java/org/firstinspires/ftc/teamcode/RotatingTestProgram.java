@@ -16,13 +16,27 @@ public class RotatingTestProgram extends DriveMethods{
     @Override
     public void runOpMode() {
         globalTargetRotation = 0;
+        calibrateNavXIMU();
         initMotorsBlue();
-        clawClamp();
-        sleep(500);
+//        clawClamp();
+//        sleep(500);
 
         waitForStart();
 
-        rotateAngle(90);
-        driveForDistance(0.1, Variables.Direction.FORWARD,0.35, globalTargetRotation);
+//        driveForDistance(1.3, Variables.Direction.FORWARD, .35,globalTargetRotation);
+//        rotateAngle(90);
+//        globalTargetRotation = 90;
+//        driveForDistance(1.3, Variables.Direction.FORWARD, .35,globalTargetRotation);
+//        rotateAngle(180);
+//        globalTargetRotation = 180;
+//        driveForDistance(1.3, Variables.Direction.FORWARD, .35,globalTargetRotation);
+//        rotateAngle(270);
+//        globalTargetRotation = 270;
+//        driveForDistance(1.3, Variables.Direction.FORWARD, .35,globalTargetRotation);
+//        rotateAngle(0);
+//        globalTargetRotation = 0;
+        telemetry.addLine("Cumalative Z: " + getCumulativeZ());
+        telemetry.addLine("Current Z: " + getCurrentZ());
+        telemetry.update();
     }
 }

@@ -420,76 +420,80 @@ public class DriveMethods extends LinearOpMode{
 //    }
 
     public void rotateAngle(int angle) {
-        double target = getCumulativeZ() + angle;
+        double target = angle;
         double error = target - getCumulativeZ();
         double power = 0;
-        while (Math.abs(error) > 10) {
-            error = target - getCumulativeZ();
-            power = error / 100;
-            motorFL.setPower(-power);
-            motorBL.setPower(-power);
-            motorFR.setPower(power);
-            motorBR.setPower(power);
-            telemetry.addLine("Current (Cumulative) Z:  " + getCumulativeZ());
-            telemetry.addLine("Rotating power: " + power);
-            //This is a universal heading
-        }
-    }
-    public void rotateToHeading ( int angleHeading, double power){
-        telemetry.addLine("Trying to rotate!");
-        telemetry.update();
-        double target = angleHeading;
-        double current = getCumulativeZ();
-        double error = target - current;
-        double aggresivness = 120;
-        globalTargetRotation = target;
-
-        while (Math.abs(error) > 2) {
-            current = getCumulativeZ();
-            error = target - current;
-
-            if (Math.abs(error) > 5) {
-                aggresivness = 60;
-            } else {
-                aggresivness = 120;
-            }
-            motorFL.setPower(-(error / aggresivness)/* + 0.05*/);
-            motorBL.setPower(-(error / aggresivness)/* + 0.05*/);
-            motorFR.setPower((error / aggresivness)/* + 0.05*/);
-            motorBR.setPower((error / aggresivness)/* + 0.05*/);
-
-
-            motorFL.setPower(((error / 120) + 0.05) * power);
-            motorBL.setPower(((error / 120) + 0.05) * power);
-            motorFR.setPower((-((error / 120) + 0.05)) * power);
-            motorBR.setPower((-((error / 120) + 0.05)) * power);
-
-            telemetry.addLine("Current (Cumulative) Z:  " + current);
-            telemetry.addLine("Target Z: " + target);
-            telemetry.addLine("Error " + error);
-            telemetry.addLine("Power: " + power);
-            telemetry.update();
-        }
         while (Math.abs(error) > 1) {
             error = target - getCumulativeZ();
-            power = (Math.abs(error) / error) * 0.15;
-            motorFL.setPower(-power);
-            motorBL.setPower(-power);
-            motorFR.setPower(power);
-            motorBR.setPower(power);
-            telemetry.addLine("Current (Cumulative) Z:  " + getCumulativeZ());
-            telemetry.addLine("Error " + error);
-            telemetry.addLine("Power: " + power);
-            telemetry.update();
+           if (Math.abs(error) > 20) {
+               power = error / 120;
+           } else {
+               power = error / 40 + .12;
+           }
+               motorFL.setPower(-power);
+               motorBL.setPower(-power);
+               motorFR.setPower(power);
+               motorBR.setPower(power);
+               telemetry.addLine("Current (Cumulative) Z:  " + getCumulativeZ());
+               telemetry.addLine("Rotating power: " + power);
+               //This is a universal heading
         }
-        stopMotors();
-        telemetry.addLine("Current (Cumulative) Z:  " + getCumulativeZ());
-        telemetry.addLine("Error " + error);
-        telemetry.addLine("Power: " + power);
-        telemetry.update();
-
-
     }
+//    public void rotateToHeading ( int angleHeading, double power){
+//        telemetry.addLine("Trying to rotate!");
+//        telemetry.update();
+//        double target = angleHeading;
+//        double current = getCumulativeZ();
+//        double error = target - current;
+//        double aggresivness = 120;
+//        globalTargetRotation = target;
+//
+//        while (Math.abs(error) > 2) {
+//            current = getCumulativeZ();
+//            error = target - current;
+//
+//            if (Math.abs(error) > 5) {
+//                aggresivness = 60;
+//            } else {
+//                aggresivness = 120;
+//            }
+//            motorFL.setPower(-(error / aggresivness)/* + 0.05*/);
+//            motorBL.setPower(-(error / aggresivness)/* + 0.05*/);
+//            motorFR.setPower((error / aggresivness)/* + 0.05*/);
+//            motorBR.setPower((error / aggresivness)/* + 0.05*/);
+//
+//
+//            motorFL.setPower(((error / 120) + 0.05) * power);
+//            motorBL.setPower(((error / 120) + 0.05) * power);
+//            motorFR.setPower((-((error / 120) + 0.05)) * power);
+//            motorBR.setPower((-((error / 120) + 0.05)) * power);
+//
+//            telemetry.addLine("Current (Cumulative) Z:  " + current);
+//            telemetry.addLine("Target Z: " + target);
+//            telemetry.addLine("Error " + error);
+//            telemetry.addLine("Power: " + power);
+//            telemetry.update();
+//        }
+//        while (Math.abs(error) > 1) {
+//            error = target - getCumulativeZ();
+//            power = (Math.abs(error) / error) * 0.15;
+//            motorFL.setPower(-power);
+//            motorBL.setPower(-power);
+//            motorFR.setPower(power);
+//            motorBR.setPower(power);
+//            telemetry.addLine("Current (Cumulative) Z:  " + getCumulativeZ());
+//            telemetry.addLine("Error " + error);
+//            telemetry.addLine("Power: " + power);
+//            telemetry.update();
+//        }
+//        stopMotors();
+//        telemetry.addLine("Current (Cumulative) Z:  " + getCumulativeZ());
+//        telemetry.addLine("Error " + error);
+//        telemetry.addLine("Power: " + power);
+//        telemetry.update();
+//
+//
+//    }
 
 
             public void GoToHeight ( int Clicks){
