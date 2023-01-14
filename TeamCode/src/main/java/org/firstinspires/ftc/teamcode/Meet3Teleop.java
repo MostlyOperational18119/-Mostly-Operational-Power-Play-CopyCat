@@ -11,7 +11,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name="Meet3Teleop", group = "A")
-@Disabled
 public class Meet3Teleop extends DriveMethods {
 
    
@@ -81,6 +80,9 @@ public class Meet3Teleop extends DriveMethods {
             }
             if(gamepad1.b) {
                 speedDiv = 4;
+            }
+            if(gamepad1.x) {
+                speedDiv = 1.5;
             }
             if(gamepad2.dpad_up || gamepad2.dpad_down){
                 if(gamepad2.dpad_up) {
