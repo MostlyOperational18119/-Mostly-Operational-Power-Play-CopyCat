@@ -155,14 +155,14 @@ public class Meet2Teleop extends DriveMethods {
                     targetHeight = 4;
                 }
             }
-            if(slideTarget<0){
+            if(slideTarget<0) {
                 slideTarget=0;
             }
             if(slideTarget>4400){
                 slideTarget = 4400;
             }
 
-//            if(motorSlide.getCurrentPosition()<150){
+//            if(motorSlide.getCurrentPosition()<150) {
 //                aggressiveness = 1750;
 //            }
 
