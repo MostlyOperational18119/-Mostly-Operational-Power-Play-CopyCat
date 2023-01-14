@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.teamcode.Variables.globalTargetRotation;
 import static java.lang.Math.random;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -22,6 +23,7 @@ public class BlinkinOver1HZ extends DriveMethods {
     @Override
     public void runOpMode() {
         initMotorsBlue();
+        globalTargetRotation = 0;
 //        while(opModeInInit()) {
 //            currentRandNum = intrng(0,6);
 //            switch(currentRandNum) {
@@ -51,7 +53,9 @@ public class BlinkinOver1HZ extends DriveMethods {
         waitForStart();
         resetRuntime();
         rotateAngle(90);
-        driveForDistance(0.5, Variables.Direction.FORWARD, 0.2);
+        globalTargetRotation = 90;
+        driveForDistance(0.5, Variables.Direction.FORWARD, 0.2, globalTargetRotation);
+        globalTargetRotation = -90;
         rotateAngle(-90);
         telemetry.clearAll();
 //        telemetry.addLine("\"Oops\", accidentally created this.");

@@ -19,11 +19,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 @Disabled
 public class EndPark extends DriveMethods {
     public void runOpMode() {
+        globalTargetRotation = 0;
         initMotorsBlue();
 
         waitForStart();
 
-        driveForDistance(.75, Direction.FORWARD, 0.5);
+        driveForDistance(.75, Direction.FORWARD, 0.5, globalTargetRotation);
 
         while(opModeIsActive()) {
 
