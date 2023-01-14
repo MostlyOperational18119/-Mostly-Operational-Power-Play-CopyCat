@@ -18,7 +18,7 @@ public class RotationTeleOp extends DriveMethods {
                 rotationZ = 0;
             }
             if(gamepad1.a) {
-                rotateToHeading(rotationZ,0.2);
+                //rotateToHeading(rotationZ,0.2);
             }
             if(gamepad1.b) {
                 rotateAngle(rotationZ);
