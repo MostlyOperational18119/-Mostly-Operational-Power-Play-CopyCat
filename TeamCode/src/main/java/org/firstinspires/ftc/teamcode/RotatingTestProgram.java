@@ -13,6 +13,14 @@ import org.openftc.easyopencv.OpenCvWebcam;
 public class RotatingTestProgram extends DriveMethods{
     @Override
     public void runOpMode() {
+
+        initMotorsBlue();
+        clawClamp();
+        sleep(500);
+
+        waitForStart();
+
         rotateAngle(90);
+        driveForDistance(0.1, Variables.Direction.FORWARD,0.35);
     }
 }
