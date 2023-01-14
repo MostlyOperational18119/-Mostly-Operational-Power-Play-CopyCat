@@ -5,8 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name="BlinkinTest")
-@Disabled
+@TeleOp(name="BlinkinTeleOp")
 public class BlinkinTeleOp extends LinearOpMode {
     RevBlinkinLedDriver blinkinLedDriver;
     RevBlinkinLedDriver.BlinkinPattern pattern;
@@ -27,7 +26,10 @@ public class BlinkinTeleOp extends LinearOpMode {
                 pattern = RevBlinkinLedDriver.BlinkinPattern.LAWN_GREEN;
                 blinkinLedDriver.setPattern(pattern);
             }
-            telemetry.addLine(pattern.name());
+            // Please let me debug Blinkin.
+            telemetry.addData("Pattern Name",pattern.name());
+            telemetry.addData("Blinkin Connection Info",blinkinLedDriver.getConnectionInfo());
+            telemetry.addData("Blinkin Device Name",blinkinLedDriver.getDeviceName());
             telemetry.update();
         }
     }

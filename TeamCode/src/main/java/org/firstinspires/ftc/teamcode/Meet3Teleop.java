@@ -36,9 +36,7 @@ public class Meet3Teleop extends DriveMethods {
         double speedDiv = 2;
         // Can we deleat Clamp & Relase Pos?
         // LOOK IN VARIABLES FOR GRIBBER POSISITIONS, SEE NUMBER ON GRIBBER
-        double clampPosition = 0.19;
         //double clampPosition = 0.76;
-        double releasePosition = 0.5;
         //double releasePosition = 0.66;
         double aggressiveness = 3000;
         double holdingPower = 0.05;
@@ -197,8 +195,6 @@ public class Meet3Teleop extends DriveMethods {
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Motors", "left (%.2f), right (%.2f)");
-            telemetry.addLine("ClampPosition: " + clampPosition);
-            telemetry.addLine("ReleasePosition: " + releasePosition);
             telemetry.addLine("SpeedDiv: " + speedDiv);
             telemetry.addLine("linear slide position " + motorSlide.getCurrentPosition());
             telemetry.addLine("left_stick_y_2: " + gamepad2.left_stick_y);

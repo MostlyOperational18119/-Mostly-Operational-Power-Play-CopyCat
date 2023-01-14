@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.teamcode.Variables.globalTargetRotation;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
@@ -7,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 @Disabled
 public class RBMid extends DriveMethods{
     public void runOpMode() {
+        globalTargetRotation = 0;
         initMotorsBlue();
 
         clawClamp();
@@ -15,21 +18,21 @@ public class RBMid extends DriveMethods{
 
         GoToHeight(300);
 
-        driveForDistance(0.1, Variables.Direction.FORWARD,0.35);
-        driveForDistance(0.65, Variables.Direction.LEFT,0.35);
-        driveForDistance(0.5, Variables.Direction.FORWARD,0.35);
-        driveForDistance(0.30, Variables.Direction.RIGHT, 0.35);
+        driveForDistance(0.1, Variables.Direction.FORWARD,0.35, globalTargetRotation);
+        driveForDistance(0.65, Variables.Direction.LEFT,0.35, globalTargetRotation);
+        driveForDistance(0.5, Variables.Direction.FORWARD,0.35, globalTargetRotation);
+        driveForDistance(0.30, Variables.Direction.RIGHT, 0.35, globalTargetRotation);
         goToMid();
         sleep(500);
-        driveForDistance(0.15, Variables.Direction.FORWARD,0.35);
+        driveForDistance(0.15, Variables.Direction.FORWARD,0.35, globalTargetRotation);
         clawRelease();
         sleep(200);
-        driveForDistance(0.15, Variables.Direction.BACKWARD,0.35);
+        driveForDistance(0.15, Variables.Direction.BACKWARD,0.35, globalTargetRotation);
         goToDown();
         sleep(500);
-        driveForDistance(0.30, Variables.Direction.LEFT, 0.35);
-        driveForDistance(0.6, Variables.Direction.BACKWARD,0.35);
-        driveForDistance(1.5, Variables.Direction.RIGHT,0.35);
+        driveForDistance(0.30, Variables.Direction.LEFT, 0.35, globalTargetRotation);
+        driveForDistance(0.6, Variables.Direction.BACKWARD,0.35, globalTargetRotation);
+        driveForDistance(1.5, Variables.Direction.RIGHT,0.35, globalTargetRotation);
 
         while (opModeIsActive()) {
 

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.teamcode.Variables.globalTargetRotation;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
@@ -37,7 +39,7 @@ public class BRHighCVBlinkin extends DriveMethods{
 
 
 
-
+        globalTargetRotation = 0;
         initMotorsBlue();
         clawClamp();
         sleep(500);
@@ -63,28 +65,28 @@ public class BRHighCVBlinkin extends DriveMethods{
 
         GoToHeight(300);
 
-        driveForDistance(0.1, Variables.Direction.FORWARD,0.35);
-        driveForDistance(0.62, Variables.Direction.RIGHT,0.35);
-        driveForDistance(1.22, Variables.Direction.FORWARD,0.35);
-        driveForDistance(0.435, Variables.Direction.LEFT, 0.35);
+        driveForDistance(0.1, Variables.Direction.FORWARD,0.35, globalTargetRotation);
+        driveForDistance(0.62, Variables.Direction.RIGHT,0.35, globalTargetRotation);
+        driveForDistance(1.22, Variables.Direction.FORWARD,0.35, globalTargetRotation);
+        driveForDistance(0.435, Variables.Direction.LEFT, 0.35, globalTargetRotation);
         goToHigh();
-        driveForDistance(0.09, Variables.Direction.FORWARD,0.2);
+        driveForDistance(0.09, Variables.Direction.FORWARD,0.2, globalTargetRotation);
         sleep(1000);
         clawRelease();
         sleep(200);
-        driveForDistance(0.135, Variables.Direction.BACKWARD,0.35);
+        driveForDistance(0.135, Variables.Direction.BACKWARD,0.35, globalTargetRotation);
         goToDown();
         sleep(500);
-        driveForDistance(0.35, Variables.Direction.RIGHT, 0.35);
+        driveForDistance(0.35, Variables.Direction.RIGHT, 0.35, globalTargetRotation);
         switch(result){
             case "purple":
                 //You're where you need to be!
                 break;
             case "yellow":
-                driveForDistance(0.7, Variables.Direction.LEFT, 0.35);
+                driveForDistance(0.7, Variables.Direction.LEFT, 0.35, globalTargetRotation);
                 break;
             case "green":
-                driveForDistance(1.35, Variables.Direction.LEFT, 0.35);
+                driveForDistance(1.35, Variables.Direction.LEFT, 0.35, globalTargetRotation);
                 break;
 
         }

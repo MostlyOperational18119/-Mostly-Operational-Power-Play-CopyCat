@@ -63,8 +63,8 @@ public class Variables {
     public static double clicksPerRotation = 537.6;
     public static double rotationsPerMeter = 1/0.3015928947;
 
-    public static final double Clamp = 0.16;
-    public static final double Release = 0.24;
+    public static final double Clamp = 0.15;
+    public static final double Release = 0.26;
 
     public static final int downHeight = 0;
     public static final int collectHeight = 200;
