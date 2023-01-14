@@ -7,13 +7,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous(name="grib", group = "a")
-@Disabled
+//@Disabled
 public class GrbberTest extends DriveMethods{
     Servo grabber;
     public void runOpMode(){
         // LOOK IN VARIABLES FOR GRIBBER POSISITIONS, SEE NUMBER ON GRIBBER
-        double clamp = 0.5;
-        double release = 0.75;
+        double clamp = 0.18;
+        double release = 0.26;
         int i = 1;
         grabber = hardwareMap.get(Servo.class, "grabber");
         waitForStart();
