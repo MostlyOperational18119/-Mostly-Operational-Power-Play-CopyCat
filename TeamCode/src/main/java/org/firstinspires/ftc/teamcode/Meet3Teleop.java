@@ -44,7 +44,8 @@ public class Meet3Teleop extends DriveMethods {
         int slideDifference = 0;
         int targetHeight = 0;
         double sPosition = motorSlide.getCurrentPosition();
-
+        boolean isManualControl = true;
+        int coneStackHeight = 6;
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             sPosition = motorSlide.getCurrentPosition();
@@ -82,7 +83,13 @@ public class Meet3Teleop extends DriveMethods {
             if(gamepad1.x) {
                 speedDiv = 1.5;
             }
-            if(gamepad2.dpad_up || gamepad2.dpad_down){
+            if(gamepad2.left_trigger==1) {
+                isManualControl = false;
+            }
+            if(gamepad2.right_trigger==1) {
+                isManualControl = true;
+            }
+            if((gamepad2.dpad_up || gamepad2.dpad_down) & isManualControl){
                 if(gamepad2.dpad_up) {
                     targetHeight++;
                     if (targetHeight > 4) {
@@ -126,7 +133,60 @@ public class Meet3Teleop extends DriveMethods {
 
                     }
                 }
-
+            if((gamepad2.dpad_up || gamepad2.dpad_down) & !isManualControl) {
+                if(gamepad2.dpad_up && coneStackHeight!=7) {
+                    coneStackHeight++;
+                    sleep(150);
+                }
+                if(gamepad2.dpad_down && coneStackHeight!=0) {
+                    coneStackHeight--;
+                    sleep(150);
+                }
+                //1283
+                //615 for 5
+                //460 for 4
+                //290 for 3
+                //190 for 2
+                //000 for 1
+                switch (coneStackHeight) {
+                    case 0:
+                    case 1:
+                        slideTarget = 0;
+                        aggressiveness = 2000;
+                        holdingPower = 0;
+                        break;
+                    case 2:
+                        slideTarget = 190;
+                        aggressiveness = 2000;
+                        holdingPower = 0.06;
+                        break;
+                    case 3:
+                        slideTarget = 290;
+                        aggressiveness = 1000;
+                        holdingPower = 0.18;
+                        break;
+                    case 4:
+                        slideTarget = 460;
+                        aggressiveness = 2000;
+                        holdingPower = 0.18;
+                        break;
+                    case 5:
+                        slideTarget = 615;
+                        aggressiveness = 2000;
+                        holdingPower = 0.18;
+                        break;
+                    case 6:
+                        slideTarget = 815;
+                        aggressiveness = 2000;
+                        holdingPower = 0.18;
+                        break;
+                    case 7:
+                        slideTarget = 1300;
+                        aggressiveness = 2000;
+                        holdingPower = 0.18;
+                        break;
+                }
+            }
             //Change the target height based on the height of the linear slide at the time.
 
             if(gamepad2.right_bumper){
@@ -136,8 +196,9 @@ public class Meet3Teleop extends DriveMethods {
             if(gamepad2.left_bumper){
                 targetHeight = 0;
                 sleep(50);
-
             }
+
+
 
 
             if(gamepad2.left_stick_y != 0){

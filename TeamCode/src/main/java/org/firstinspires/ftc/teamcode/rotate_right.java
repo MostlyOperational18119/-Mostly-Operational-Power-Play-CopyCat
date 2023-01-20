@@ -11,8 +11,6 @@ public class rotate_right extends DriveMethods{
 
         waitForStart();
 
-        rotateToHeading(-90, 0.2);
-
         while (opModeIsActive()) {
             telemetry.addLine("You are in teh loop!");
         }
