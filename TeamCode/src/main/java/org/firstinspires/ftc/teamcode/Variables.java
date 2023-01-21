@@ -75,9 +75,8 @@ public class Variables {
     public static final int fourthHeight = 1600;
 
 
-    // Grabber #1 Clamp: 0.5, Release: 0.75,
     // grabber #2 Clamp: 0.42, Release: 0.5
     // ';y0/ Grabber #1 Clamp: 0.44, Release: 0.54,
-    // grabber #2 Clamp: 0.41, Release: 0.52
     // 1/14/23 Flat #3 Clamp 0.48 Release 0.56
+    // 1/21/23 Flat #1 Clamp 0.35, Release 0.23
 }
