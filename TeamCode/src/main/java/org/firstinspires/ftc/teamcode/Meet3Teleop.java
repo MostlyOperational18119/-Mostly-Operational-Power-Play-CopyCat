@@ -81,7 +81,7 @@ public class Meet3Teleop extends DriveMethods {
                 speedDiv = 4;
             }
             if(gamepad1.x) {
-                speedDiv = 1.5;
+                speedDiv = 1.66;
             }
             if(gamepad2.left_trigger==1) {
                 isManualControl = false;
