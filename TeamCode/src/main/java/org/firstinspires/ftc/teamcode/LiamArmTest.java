@@ -36,15 +36,27 @@ public class LiamArmTest extends DriveMethods {
 
         motorScissor30 = hardwareMap.get(DcMotor.class, "scissor30");
         motorScissor60 = hardwareMap.get(DcMotor.class, "scissor60");
-
+        motorFL  = hardwareMap.get(DcMotor.class, "motorFL");
+        motorBL = hardwareMap.get(DcMotor.class, "motorBL");
+        motorFR  = hardwareMap.get(DcMotor.class, "motorFR");
+        motorBR = hardwareMap.get(DcMotor.class, "motorBR");
 
         motorScissor60.setDirection(DcMotorSimple.Direction.REVERSE);
 
         motorScissor30.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorScissor60.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
 
         motorScissor30.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorScissor60.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorFL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         waitForStart();
