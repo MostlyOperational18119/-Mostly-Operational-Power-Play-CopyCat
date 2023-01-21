@@ -1,5 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.teamcode.Variables.collectHeight;
+import static org.firstinspires.ftc.teamcode.Variables.downHeight;
+import static org.firstinspires.ftc.teamcode.Variables.highHeight;
+import static org.firstinspires.ftc.teamcode.Variables.lowHeight;
+import static org.firstinspires.ftc.teamcode.Variables.midHeight;
 import static org.firstinspires.ftc.teamcode.Variables.motorBL;
 import static org.firstinspires.ftc.teamcode.Variables.motorBR;
 import static org.firstinspires.ftc.teamcode.Variables.motorFL;
@@ -33,7 +38,7 @@ public class Meet3Teleop extends DriveMethods {
         double leftY;
         double leftX;
         double rightX;
-        double speedDiv = 2;
+        double speedDiv = 1.66;
         // Can we deleat Clamp & Relase Pos?
         // LOOK IN VARIABLES FOR GRIBBER POSISITIONS, SEE NUMBER ON GRIBBER
         //double clampPosition = 0.76;
@@ -45,7 +50,7 @@ public class Meet3Teleop extends DriveMethods {
         int targetHeight = 0;
         double sPosition = motorSlide.getCurrentPosition();
         boolean isManualControl = true;
-        int coneStackHeight = 6;
+        int coneStackHeight = 7;
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             sPosition = motorSlide.getCurrentPosition();
@@ -75,16 +80,15 @@ public class Meet3Teleop extends DriveMethods {
                 motorBR.setPower(0);
             }
             if (gamepad1.a) {
-                speedDiv = 2;
+                speedDiv = 1.66;
             }
             if(gamepad1.b) {
-                speedDiv = 4;
+                speedDiv = 2;
             }
-            if(gamepad1.x) {
-                speedDiv = 1.5;
-            }
+
             if(gamepad2.left_trigger==1) {
                 isManualControl = false;
+                coneStackHeight = 7;
             }
             if(gamepad2.right_trigger==1) {
                 isManualControl = true;
@@ -106,27 +110,27 @@ public class Meet3Teleop extends DriveMethods {
                 }
                 switch (targetHeight) {
                         case 0:
-                            slideTarget = 0;
+                            slideTarget = downHeight;
                             aggressiveness = 2000;
                             holdingPower = 0.0;
                             break;
                         case 1:
-                            slideTarget = 200;
+                            slideTarget = collectHeight;
                             aggressiveness = 1000;
                             holdingPower = 0.06;
                             break;
                         case 2:
-                            slideTarget = 1800;
+                            slideTarget = lowHeight;
                             aggressiveness = 2000;
                             holdingPower = 0.18;
                             break;
                         case 3:
-                            slideTarget = 2950;
+                            slideTarget = midHeight;
                             aggressiveness = 2000;
                             holdingPower = 0.18;
                             break;
                         case 4:
-                            slideTarget = 4200;
+                            slideTarget = highHeight;
                             aggressiveness = 2000;
                             holdingPower = 0.18;
                             break;
@@ -152,12 +156,12 @@ public class Meet3Teleop extends DriveMethods {
                     case 0:
                     case 1:
                         slideTarget = 0;
-                        aggressiveness = 2000;
+                        aggressiveness = 1800;
                         holdingPower = 0;
                         break;
                     case 2:
                         slideTarget = 190;
-                        aggressiveness = 2000;
+                        aggressiveness = 1800;
                         holdingPower = 0.06;
                         break;
                     case 3:
@@ -167,22 +171,22 @@ public class Meet3Teleop extends DriveMethods {
                         break;
                     case 4:
                         slideTarget = 460;
-                        aggressiveness = 2000;
+                        aggressiveness = 1800;
                         holdingPower = 0.18;
                         break;
                     case 5:
                         slideTarget = 615;
-                        aggressiveness = 2000;
+                        aggressiveness = 1800;
                         holdingPower = 0.18;
                         break;
                     case 6:
                         slideTarget = 815;
-                        aggressiveness = 2000;
+                        aggressiveness = 1800;
                         holdingPower = 0.18;
                         break;
                     case 7:
                         slideTarget = 1300;
-                        aggressiveness = 2000;
+                        aggressiveness = 1800;
                         holdingPower = 0.18;
                         break;
                 }
