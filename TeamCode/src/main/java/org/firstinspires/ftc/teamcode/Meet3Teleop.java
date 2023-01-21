@@ -50,7 +50,7 @@ public class Meet3Teleop extends DriveMethods {
         int targetHeight = 0;
         double sPosition = motorSlide.getCurrentPosition();
         boolean isManualControl = true;
-        int coneStackHeight = 6;
+        int coneStackHeight = 7;
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             sPosition = motorSlide.getCurrentPosition();
@@ -88,6 +88,7 @@ public class Meet3Teleop extends DriveMethods {
 
             if(gamepad2.left_trigger==1) {
                 isManualControl = false;
+                coneStackHeight = 7;
             }
             if(gamepad2.right_trigger==1) {
                 isManualControl = true;
@@ -155,12 +156,12 @@ public class Meet3Teleop extends DriveMethods {
                     case 0:
                     case 1:
                         slideTarget = 0;
-                        aggressiveness = 2000;
+                        aggressiveness = 1800;
                         holdingPower = 0;
                         break;
                     case 2:
                         slideTarget = 190;
-                        aggressiveness = 2000;
+                        aggressiveness = 1800;
                         holdingPower = 0.06;
                         break;
                     case 3:
@@ -170,22 +171,22 @@ public class Meet3Teleop extends DriveMethods {
                         break;
                     case 4:
                         slideTarget = 460;
-                        aggressiveness = 2000;
+                        aggressiveness = 1800;
                         holdingPower = 0.18;
                         break;
                     case 5:
                         slideTarget = 615;
-                        aggressiveness = 2000;
+                        aggressiveness = 1800;
                         holdingPower = 0.18;
                         break;
                     case 6:
                         slideTarget = 815;
-                        aggressiveness = 2000;
+                        aggressiveness = 1800;
                         holdingPower = 0.18;
                         break;
                     case 7:
                         slideTarget = 1300;
-                        aggressiveness = 2000;
+                        aggressiveness = 1800;
                         holdingPower = 0.18;
                         break;
                 }
