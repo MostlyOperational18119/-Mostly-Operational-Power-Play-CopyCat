@@ -69,8 +69,8 @@ public class Variables {
     public static final int downHeight = 0;
     public static final int collectHeight = 200;
     public static final int lowHeight = 1645;
-    public static final int midHeight = 2775;
-    public static final int highHeight = 3900;
+    public static final int midHeight = 2800;
+    public static final int highHeight = 3980;
     public static final int fifthHeight = 1700;
     public static final int fourthHeight = 1600;
 
