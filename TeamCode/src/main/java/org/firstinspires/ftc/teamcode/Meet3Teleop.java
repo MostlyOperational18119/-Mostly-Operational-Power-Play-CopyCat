@@ -142,12 +142,12 @@ public class Meet3Teleop extends DriveMethods {
                     coneStackHeight--;
                     sleep(150);
                 }
-                //1283
+                //1283 for 7
                 //615 for 5
                 //460 for 4
                 //290 for 3
                 //190 for 2
-                //000 for 1
+                //000 for 1 and 0
                 switch (coneStackHeight) {
                     case 0:
                     case 1:
