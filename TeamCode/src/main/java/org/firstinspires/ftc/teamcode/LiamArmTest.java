@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import static org.firstinspires.ftc.teamcode.Variables.*;
 
 @Autonomous(name="LiamArmTest", group="B")
 public class LiamArmTest extends DriveMethods {
@@ -47,9 +48,32 @@ public class LiamArmTest extends DriveMethods {
 
 
         waitForStart();
-
+        double leftY;
+        double leftX;
+        double rightX;
+        double speedDiv = 2;
 
         while (opModeIsActive()) {
+            leftY = -gamepad1.left_stick_y;
+            leftX = gamepad1.left_stick_x;
+            rightX = gamepad1.right_stick_x;
+            if (!gamepad1.right_bumper) {
+                motorFL.setPower((leftY + leftX + rightX) / speedDiv);
+                motorBL.setPower((leftY - leftX + rightX) / speedDiv);
+                motorFR.setPower((leftY - leftX - rightX) / speedDiv);
+                motorBR.setPower((leftY + leftX - rightX) / speedDiv);
+            } else {
+                motorFL.setPower(0);
+                motorBL.setPower(0);
+                motorFR.setPower(0);
+                motorBR.setPower(0);
+            }
+            if (gamepad1.a) {
+                speedDiv = 2;
+            }
+            if(gamepad1.b) {
+                speedDiv = 4;
+            }
             if(gamepad2.dpad_up){
                 scissorHeight++;
                 sleep(200);
