@@ -428,7 +428,7 @@ public class DriveMethods extends LinearOpMode{
            if (Math.abs(error) > 20) {
                power = error / 120;
            } else {
-               power = error / 40 + .12;
+               power = error / 40 + .15*(Math.abs(error)/error);
            }
                motorFL.setPower(-power);
                motorBL.setPower(-power);
@@ -436,8 +436,10 @@ public class DriveMethods extends LinearOpMode{
                motorBR.setPower(power);
                telemetry.addLine("Current (Cumulative) Z:  " + getCumulativeZ());
                telemetry.addLine("Rotating power: " + power);
+               telemetry.update();
                //This is a universal heading
         }
+        stopMotors();
     }
 //    public void rotateToHeading ( int angleHeading, double power){
 //        telemetry.addLine("Trying to rotate!");
