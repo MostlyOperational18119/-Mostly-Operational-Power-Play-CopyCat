@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import static org.firstinspires.ftc.teamcode.Variables.globalTargetRotation;
+import static org.firstinspires.ftc.teamcode.Variables.highHeight;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
@@ -53,37 +54,44 @@ public class RRMultistack extends DriveMethods{
 
         GoToHeight(300);
         driveForDistance(0.1, Variables.Direction.FORWARD,0.35, globalTargetRotation);
-        driveForDistance(0.65, Variables.Direction.RIGHT,0.35, globalTargetRotation);
+        driveForDistance(0.625, Variables.Direction.RIGHT,0.35, globalTargetRotation);
         driveForDistance(1.22, Variables.Direction.FORWARD,0.35, globalTargetRotation);
-        driveForDistance(0.45, Variables.Direction.LEFT, 0.35, globalTargetRotation);
+        driveForDistance(0.36, Variables.Direction.LEFT, 0.35, globalTargetRotation);
         goToHigh();
         driveForDistance(0.14, Variables.Direction.FORWARD,0.2, globalTargetRotation);
         sleep(500);
+        GoToHeight(highHeight-60);
         clawRelease();
         sleep(200);
-        driveForDistance(0.07, Variables.Direction.BACKWARD,0.35, globalTargetRotation);
+        driveForDistance(0.12, Variables.Direction.BACKWARD,0.35, globalTargetRotation);
         goToDown();
         sleep(500);
-        rotateAngle(90);
-        globalTargetRotation = 90;
+        rotateAngle(87);
+        globalTargetRotation = 87;
         driveForDistance(.85, Variables.Direction.FORWARD, .35, globalTargetRotation);
         GoToHeight(1000);
         sleep(500);
-        driveForDistance(.15, Variables.Direction.FORWARD, .35, globalTargetRotation);
+        driveForDistance(.16, Variables.Direction.FORWARD, .25, globalTargetRotation);
         GoToHeight(615);
-        sleep(500);
+        sleep(250);
         clawClamp();
-        GoToHeight(1000);
-        driveForDistance(.15, Variables.Direction.BACKWARD, .35, globalTargetRotation);
+        sleep(250);
+        GoToHeight(1200);
+        driveForDistance(.16, Variables.Direction.BACKWARD, .35, globalTargetRotation);
         goToCollect();
         sleep(500);
-        driveForDistance(.85, Variables.Direction.BACKWARD, .35, globalTargetRotation);
+        driveForDistance(.81, Variables.Direction.BACKWARD, .35, globalTargetRotation);
         rotateAngle(0);
         globalTargetRotation = 0;
         goToHigh();
-        driveForDistance(.07, Variables.Direction.FORWARD, .35, globalTargetRotation);
+        driveForDistance(.12, Variables.Direction.FORWARD, .35, globalTargetRotation);
+        sleep(250);
+        GoToHeight(highHeight-60);
+        sleep(250);
         clawRelease();
-        driveForDistance(.07, Variables.Direction.BACKWARD, .35, globalTargetRotation);
+        sleep(300);
+        driveForDistance(.07, Variables.Direction.BACKWARD, .2, globalTargetRotation);
+        goToDown();
 
 
         switch(result){
