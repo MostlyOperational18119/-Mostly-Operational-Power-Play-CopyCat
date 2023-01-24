@@ -8,6 +8,7 @@ public class Timer {
     double cTime = 0;
     public void startTimer() {
         daTime.startTime();
+        timerStopped = true;
     }
     public void resetTimer() {
         daTime.reset();
