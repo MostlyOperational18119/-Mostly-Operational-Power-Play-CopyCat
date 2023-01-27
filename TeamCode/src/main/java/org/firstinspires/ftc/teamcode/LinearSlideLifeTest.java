@@ -3,8 +3,10 @@ package org.firstinspires.ftc.teamcode;
 import static org.firstinspires.ftc.teamcode.Variables.Direction;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 @Autonomous(name ="LinearSlideTest", group = "A")
+@Disabled
 public class LinearSlideLifeTest extends DriveMethods {
     public void runOpMode() {
         initMotorsBlue();

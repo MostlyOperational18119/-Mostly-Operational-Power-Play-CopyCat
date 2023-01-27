@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.teamcode.Variables.globalTargetRotation;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -29,14 +31,13 @@ public class RRHighCV extends DriveMethods{
             }
             @Override
             public void onError(int errorCode) {
-
             }
         });
 
 
 
 
-
+        globalTargetRotation = 0;
         initMotorsBlue();
         clawClamp();
         sleep(500);
@@ -51,33 +52,29 @@ public class RRHighCV extends DriveMethods{
         waitForStart();
 
         GoToHeight(300);
-        driveForDistance(0.1, Variables.Direction.FORWARD,0.35,0);
-        driveForDistance(0.65, Variables.Direction.RIGHT,0.35,0);
-        driveForDistance(1.22, Variables.Direction.FORWARD,0.35,0);
-        driveForDistance(0.44, Variables.Direction.LEFT, 0.35,0);
+        driveForDistance(0.1, Variables.Direction.FORWARD,0.35, globalTargetRotation);
+        driveForDistance(0.65, Variables.Direction.RIGHT,0.35, globalTargetRotation);
+        driveForDistance(1.22, Variables.Direction.FORWARD,0.35, globalTargetRotation);
+        driveForDistance(0.45, Variables.Direction.LEFT, 0.35, globalTargetRotation);
         goToHigh();
-        driveForDistance(0.1, Variables.Direction.FORWARD,0.2,0);
+        driveForDistance(0.14, Variables.Direction.FORWARD,0.2, globalTargetRotation);
         sleep(500);
         clawRelease();
         sleep(200);
-        driveForDistance(0.135, Variables.Direction.BACKWARD,0.35,0);
+        driveForDistance(0.12, Variables.Direction.BACKWARD,0.35, globalTargetRotation);
         goToDown();
         sleep(500);
-        driveForDistance(0.35, Variables.Direction.RIGHT, 0.35,0);
         switch(result){
             case "purple":
-                //You're where you need to be!
+                driveForDistance(0.35, Variables.Direction.RIGHT, 0.35, globalTargetRotation);
                 break;
             case "yellow":
-                driveForDistance(0.7, Variables.Direction.LEFT, 0.35,0);
+                driveForDistance(0.35, Variables.Direction.LEFT, 0.35, globalTargetRotation);
                 break;
             case "green":
-                driveForDistance(1.35, Variables.Direction.LEFT, 0.35,0);
+                driveForDistance(1, Variables.Direction.LEFT, 0.35, globalTargetRotation);
                 break;
-
-
         }
-
 
 
         while (opModeIsActive()) {

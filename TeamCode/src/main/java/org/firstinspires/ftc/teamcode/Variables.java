@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -18,6 +19,8 @@ public class Variables {
     public static DcMotor motorFR;          //motor03
     public static DcMotor motorBR;          //motor04
     public static DcMotor motorSlide;
+    public static RevBlinkinLedDriver blinkinLedDriver;
+    public static RevBlinkinLedDriver.BlinkinPattern pattern;
     public enum Direction {
         FORWARD,
         BACKWARD,
@@ -26,6 +29,20 @@ public class Variables {
         ROTATE_LEFT,
         ROTATE_RIGHT,
         ROTATE,
+        ;
+    }
+    public enum BlinkinColor {
+        RAINBOW,
+        RED,
+        RED_PULSE,
+        ORANGE,
+        ORANGE_PULSE,
+        BLUE,
+        GREEN,
+        GREEN_PULSE,
+        YELLOW,
+        PURPLE,
+        PINK,
         ;
     }
 
@@ -45,6 +62,7 @@ public class Variables {
     public static double previousHeading = 0;
     public static double intergratedHeading = 0;
     public static double targetZ;
+    public static double globalTargetRotation;
     public static boolean isImuCalibrated = false;
 
 
@@ -52,14 +70,18 @@ public class Variables {
     public static double clicksPerRotation = 537.6;
     public static double rotationsPerMeter = 1/0.3015928947;
 
-    public static final double Clamp = 0.45;
+
+    public static final double Clamp = 0.48;
     public static final double Release = 0.56;
 
     public static final int downHeight = 0;
     public static final int collectHeight = 200;
-    public static final int lowHeight = 1850;
-    public static final int midHeight = 3100;
-    public static final int highHeight = 4200;
+    public static final int lowHeight = 1645;
+    public static final int midHeight = 2800;
+    public static final int highHeight = 4000;
+    public static final int fifthHeight = 1700;
+    public static final int fourthHeight = 1600;
+
 
 
     /**OpenCV Variables please don't touch!!
@@ -129,4 +151,10 @@ public class Variables {
     // Grbber #1 Clamp: 0.5, Release: 0.75
     // grbber #2 Clamp: 0.41, Release: 0.52
     // grbber #3 Clamp: 0.25, Release: 0.52
+
+    // grabber #2 Clamp: 0.42, Release: 0.5
+    // ';y0/ Grabber #1 Clamp: 0.44, Release: 0.54,
+    // 1/14/23 Flat #3 Clamp 0.48 Release 0.56
+    // 1/21/23 Flat #1 Clamp 0.35, Release 0.23
+
 }

@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name="MotorManualTeleop", group="A")
-
+@Disabled
 public class MotorManualTeleop extends DriveMethods{
     DcMotor motor;
     double motorPower = 0;

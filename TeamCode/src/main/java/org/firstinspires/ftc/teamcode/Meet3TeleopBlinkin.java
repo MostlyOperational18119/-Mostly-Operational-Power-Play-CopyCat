@@ -5,12 +5,18 @@ import static org.firstinspires.ftc.teamcode.Variables.motorBR;
 import static org.firstinspires.ftc.teamcode.Variables.motorFL;
 import static org.firstinspires.ftc.teamcode.Variables.motorFR;
 import static org.firstinspires.ftc.teamcode.Variables.motorSlide;
+import static org.firstinspires.ftc.teamcode.Variables.runtime;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@TeleOp(name="Meet2Teleop", group = "A")
-public class Meet2Teleop extends DriveMethods {
+@TeleOp(name="Meet3TeleopBlinkin", group = "A")
+@Disabled
+public class Meet3TeleopBlinkin extends DriveMethods {
+
+   
+
 
     @Override
     public void runOpMode() {
@@ -26,14 +32,12 @@ public class Meet2Teleop extends DriveMethods {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
+        runtime.reset();
         double leftY;
         double leftX;
+        double rightY;
         double rightX;
         double speedDiv = 2;
-        double motorFLPower;
-        double motorFRPower;
-        double motorBLPower;
-        double motorBRPower;
         // Can we deleat Clamp & Relase Pos?
         // LOOK IN VARIABLES FOR GRIBBER POSISITIONS, SEE NUMBER ON GRIBBER
         double clampPosition = 0.19;
@@ -54,9 +58,22 @@ public class Meet2Teleop extends DriveMethods {
             //update doubles
             leftY = -gamepad1.left_stick_y;
             leftX = gamepad1.left_stick_x;
+            rightY = -gamepad1.right_stick_y;
             rightX = gamepad1.right_stick_x;
-
-
+/*
+            if((runtime.seconds() >= 90.0) & Variables.pattern != RevBlinkinLedDriver.BlinkinPattern.ORANGE) {
+                setBlinkinColor(Variables.BlinkinColor.ORANGE);
+            }
+            if((runtime.seconds() >= 100.0) & Variables.pattern != RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE) {
+                setBlinkinColor(Variables.BlinkinColor.ORANGE_PULSE);
+            }
+            if((runtime.seconds() >= 110.0) & Variables.pattern != RevBlinkinLedDriver.BlinkinPattern.RED) {
+                setBlinkinColor(Variables.BlinkinColor.RED);
+            }
+            if((runtime.seconds() >= 115.0) & Variables.pattern != RevBlinkinLedDriver.BlinkinPattern.STROBE_RED) {
+                setBlinkinColor(Variables.BlinkinColor.RED_PULSE);
+            }
+*/
             if (gamepad2.x) {
                 clawClamp();
             }
@@ -65,17 +82,10 @@ public class Meet2Teleop extends DriveMethods {
             }
 
             if (!gamepad1.right_bumper) {
-                motorFLPower = (leftY + leftX + rightX) / speedDiv;
-                motorBLPower = (leftY - leftX + rightX) / speedDiv;
-                motorFRPower = (leftY - leftX - rightX) / speedDiv;
-                motorBRPower = (leftY + leftX - rightX) / speedDiv;
- //               while ((motorFLPower < (leftY + leftX + rightX) / speedDiv)) {
- //                   motorFLPower += ((leftY + leftX + rightX) / speedDiv) / (1 + Math.pow((Math.exp(1)), );
- //               }
-                motorFL.setPower(motorFLPower);
-                motorBL.setPower(motorBLPower);
-                motorFR.setPower(motorFRPower);
-                motorBR.setPower(motorBRPower);
+                motorFL.setPower((leftY + leftX + rightX) / speedDiv);
+                motorBL.setPower((leftY - leftX + rightX) / speedDiv);
+                motorFR.setPower((leftY - leftX - rightX) / speedDiv);
+                motorBR.setPower((leftY + leftX - rightX) / speedDiv);
             } else {
                 motorFL.setPower(0);
                 motorBL.setPower(0);
@@ -146,10 +156,10 @@ public class Meet2Teleop extends DriveMethods {
             }
 
 
-            if(gamepad2.left_stick_y != 0) {
-                    slideTarget += (int) -gamepad2.left_stick_y * 25;
-                    aggressiveness = 1250;
-                    sleep(50);
+            if(gamepad2.left_stick_y != 0){
+                slideTarget += (int) -gamepad2.left_stick_y * 50;
+                aggressiveness = 1250;
+                sleep(50);
                 if (sPosition<300 && sPosition>0){
                     targetHeight = 1;
                 }
@@ -163,14 +173,14 @@ public class Meet2Teleop extends DriveMethods {
                     targetHeight = 4;
                 }
             }
-            if(slideTarget<0) {
+            if(slideTarget<0){
                 slideTarget=0;
             }
             if(slideTarget>4400){
                 slideTarget = 4400;
             }
 
-//            if(motorSlide.getCurrentPosition()<150) {
+//            if(motorSlide.getCurrentPosition()<150){
 //                aggressiveness = 1750;
 //            }
 
@@ -190,6 +200,7 @@ public class Meet2Teleop extends DriveMethods {
             motorSlide.setPower(((slideDifference / aggressiveness) + holdingPower));
 
             telemetry.addLine(slideDifference + "..difference");
+            telemetry.addLine("power:" + motorSlide.getPower());
             telemetry.addLine(Math.abs(motorSlide.getCurrentPosition()) + "..position");
             telemetry.addLine(slideTarget + "..target");
             telemetry.addLine(((slideDifference / aggressiveness) + holdingPower) + "..power");
@@ -201,6 +212,7 @@ public class Meet2Teleop extends DriveMethods {
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Motors", "left (%.2f), right (%.2f)");
+            telemetry.addLine("Time: " + runtime.time());
             telemetry.addLine("ClampPosition: " + clampPosition);
             telemetry.addLine("ReleasePosition: " + releasePosition);
             telemetry.addLine("SpeedDiv: " + speedDiv);

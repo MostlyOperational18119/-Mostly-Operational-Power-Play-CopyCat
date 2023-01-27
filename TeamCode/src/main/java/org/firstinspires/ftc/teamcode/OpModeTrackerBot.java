@@ -36,6 +36,7 @@ import static org.firstinspires.ftc.teamcode.PipeTrackerBot.getLastCurrentBoxesD
 import static org.firstinspires.ftc.teamcode.Variables.*;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -63,7 +64,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
  */
 
 @Autonomous(name="OpModeTrackerBot", group="Linear Opmode")
-
+@Disabled
 public class OpModeTrackerBot extends DriveMethods {
 
     // Declare OpMode members.

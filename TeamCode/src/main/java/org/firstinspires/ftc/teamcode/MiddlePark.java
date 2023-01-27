@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
@@ -15,13 +16,15 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @Autonomous(name ="MiddlePark", group = "A")
+@Disabled
 public class MiddlePark extends DriveMethods {
     public void runOpMode() {
+        globalTargetRotation = 0;
         initMotorsBlue();
 
         waitForStart();
 
-        driveForDistance(0.4, Direction.FORWARD, 0.5,0);
+        driveForDistance(0.4, Direction.FORWARD, 0.5, globalTargetRotation);
 
         while(opModeIsActive()) {
 
