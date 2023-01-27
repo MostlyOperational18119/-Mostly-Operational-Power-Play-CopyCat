@@ -349,7 +349,7 @@ public class DriveMethods extends LinearOpMode{
         double FRPower = motorFR.getPower();
         double BRPower = motorBR.getPower();
 
-        double currentZ = getCurrentZ();
+        double currentZ = getCumulativeZ();
         double rotateError = targetZ - currentZ;
 
         while ((targetPos >= avgPosition)) {
@@ -358,7 +358,7 @@ public class DriveMethods extends LinearOpMode{
             FRPosition = Math.abs(motorFR.getCurrentPosition());
             BRPosition = Math.abs(motorBR.getCurrentPosition());
 
-            currentZ = getCurrentZ();
+            currentZ = getCumulativeZ();
             rotateError = targetZ - currentZ;
 
             avgPosition = (int) (FLPosition + BLPosition + FRPosition + BRPosition) / 4;

@@ -19,7 +19,7 @@ public class RBMultistack extends DriveMethods{
 
     public void runOpMode() {
 
-        DamienCVPipelineBR_RR pipeline = new DamienCVPipelineBR_RR();
+        DamienCVPipelineRB_BB pipeline = new DamienCVPipelineRB_BB();
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         webcam.setPipeline(pipeline);
@@ -32,17 +32,15 @@ public class RBMultistack extends DriveMethods{
             }
             @Override
             public void onError(int errorCode) {
+
             }
         });
-
-
 
 
         globalTargetRotation = 0;
         initMotorsBlue();
         clawClamp();
         sleep(500);
-
 
         while(!isStarted()) {
             telemetry.addLine("result: " + pipeline.getCurrentResultsStr());
@@ -56,35 +54,32 @@ public class RBMultistack extends DriveMethods{
         driveForDistance(0.1, Variables.Direction.FORWARD,0.35, globalTargetRotation);
         driveForDistance(0.625, Variables.Direction.LEFT,0.35, globalTargetRotation);
         driveForDistance(1.22, Variables.Direction.FORWARD,0.35, globalTargetRotation);
-        driveForDistance(0.36, Variables.Direction.RIGHT, 0.35, globalTargetRotation);
+        driveForDistance(0.345, Variables.Direction.RIGHT, 0.35, globalTargetRotation);
         goToHigh();
-        driveForDistance(0.14, Variables.Direction.FORWARD,0.2, globalTargetRotation);
+        driveForDistance(0.16, Variables.Direction.FORWARD,0.2, globalTargetRotation);
         sleep(500);
         GoToHeight(highHeight-60);
         clawRelease();
         sleep(200);
-        driveForDistance(0.12, Variables.Direction.BACKWARD,0.35, globalTargetRotation);
+        driveForDistance(0.1, Variables.Direction.BACKWARD,0.35, globalTargetRotation);
         goToDown();
         sleep(500);
-        rotateAngle(-87);
-        globalTargetRotation = -87;
+        rotateAngle(-86);
+        globalTargetRotation = -86;
         driveForDistance(.85, Variables.Direction.FORWARD, .35, globalTargetRotation);
         GoToHeight(1000);
         sleep(500);
-        driveForDistance(.16, Variables.Direction.FORWARD, .25, globalTargetRotation);
+        driveForDistance(.17, Variables.Direction.FORWARD, .30, globalTargetRotation);
         GoToHeight(615);
         sleep(250);
         clawClamp();
         sleep(250);
         GoToHeight(1200);
-        driveForDistance(.16, Variables.Direction.BACKWARD, .35, globalTargetRotation);
-        goToCollect();
-        sleep(500);
-        driveForDistance(.81, Variables.Direction.BACKWARD, .35, globalTargetRotation);
+        driveForDistance(1.04, Variables.Direction.BACKWARD, .35, globalTargetRotation);
         rotateAngle(0);
         globalTargetRotation = 0;
         goToHigh();
-        driveForDistance(.12, Variables.Direction.FORWARD, .35, globalTargetRotation);
+        driveForDistance(.12, Variables.Direction.FORWARD, .2, globalTargetRotation);
         sleep(250);
         GoToHeight(highHeight-60);
         sleep(250);
@@ -96,13 +91,15 @@ public class RBMultistack extends DriveMethods{
 
         switch(result){
             case "purple":
-                driveForDistance(0.35, Variables.Direction.LEFT, 0.35, globalTargetRotation);
+                driveForDistance(0.95, Variables.Direction.RIGHT, 0.6, globalTargetRotation);
+
                 break;
             case "yellow":
                 driveForDistance(0.35, Variables.Direction.RIGHT, 0.35, globalTargetRotation);
                 break;
             case "green":
-                driveForDistance(1, Variables.Direction.RIGHT, 0.35, globalTargetRotation);
+                driveForDistance(0.35, Variables.Direction.LEFT, 0.35, globalTargetRotation);
+
                 break;
         }
 

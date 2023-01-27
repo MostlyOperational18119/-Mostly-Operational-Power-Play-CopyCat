@@ -344,7 +344,9 @@ public class VisionTeleopQT extends DriveMethods {
 
             slideDifference = (slideTarget - Math.abs(motorSlide.getCurrentPosition()));
 
-            motorSlide.setPower(((slideDifference / aggressiveness) + holdingPower));
+            if(!visionAutoActivated) {
+                motorSlide.setPower(((slideDifference / aggressiveness) + holdingPower));
+            }
 
             telemetry.addLine(slideDifference + "..difference");
             telemetry.addLine(Math.abs(motorSlide.getCurrentPosition()) + "..position");
@@ -457,7 +459,7 @@ public class VisionTeleopQT extends DriveMethods {
                     currentWidth = getLargestObjectWidth();
                     targetDistance = (((640.0/(currentWidth*getBoxWidth()))*1.27)/(0.260284))-Math.pow(0.925,currentWidth-50) - 15; //This is in CENTImeters!
 
-                    driveForDistanceCorrectly(targetDistance/100.0, Direction.FORWARD, 0.2, imuHeading); //Get ontop of the pole while using the imu
+                    driveForDistance(targetDistance/100.0, Direction.FORWARD, 0.2, imuHeading); //Get right by of the pole while using the imu
 
                     levelCounter = 3;
                     level2Aligned = true;
@@ -501,7 +503,7 @@ public class VisionTeleopQT extends DriveMethods {
                     clawClamp();
                     GoToHeight(targetHeight);
                     sleep(300);
-                    driveForDistanceCorrectly(0.1, FORWARD, 0.2, imuHeading);
+                    driveForDistance(0.1, FORWARD, 0.2, imuHeading);
 //                    sleep(250);
                     GoToHeight(targetHeight - 75);
                     sleep(350);
@@ -509,7 +511,7 @@ public class VisionTeleopQT extends DriveMethods {
                     sleep(200);
                     GoToHeight(targetHeight);
                     sleep(300);
-                    driveForDistanceCorrectly(0.15, BACKWARD, 0.2, imuHeading);
+                    driveForDistance(0.15, BACKWARD, 0.2, imuHeading);
                     goToDown();
 
                     levelCounter = 1;
@@ -558,101 +560,101 @@ public class VisionTeleopQT extends DriveMethods {
 
 
 
-    public void driveForDistanceCorrectly(double distanceMeters, Direction movementDirection, double power, double heading) { // distance: 2, strafe: false, power: 0.5
-        targetZ = heading;
-        motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        double distanceTraveled = 0;
-        int targetPos = (int) ((distanceMeters * clicksPerRotation * rotationsPerMeter) / 1.15);
-
-        motorFL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motorBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motorFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motorBR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        int doRotateOnly = 0;
-        power = Math.abs(power);
-        switch (movementDirection) {
-            case FORWARD:
-                motorFL.setPower(power);
-                motorBL.setPower(power);
-                motorFR.setPower(power);
-                motorBR.setPower(power);
-                //targetZ = 0;
-                break;
-            case BACKWARD:
-                motorFL.setPower(-power);
-                motorBL.setPower(-power);
-                motorFR.setPower(-power);
-                motorBR.setPower(-power);
-                //targetZ = 0;
-                break;
-            case RIGHT:
-                motorFL.setPower(power);
-                motorBL.setPower(-power);
-                motorFR.setPower(-power);
-                motorBR.setPower(power);
-                break;
-            case LEFT:
-                motorFL.setPower(-power);
-                motorBL.setPower(power);
-                motorFR.setPower(power);
-                motorBR.setPower(-power);
-                break;
-
-        }
-        /*
-        if(rotateToTargetRotation) {
-            targetZ = targetRotation;
-        }
-        */
-        int currentPos = 0;
-        int FLPosition;
-        int BLPosition;
-        int FRPosition;
-        int BRPosition;
-        int avgPosition = 0;
-        double FLPower = motorFL.getPower();
-        double BLPower = motorBL.getPower();
-        double FRPower = motorFR.getPower();
-        double BRPower = motorBR.getPower();
-
-        double currentZ = getCumulativeZ();
-        double rotateError = targetZ - currentZ;
-
-        while ((targetPos >= avgPosition)) {
-            FLPosition = Math.abs(motorFL.getCurrentPosition());
-            BLPosition = Math.abs(motorBL.getCurrentPosition());
-            FRPosition = Math.abs(motorFR.getCurrentPosition());
-            BRPosition = Math.abs(motorBR.getCurrentPosition());
-
-            currentZ = getCumulativeZ();
-            rotateError = targetZ - currentZ;
-
-            avgPosition = (int) (FLPosition + BLPosition + FRPosition + BRPosition) / 4;
-            motorFL.setPower(FLPower - (rotateError / 150));
-            motorBL.setPower(BLPower - (rotateError / 150));
-            motorFR.setPower(FRPower + (rotateError / 150));
-            motorBR.setPower(BRPower + (rotateError / 150));
-
-            telemetry.addLine("MotorFL Power " + motorFL.getPower());
-            telemetry.addLine("MotorBL Power " + motorBL.getPower());
-            telemetry.addLine("MotorFR Power " + motorFR.getPower());
-            telemetry.addLine("MotorBR Power " + motorBR.getPower());
-
-            telemetry.addLine("Current Position: " + avgPosition);
-            telemetry.addLine("targetPos " + targetPos);
-
-            telemetry.addLine("Cumulative Z " + getCumulativeZ());
-            telemetry.addLine("Current Z " + getCurrentZ());
-            telemetry.addLine("Error " + rotateError);
-            telemetry.update();
-        }
-
-        motorFL.setPower(0);
-        motorBL.setPower(0);
-        motorFR.setPower(0);
-        motorBR.setPower(0);
-    }
+//    public void driveForDistanceCorrectly(double distanceMeters, Direction movementDirection, double power, double heading) { // distance: 2, strafe: false, power: 0.5
+//        targetZ = heading;
+//        motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        motorBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        motorBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        double distanceTraveled = 0;
+//        int targetPos = (int) ((distanceMeters * clicksPerRotation * rotationsPerMeter) / 1.15);
+//
+//        motorFL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        motorBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        motorFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        motorBR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        int doRotateOnly = 0;
+//        power = Math.abs(power);
+//        switch (movementDirection) {
+//            case FORWARD:
+//                motorFL.setPower(power);
+//                motorBL.setPower(power);
+//                motorFR.setPower(power);
+//                motorBR.setPower(power);
+//                //targetZ = 0;
+//                break;
+//            case BACKWARD:
+//                motorFL.setPower(-power);
+//                motorBL.setPower(-power);
+//                motorFR.setPower(-power);
+//                motorBR.setPower(-power);
+//                //targetZ = 0;
+//                break;
+//            case RIGHT:
+//                motorFL.setPower(power);
+//                motorBL.setPower(-power);
+//                motorFR.setPower(-power);
+//                motorBR.setPower(power);
+//                break;
+//            case LEFT:
+//                motorFL.setPower(-power);
+//                motorBL.setPower(power);
+//                motorFR.setPower(power);
+//                motorBR.setPower(-power);
+//                break;
+//
+//        }
+//        /*
+//        if(rotateToTargetRotation) {
+//            targetZ = targetRotation;
+//        }
+//        */
+//        int currentPos = 0;
+//        int FLPosition;
+//        int BLPosition;
+//        int FRPosition;
+//        int BRPosition;
+//        int avgPosition = 0;
+//        double FLPower = motorFL.getPower();
+//        double BLPower = motorBL.getPower();
+//        double FRPower = motorFR.getPower();
+//        double BRPower = motorBR.getPower();
+//
+//        double currentZ = getCumulativeZ();
+//        double rotateError = targetZ - currentZ;
+//
+//        while ((targetPos >= avgPosition)) {
+//            FLPosition = Math.abs(motorFL.getCurrentPosition());
+//            BLPosition = Math.abs(motorBL.getCurrentPosition());
+//            FRPosition = Math.abs(motorFR.getCurrentPosition());
+//            BRPosition = Math.abs(motorBR.getCurrentPosition());
+//
+//            currentZ = getCumulativeZ();
+//            rotateError = targetZ - currentZ;
+//
+//            avgPosition = (int) (FLPosition + BLPosition + FRPosition + BRPosition) / 4;
+//            motorFL.setPower(FLPower - (rotateError / 150));
+//            motorBL.setPower(BLPower - (rotateError / 150));
+//            motorFR.setPower(FRPower + (rotateError / 150));
+//            motorBR.setPower(BRPower + (rotateError / 150));
+//
+//            telemetry.addLine("MotorFL Power " + motorFL.getPower());
+//            telemetry.addLine("MotorBL Power " + motorBL.getPower());
+//            telemetry.addLine("MotorFR Power " + motorFR.getPower());
+//            telemetry.addLine("MotorBR Power " + motorBR.getPower());
+//
+//            telemetry.addLine("Current Position: " + avgPosition);
+//            telemetry.addLine("targetPos " + targetPos);
+//
+//            telemetry.addLine("Cumulative Z " + getCumulativeZ());
+//            telemetry.addLine("Current Z " + getCurrentZ());
+//            telemetry.addLine("Error " + rotateError);
+//            telemetry.update();
+//        }
+//
+//        motorFL.setPower(0);
+//        motorBL.setPower(0);
+//        motorFR.setPower(0);
+//        motorBR.setPower(0);
+//    }
 }

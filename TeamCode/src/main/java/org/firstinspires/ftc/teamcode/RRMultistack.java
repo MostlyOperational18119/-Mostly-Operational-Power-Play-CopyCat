@@ -71,38 +71,35 @@ public class RRMultistack extends DriveMethods{
         driveForDistance(.85, Variables.Direction.FORWARD, .35, globalTargetRotation);
         GoToHeight(1000);
         sleep(500);
-        driveForDistance(.16, Variables.Direction.FORWARD, .25, globalTargetRotation);
+        driveForDistance(.15, Variables.Direction.FORWARD, .3, globalTargetRotation);
         GoToHeight(615);
         sleep(250);
         clawClamp();
         sleep(250);
         GoToHeight(1200);
-        driveForDistance(.16, Variables.Direction.BACKWARD, .35, globalTargetRotation);
-        goToCollect();
-        sleep(500);
-        driveForDistance(.81, Variables.Direction.BACKWARD, .35, globalTargetRotation);
+        driveForDistance(1.04, Variables.Direction.BACKWARD, .35, globalTargetRotation);
         rotateAngle(0);
         globalTargetRotation = 0;
         goToHigh();
-        driveForDistance(.12, Variables.Direction.FORWARD, .35, globalTargetRotation);
+        driveForDistance(.09, Variables.Direction.FORWARD, .35, globalTargetRotation);
         sleep(250);
         GoToHeight(highHeight-60);
         sleep(250);
         clawRelease();
         sleep(300);
-        driveForDistance(.07, Variables.Direction.BACKWARD, .2, globalTargetRotation);
+        driveForDistance(.07, Variables.Direction.BACKWARD, .25, globalTargetRotation);
         goToDown();
 
 
         switch(result){
             case "purple":
-                driveForDistance(0.35, Variables.Direction.RIGHT, 0.35, globalTargetRotation);
+                driveForDistance(0.35, Variables.Direction.RIGHT, 0.4, globalTargetRotation);
                 break;
             case "yellow":
-                driveForDistance(0.35, Variables.Direction.LEFT, 0.35, globalTargetRotation);
+                driveForDistance(0.35, Variables.Direction.LEFT, 0.4, globalTargetRotation);
                 break;
             case "green":
-                driveForDistance(1, Variables.Direction.LEFT, 0.35, globalTargetRotation);
+                driveForDistance(1, Variables.Direction.LEFT, 0.6, globalTargetRotation);
                 break;
         }
 

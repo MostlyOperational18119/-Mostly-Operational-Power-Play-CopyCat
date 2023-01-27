@@ -63,11 +63,11 @@ public class BRMultistack extends DriveMethods{
         GoToHeight(highHeight-60);
         clawRelease();
         sleep(200);
-        driveForDistance(0.05, Variables.Direction.BACKWARD,0.35, globalTargetRotation);
+        driveForDistance(0.09, Variables.Direction.BACKWARD,0.35, globalTargetRotation);
         goToDown();
         sleep(500);
-        rotateAngle(88);
-        globalTargetRotation = 88;
+        rotateAngle(86);
+        globalTargetRotation = 86;
         driveForDistance(.85, Variables.Direction.FORWARD, .45, globalTargetRotation);
         GoToHeight(1000);
         sleep(500);
@@ -77,12 +77,12 @@ public class BRMultistack extends DriveMethods{
         clawClamp();
         sleep(200);
         GoToHeight(1200);
-        driveForDistance(1, Variables.Direction.BACKWARD, .45, globalTargetRotation);
+        driveForDistance(.98, Variables.Direction.BACKWARD, .45, globalTargetRotation);
 //        driveForDistance(.81, Variables.Direction.BACKWARD, .35, globalTargetRotation);
         rotateAngle(0);
         globalTargetRotation = 0;
         goToHigh();
-        driveForDistance(.20, Variables.Direction.FORWARD, .25, globalTargetRotation);
+        driveForDistance(.17, Variables.Direction.FORWARD, .25, globalTargetRotation);
         sleep(250);
         GoToHeight(highHeight-30);
         sleep(250);
@@ -94,13 +94,13 @@ public class BRMultistack extends DriveMethods{
 
         switch(result){
             case "purple":
-                driveForDistance(0.35, Variables.Direction.RIGHT, 0.35, globalTargetRotation);
+                driveForDistance(0.35, Variables.Direction.RIGHT, 0.5, globalTargetRotation);
                 break;
             case "yellow":
-                driveForDistance(0.35, Variables.Direction.LEFT, 0.35, globalTargetRotation);
+                driveForDistance(0.35, Variables.Direction.LEFT, 0.5, globalTargetRotation);
                 break;
             case "green":
-                driveForDistance(.93, Variables.Direction.LEFT, 0.45, globalTargetRotation);
+                driveForDistance(.93, Variables.Direction.LEFT, 0.6, globalTargetRotation);
                 break;
         }
 
