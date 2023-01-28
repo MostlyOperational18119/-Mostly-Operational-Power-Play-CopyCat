@@ -108,7 +108,7 @@ public class Variables {
     public static int largestObjectWidth = 0;
     public static int largestObjectLowestX = 640;
     public static int largestObjectHighestX = 0;
-    public static double targetDistance;
+    public static double targetDistance = 0;
 
 
 

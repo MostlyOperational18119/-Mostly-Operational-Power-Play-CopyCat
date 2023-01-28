@@ -183,7 +183,7 @@ public class VisionTeleopQT extends DriveMethods {
             if(gamepad1.b) {
                 speedDiv = 2;
             }
-
+//
             if(gamepad2.left_trigger==1) {
                 isManualControl = false;
                 coneStackHeight = 7;
@@ -291,6 +291,7 @@ public class VisionTeleopQT extends DriveMethods {
             }
             //Change the target height based on the height of the linear slide at the time.
 
+            //LAST QUARTER UNCOMMENTED
             if(gamepad2.right_bumper){
                 targetHeight = 4;
                 sleep(50);
@@ -327,9 +328,9 @@ public class VisionTeleopQT extends DriveMethods {
                 slideTarget = 4400;
             }
 
-//            if(motorSlide.getCurrentPosition()<150){
-//                aggressiveness = 1750;
-//            }
+            if(motorSlide.getCurrentPosition()<150){
+                aggressiveness = 1750;
+            }
 
             if(slideTarget == 0 && motorSlide.getCurrentPosition() < 150 && motorSlide.getCurrentPosition() >= 50){
                 aggressiveness = 700;
@@ -455,16 +456,22 @@ public class VisionTeleopQT extends DriveMethods {
                 }
 
                 //Level2 below (untested at the moment - 1/17/23)
-                if (levelCounter == 2 && getLevel2Assigment() == true) {
+                if (levelCounter == 2 && getLevel2Assigment() == true && getLargestObjectWidth() > 10) {
+                    targetDistance = 0;
                     currentWidth = getLargestObjectWidth();
-                    targetDistance = (((640.0/(currentWidth*getBoxWidth()))*1.27)/(0.260284))-Math.pow(0.925,currentWidth-50) - 15; //This is in CENTImeters!
+                    targetDistance = (((640.0/(currentWidth*getBoxWidth()))*1.27)/(0.260284))-Math.pow(0.93,currentWidth-50) - 15; //This is in CENTImeters!
 
+                    telemetry.addLine("current width: " + currentWidth);
+                    telemetry.addLine("Box width: " + getBoxWidth());
+//
+//
                     driveForDistance(targetDistance/100.0, Direction.FORWARD, 0.2, imuHeading); //Get right by of the pole while using the imu
-
+//
                     levelCounter = 3;
                     level2Aligned = true;
                     telemetry.addLine("Target Distance: " + targetDistance);
                     telemetry.addLine("Level2 Complete!");
+
                 }
 
                 if (levelCounter == 3 && level3Assignment && getPercentColor() < 10) {
@@ -477,7 +484,7 @@ public class VisionTeleopQT extends DriveMethods {
 
                 if (levelCounter == 3 && level3Aligned == false) {
                     clawClamp();
-                    motorSlide.setPower(0.5);
+                    motorSlide.setPower(0.65);
                     slidePosition = motorSlide.getCurrentPosition();
                     telemetry.addLine("Measuring the pole height!");
                     telemetry.addLine("Slide Position: " + motorSlide.getCurrentPosition());
@@ -493,20 +500,17 @@ public class VisionTeleopQT extends DriveMethods {
                     telemetry.addLine("targetHeight: " + targetHeight);
 
                     if (slidePosition >= 0 && slidePosition <= 1300) {
-                        targetHeight = lowHeight;
+                        targetHeight = lowHeight + 50;
                     } else if (slidePosition > 1300 && slidePosition <= 2500) {
-                        targetHeight = midHeight;
+                        targetHeight = midHeight + 75;
                     } else if (slidePosition > 2500) {
-                        targetHeight = highHeight;
+                        targetHeight = highHeight + 10;
                     }
 
                     clawClamp();
                     GoToHeight(targetHeight);
                     sleep(300);
                     driveForDistance(0.1, FORWARD, 0.2, imuHeading);
-//                    sleep(250);
-                    GoToHeight(targetHeight - 75);
-                    sleep(350);
                     clawRelease();
                     sleep(200);
                     GoToHeight(targetHeight);
@@ -539,6 +543,7 @@ public class VisionTeleopQT extends DriveMethods {
                 level = "three";
             }
 
+            telemetry.addLine("Target Distance: " + targetDistance);
             telemetry.addLine("Current Level: " + getLevelString());
             telemetry.addLine("Level 2 Capable?: " + getLevel2Capable());
             telemetry.addLine("Current Width (boxes): " + currentWidth);

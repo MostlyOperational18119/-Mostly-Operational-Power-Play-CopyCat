@@ -114,7 +114,7 @@ public class PipePoleTracker extends OpenCvPipeline {
                     box_width = (int)(x_resolution/gridX);
                     box_height = (int)(y_resolution/gridY);
 
-                    minimumWidth = box_width*5; //Pole SHOULD be 2 boxes wide, but focus rect adds 1.5 on each side
+                    minimumWidth = box_width*6; //Pole SHOULD be 2 boxes wide, but focus rect adds 1.5 on each side
                     minimumHeight = box_height*11; //Pole SHOULD be 10 boxes high, but focus rect adds 0.5 on each side
                 }
 
@@ -138,7 +138,7 @@ public class PipePoleTracker extends OpenCvPipeline {
                     box_width = (int)(x_resolution/gridX);
                     box_height = (int)(y_resolution/gridY);
 
-                    minimumWidth = box_width*5; //Pole SHOULD be 2 boxes wide, but focus rect adds 1.5 on each side
+                    minimumWidth = box_width*6; //Pole SHOULD be 2 boxes wide, but focus rect adds 1.5 on each side
                     minimumHeight = box_height*11; //Pole SHOULD be 10 boxes high, but focus rect adds 0.5 on each side
 
                     lowestX = (int)x_resolution;

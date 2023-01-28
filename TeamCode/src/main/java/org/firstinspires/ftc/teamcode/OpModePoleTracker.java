@@ -236,7 +236,6 @@ public class OpModePoleTracker extends DriveMethods {
                     currentWidth = getLargestObjectWidth();
 //                    if (currentWidth < 15) {
                         targetDistance = (((640.0/(currentWidth*getBoxWidth()))*1.27)/(0.260284))-Math.pow(0.925,currentWidth-50) - 15; //This is in CENTImeters!
-                        level2Aligned = false;
 //                        targetDistance = 2;
 //                    }else if(currentWidth > 25){
 //                        targetDistance = (25-currentWidth) - 9;
@@ -248,14 +247,11 @@ public class OpModePoleTracker extends DriveMethods {
                     telemetry.addLine("Target Distance: " + targetDistance);
                     telemetry.update();
 //                    sleep(5000);
-                    driveForDistanceCorrectly(targetDistance/100.0, Direction.FORWARD, 0.2, imuHeading); //Get ontop of the pole while using the imu
+                    driveForDistance(targetDistance/100.0, Direction.FORWARD, 0.2, imuHeading); //Get on top of the pole while using the imu
 //
                     levelCounter = 3;
                     level2Aligned = true;
-                        telemetry.addLine("Level2 Complete!");
-
-
-
+                    telemetry.addLine("Level2 Complete!");
 
 
 
