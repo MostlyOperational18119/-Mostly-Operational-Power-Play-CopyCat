@@ -441,6 +441,78 @@ public class DriveMethods extends LinearOpMode{
         }
         stopMotors();
     }
+
+    public void rotateWithBrake(double heading) {
+        double target = heading;
+        double current = getCumulativeZ();
+        double error = target - current;
+        double power = 0;
+        int sign = 0;
+
+        if(Math.abs(error) > 30) {
+            while (Math.abs(error) > 1) {
+                current = getCumulativeZ();
+                error = target - current;
+                sign = (int) (error / (Math.abs(error))); //This equals 1, which will be used for full power
+
+//
+//            power = error / 25 + 0.15;
+
+                motorFL.setPower(-sign);
+                motorBL.setPower(-sign);
+                motorFR.setPower(sign);
+                motorBR.setPower(sign);
+
+                telemetry.addLine("Target: " + target);
+                telemetry.addLine("Current: " + current);
+                telemetry.addLine("Error: " + error);
+                telemetry.update();
+
+                if (Math.abs(error) < 19) {
+                    sign = (int) (error / (Math.abs(error))); //This equals 1, which will be used for full power
+                    motorFL.setPower(sign);
+                    motorBL.setPower(sign);
+                    motorFR.setPower(-sign);
+                    motorBR.setPower(-sign);
+                    sleep(55);
+                    stopMotors();
+                    break;
+                }
+
+            }
+        }
+
+        target = heading;
+        error = target - getCumulativeZ();
+        power = 0;
+        while (Math.abs(error) > 1) {
+            error = target - getCumulativeZ();
+            if (Math.abs(error) > 20) {
+                power = error / 120;
+            } else {
+                power = error / 40 + .15 * (Math.abs(error) / error);
+            }
+            motorFL.setPower(-power);
+            motorBL.setPower(-power);
+            motorFR.setPower(power);
+            motorBR.setPower(power);
+            telemetry.addLine("Current (Cumulative) Z:  " + getCumulativeZ());
+            telemetry.addLine("Rotating power: " + power);
+            telemetry.update();
+
+            if(Math.abs(error) < 5){
+                sign = (int) (error / (Math.abs(error))); //This equals 1, which will be used for full power
+                motorFL.setPower(sign*0.4);
+                motorBL.setPower(sign*0.4);
+                motorFR.setPower(-sign*0.4);
+                motorBR.setPower(-sign*0.4);
+                sleep(3);
+                stopMotors();
+                break;
+            }
+        }
+        stopMotors();
+    }
 //    public void rotateToHeading ( int angleHeading, double power){
 //        telemetry.addLine("Trying to rotate!");
 //        telemetry.update();
