@@ -391,9 +391,9 @@ public class VisionTeleopQT extends DriveMethods {
             }
 
             //Button triggers
-            if (gamepad2.y && getLevel2Capable()) {
-                visionAutoActivated = true;
-            }
+//            if (gamepad2.y && getLevel2Capable()) {
+//                visionAutoActivated = true;
+//            }
 
 
             if (gamepad2.b) {

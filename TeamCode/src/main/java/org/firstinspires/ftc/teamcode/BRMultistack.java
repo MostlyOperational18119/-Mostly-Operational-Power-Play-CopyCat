@@ -58,7 +58,7 @@ public class BRMultistack extends DriveMethods{
         driveForDistance(1.22, Variables.Direction.FORWARD,0.35, globalTargetRotation);
         driveForDistance(0.40, Variables.Direction.LEFT, 0.35, globalTargetRotation);
         goToHigh();
-        driveForDistance(0.14, Variables.Direction.FORWARD,0.2, globalTargetRotation);
+        driveForDistance(0.09, Variables.Direction.FORWARD,0.2, globalTargetRotation);
         sleep(500);
         GoToHeight(highHeight-10);
         clawRelease();
@@ -71,7 +71,7 @@ public class BRMultistack extends DriveMethods{
         driveForDistance(.85, Variables.Direction.FORWARD, .45, globalTargetRotation);
         GoToHeight(1000);
         sleep(500);
-        driveForDistance(.11, Variables.Direction.FORWARD, .25, globalTargetRotation);
+        driveForDistance(.11, Variables.Direction.FORWARD, .40, globalTargetRotation);
         GoToHeight(600);
         sleep(200);
         clawClamp();

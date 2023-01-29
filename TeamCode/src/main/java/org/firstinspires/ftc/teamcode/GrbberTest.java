@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous(name="grib", group = "a")
-//@Disabled
+@Disabled
 public class GrbberTest extends DriveMethods{
     Servo grabber;
     public void runOpMode(){

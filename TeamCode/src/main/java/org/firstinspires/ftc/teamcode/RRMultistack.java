@@ -81,8 +81,8 @@ public class RRMultistack extends DriveMethods{
         rotateAngle(0);
         globalTargetRotation = 0;
         goToHigh();
-        driveForDistance(.09, Variables.Direction.FORWARD, .35, globalTargetRotation);
-        sleep(250);
+        driveForDistance(.12, Variables.Direction.FORWARD, .25, globalTargetRotation);
+        sleep(650);
         GoToHeight(highHeight-10);
         sleep(250);
         clawRelease();

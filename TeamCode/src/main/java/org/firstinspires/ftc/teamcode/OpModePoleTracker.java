@@ -32,6 +32,7 @@ import static org.firstinspires.ftc.teamcode.Variables.Direction.RIGHT;
 
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -41,6 +42,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 @Autonomous(name="PoleTracker", group="A")
+@Disabled
 public class OpModePoleTracker extends DriveMethods {
     String level = "one";
     int levelCounter = 1;

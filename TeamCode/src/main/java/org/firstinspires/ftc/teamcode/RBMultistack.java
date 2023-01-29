@@ -75,7 +75,7 @@ public class RBMultistack extends DriveMethods{
         clawClamp();
         sleep(250);
         GoToHeight(1200);
-        driveForDistance(1.04, Variables.Direction.BACKWARD, .35, globalTargetRotation);
+        driveForDistance(1.06, Variables.Direction.BACKWARD, .35, globalTargetRotation);
         rotateAngle(0);
         globalTargetRotation = 0;
         goToHigh();

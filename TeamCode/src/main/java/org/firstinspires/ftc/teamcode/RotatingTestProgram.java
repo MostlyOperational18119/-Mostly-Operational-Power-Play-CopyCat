@@ -12,6 +12,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
 @Autonomous(name = "Rotate test", group = "A")
+@Disabled
 public class RotatingTestProgram extends DriveMethods{
     @Override
     public void runOpMode() {
