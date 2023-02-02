@@ -500,16 +500,16 @@ public class DriveMethods extends LinearOpMode{
             telemetry.addLine("Rotating power: " + power);
             telemetry.update();
 
-            if(Math.abs(error) < 5){
-                sign = (int) (error / (Math.abs(error))); //This equals 1, which will be used for full power
-                motorFL.setPower(sign*0.4);
-                motorBL.setPower(sign*0.4);
-                motorFR.setPower(-sign*0.4);
-                motorBR.setPower(-sign*0.4);
-                sleep(3);
-                stopMotors();
-                break;
-            }
+//            if(Math.abs(error) < 5){
+//                sign = (int) (error / (Math.abs(error))); //This equals 1, which will be used for full power
+//                motorFL.setPower(sign*0.4);
+//                motorBL.setPower(sign*0.4);
+//                motorFR.setPower(-sign*0.4);
+//                motorBR.setPower(-sign*0.4);
+//                sleep(3);
+//                stopMotors();
+//                break;
+//            }
         }
         stopMotors();
     }

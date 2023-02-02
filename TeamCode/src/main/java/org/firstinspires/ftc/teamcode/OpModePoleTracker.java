@@ -210,62 +210,70 @@ public class OpModePoleTracker extends DriveMethods {
                     alignPowerAddedX = (errorX / (Math.abs(errorX))) * 0.14;
                 }
 
-//                if (levelCounter == 1 && Math.abs(errorX) < 32) {//TODO will need to add distance condition
-//                    level1Aligned = true;
-//                    imuHeading = getCumulativeZ() + 1.5;
-//                    levelCounter = 2;
-//                    telemetry.addLine("level1 complete!");
-//                    telemetry.addLine("IMU Heading: " + imuHeading);
-//                    telemetry.addLine("errorX: " + errorX);
-//                    telemetry.addLine("errorX divide thingy: " + (errorX / (Math.abs(errorX))));
-//
-//                    telemetry.update();
-//                    stopMotors();
-//                    //Robot is in front of pole well enough, entering level2...
-//                }
+                if (levelCounter == 1 && Math.abs(errorX) < 32) {//TODO will need to add distance condition
+                    level1Aligned = true;
+                    imuHeading = getCumulativeZ() + 1.5;
+                    levelCounter = 2;
+                    telemetry.addLine("level1 complete!");
+                    telemetry.addLine("IMU Heading: " + imuHeading);
+                    telemetry.addLine("errorX: " + errorX);
+                    telemetry.addLine("errorX divide thingy: " + (errorX / (Math.abs(errorX))));
+
+                    telemetry.update();
+                    stopMotors();
+                    //Robot is in front of pole well enough, entering level2...
+                }
 
                 if (levelCounter == 1 && level1Aligned == false) {
 
-                    targetHeading = getCumulativeZ() + errorX*(0.04559197) + (0.007277*errorX) - 1; //The 0.045591... constant is derived from the width of camera view (angle) divided by the wide of the frame (pixels) to get degrees/pixel
-                    telemetry.addLine("Target heading: " + targetHeading);
-                    telemetry.addLine("Error heading: " + (errorX*(0.04559197)));
-                    telemetry.addLine("Actual heading: " + getCumulativeZ());
-
-                    if(targetHeading > 7){
-                        if(gamepad2.right_bumper) {
-                            rotateWithBrake(targetHeading);
-                        }
-                    }else {
+//                    targetHeading = getCumulativeZ() + errorX*(0.04559197) + (0.007277*errorX) - 1; //The 0.045591... constant is derived from the width of camera view (angle) divided by the wide of the frame (pixels) to get degrees/pixel
+//                    telemetry.addLine("Target heading: " + targetHeading);
+//                    telemetry.addLine("Error heading: " + (errorX*(0.04559197)));
+//                    telemetry.addLine("Actual heading: " + getCumulativeZ());
+//
+//                    if(targetHeading > 7){
+//                        if(gamepad2.right_bumper) {
+//                            rotateWithBrake(targetHeading);
+//                        }
+//                    }else {
 
                         motorFL.setPower(-alignPowerAddedX);
                         motorBL.setPower(-alignPowerAddedX);
                         motorFR.setPower(alignPowerAddedX);
                         motorBR.setPower(alignPowerAddedX);
-                    }
+//                    }
 
                 }
 
                 //Level2 below (untested at the moment - 1/17/23)
                 if (levelCounter == 2 && getLevel2Assigment() == true) {
-                    currentWidth = getLargestObjectWidth();
-//                    if (currentWidth < 15) {
-                        targetDistance = (((640.0/(currentWidth*getBoxWidth()))*1.27)/(0.260284))-Math.pow(0.925,currentWidth-50) - 15; //This is in CENTImeters!
-//                        targetDistance = 2;
-//                    }else if(currentWidth > 25){
-//                        targetDistance = (25-currentWidth) - 9;
-//                        level2Aligned = false;
-//                    }else {
-//                        targetDistance = (50 - currentWidth) / 100.0 - 0.2; //This is in meters, and should position the robot roughly
-                        // 0.15 meter (5 cms) from the pole.
-//                    }
-                    telemetry.addLine("Target Distance: " + targetDistance);
-                    telemetry.update();
-//                    sleep(5000);
-                    driveForDistance(targetDistance/100.0, Direction.FORWARD, 0.2, imuHeading); //Get on top of the pole while using the imu
+                    currentWidth = getLargestObjectWidth();                                                             //5.2 is an error adjustment
+                    targetDistance = (((640.0/(currentWidth*getBoxWidth()))*1.27)/(0.260284))-Math.pow(0.93,currentWidth-50) - 5.2 ; //This is the full distancefrom the pole in CENTImeters!
+
+                    //TODO: After curve fitting, this is some simple double-read code
+                    if(currentWidth < 25){
+                        driveForDistance((targetDistance/100) - 0.25, FORWARD, 0.25, imuHeading);
+                        level2Aligned = false;
+                    }else if(currentWidth > 40){
+                        driveForDistance(0.11, BACKWARD, 0.2, imuHeading);
+                        level2Aligned = false;
+                    }else{
+                        driveForDistance((targetDistance- 1.5 - 15)/100, FORWARD, 0.2, imuHeading);
+                        level2Aligned = true;
+                        levelCounter = 3;
+                    }
+
+
+
+                    telemetry.addLine("Target Distance: " + targetDistance + " cm");
+                    telemetry.addLine("Boxes Width: " + currentWidth);
+
+//                    driveForDistance(targetDistance/100.0, Direction.FORWARD, 0.2, imuHeading); //Get on top of the pole while using the imu
 //
-                    levelCounter = 3;
-                    level2Aligned = true;
-                    telemetry.addLine("Level2 Complete!");
+//
+//                    levelCounter = 3;
+//                    level2Aligned = true;
+//                    telemetry.addLine("Level2 Complete!");
 
 
 
@@ -298,7 +306,7 @@ public class OpModePoleTracker extends DriveMethods {
 
                     if (levelCounter == 3 && level3Aligned == false) {
                         clawClamp();
-                        motorSlide.setPower(0.5);
+                        motorSlide.setPower(0.65);
                         slidePosition = motorSlide.getCurrentPosition();
                         telemetry.addLine("Measuring the pole height!");
                         telemetry.addLine("Slide Position: " + motorSlide.getCurrentPosition());
@@ -327,7 +335,7 @@ public class OpModePoleTracker extends DriveMethods {
                         clawClamp();
                         GoToHeight(targetHeight);
                         sleep(300);
-                        driveForDistance(0.1, FORWARD, 0.2, imuHeading);
+                        driveForDistance(0.15, FORWARD, 0.2, imuHeading);
 //                    sleep(250);
                         GoToHeight(targetHeight - 75);
                         sleep(350);

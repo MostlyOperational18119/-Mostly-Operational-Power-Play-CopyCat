@@ -22,69 +22,27 @@ public class TestAutonomous extends DriveMethods {
         calibrateNavXIMU();
 
         waitForStart();
-        angle = 90;
-        rotateWithBrake(angle);
-        telemetry.addLine("target: " + angle);
-        telemetry.addLine("actual: " + getCumulativeZ());
-        telemetry.addLine("Off by: " + (angle - getCumulativeZ()));
-        telemetry.update();
-        sleep(3000);
-        angle = -90;
-        rotateWithBrake(angle);
-        telemetry.addLine("target: " + angle);
-        telemetry.addLine("actual: " + getCumulativeZ());
-        telemetry.addLine("Off by: " + (angle - getCumulativeZ()));
-        telemetry.update();
-        sleep(3000);
-        angle = 180;
-        rotateWithBrake(angle);
-        telemetry.addLine("target: " + angle);
-        telemetry.addLine("actual: " + getCumulativeZ());
-        telemetry.addLine("Off by: " + (angle - getCumulativeZ()));
-        telemetry.update();
-        sleep(3000);
-        angle = -180;
-        rotateWithBrake(angle);
-        telemetry.addLine("target: " + angle);
-        telemetry.addLine("actual: " + getCumulativeZ());
-        telemetry.addLine("Off by: " + (angle - getCumulativeZ()));
-        telemetry.update();
-        sleep(3000);
-        angle = 0;
-        rotateWithBrake(angle);
-        telemetry.addLine("target: " + angle);
-        telemetry.addLine("actual: " + getCumulativeZ());
-        telemetry.addLine("Off by: " + (angle - getCumulativeZ()));
-        telemetry.update();
-        sleep(3000);
-        angle = 360;
-        rotateWithBrake(angle);
-        telemetry.addLine("target: " + angle);
-        telemetry.addLine("actual: " + getCumulativeZ());
-        telemetry.addLine("Off by: " + (angle - getCumulativeZ()));
-        telemetry.update();
-        sleep(3000);
-        angle = -360;
-        rotateWithBrake(angle);
-        telemetry.addLine("target: " + angle);
-        telemetry.addLine("actual: " + getCumulativeZ());
-        telemetry.addLine("Off by: " + (angle - getCumulativeZ()));
-        telemetry.update();
-        sleep(3000);
+
+        driveForDistanceBrake(0.75, Variables.Direction.FORWARD, 0.6, 0);
+        sleep(5000);
+        driveForDistanceBrake(0.75, Variables.Direction.BACKWARD, 0.6, 0);
+        sleep(5000);
+        driveForDistanceBrake(0.75, Variables.Direction.FORWARD, 0.4, 0);
+        sleep(5000);
+        driveForDistanceBrake(0.75, Variables.Direction.BACKWARD, 0.4, 0);
+        sleep(5000);
+        driveForDistanceBrake(0.75, Variables.Direction.FORWARD, 0.3, 0);
+        sleep(5000);
+        driveForDistanceBrake(0.75, Variables.Direction.BACKWARD, 0.3, 0);
+        sleep(5000);
+        driveForDistanceBrake(0.75, Variables.Direction.FORWARD, 0.2, 0);
+        sleep(5000);
+        driveForDistanceBrake(0.75, Variables.Direction.BACKWARD, 0.2, 0);
+        sleep(5000);
+
 
         while (opModeIsActive()) {
-            angle = 0;
-            rotateAngle((int) angle);
-            driveForDistanceCorrectly(1.2, Variables.Direction.FORWARD, 0.35, angle);
-            angle = -90;
-            rotateAngle((int) angle);
-            driveForDistanceCorrectly(1.2, Variables.Direction.FORWARD, 0.35, angle);
-            angle = -180;
-            rotateAngle((int) angle);
-            driveForDistanceCorrectly(1.2, Variables.Direction.FORWARD, 0.35, angle);
-            angle = -270;
-            rotateAngle((int) angle);
-            driveForDistanceCorrectly(1.2, Variables.Direction.FORWARD, 0.35, angle);
+
 
         }
     }
@@ -151,14 +109,14 @@ public class TestAutonomous extends DriveMethods {
     }
 
 
-    public void driveForDistanceCorrectly(double distanceMeters, Variables.Direction movementDirection, double power, double heading) { // distance: 2, strafe: false, power: 0.5
+    public void driveForDistanceBrake(double distanceMeters, Variables.Direction movementDirection, double power, double heading) { // distance: 2, strafe: false, power: 0.5
         double targetZ = heading;
         motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         double distanceTraveled = 0;
-        int targetPos = (int) ((distanceMeters * clicksPerRotation * rotationsPerMeter) / 1.15);
+        int targetPos = (int) ((distanceMeters * clicksPerRotation * rotationsPerMeter) * 1.1 / 1.15);
 
         motorFL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -213,6 +171,7 @@ public class TestAutonomous extends DriveMethods {
 
         double currentZ = getCumulativeZ();
         double rotateError = targetZ - currentZ;
+        double errorPosition = targetPos - avgPosition;
 
         while ((targetPos >= avgPosition)) {
             FLPosition = Math.abs(motorFL.getCurrentPosition());
@@ -224,6 +183,8 @@ public class TestAutonomous extends DriveMethods {
             rotateError = targetZ - currentZ;
 
             avgPosition = (int) (FLPosition + BLPosition + FRPosition + BRPosition) / 4;
+
+            errorPosition = targetPos - avgPosition;
             motorFL.setPower(FLPower - (rotateError / 150));
             motorBL.setPower(BLPower - (rotateError / 150));
             motorFR.setPower(FRPower + (rotateError / 150));
@@ -247,14 +208,42 @@ public class TestAutonomous extends DriveMethods {
                 telemetry.update();
                 break;
             }
+
+            if(power > 0.5 && Math.abs(errorPosition) < 125){
+                FLPower = motorFL.getPower() / (Math.abs(motorFL.getPower()));
+                BLPower = motorBL.getPower() / (Math.abs(motorBL.getPower()));
+                FRPower = motorFR.getPower() / (Math.abs(motorFR.getPower()));
+                BRPower = motorBR.getPower() / (Math.abs(motorBR.getPower()));
+
+                motorFL.setPower(-FLPower * power * 2);
+                motorBL.setPower(-BLPower * power * 2);
+                motorFR.setPower(-FRPower * power * 2);
+                motorBR.setPower(-BRPower * power * 2);
+                sleep(50);
+                break;
+            }
+
+            if(power >= 0.3 && Math.abs(errorPosition) < 70){
+                FLPower = motorFL.getPower() / (Math.abs(motorFL.getPower()));
+                BLPower = motorBL.getPower() / (Math.abs(motorBL.getPower()));
+                FRPower = motorFR.getPower() / (Math.abs(motorFR.getPower()));
+                BRPower = motorBR.getPower() / (Math.abs(motorBR.getPower()));
+
+                motorFL.setPower(-FLPower * power * 2);
+                motorBL.setPower(-BLPower * power * 2);
+                motorFR.setPower(-FRPower * power * 2);
+                motorBR.setPower(-BRPower * power * 2);
+                sleep(40);
+                break;
+            }
         }
 
+        stopMotors();
 
-        motorFL.setPower(0);
-        motorBL.setPower(0);
-        motorFR.setPower(0);
-        motorBR.setPower(0);
     }
 
 
 }
+
+
+
