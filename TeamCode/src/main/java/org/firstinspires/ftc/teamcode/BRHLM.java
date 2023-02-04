@@ -52,16 +52,38 @@ public class BRHLM extends DriveMethods{
         waitForStart();
 
         GoToHeight(300);
-        driveForDistance(0.1, Variables.Direction.FORWARD,0.35, globalTargetRotation);
-        driveForDistance(0.1, Variables.Direction.LEFT,0.35, globalTargetRotation);
-        driveForDistance(0.55, Variables.Direction.FORWARD,0.35, globalTargetRotation);
-        driveForDistance(1.1, Variables.Direction.RIGHT, 0.35, globalTargetRotation);
+        driveForDistance(0.1, Variables.Direction.FORWARD,0.4, globalTargetRotation);
+        driveForDistance(0.63, Variables.Direction.RIGHT,0.4, globalTargetRotation);
+        driveForDistance(0.55, Variables.Direction.FORWARD,0.4, globalTargetRotation);
+        driveForDistance(0.35, Variables.Direction.RIGHT, 0.4, globalTargetRotation);
         goToHigh();
         driveForDistance(0.12, Variables.Direction.FORWARD,0.2, globalTargetRotation);
-        sleep(250);
+        sleep(100);
         clawRelease();
-        sleep(250);
+        sleep(100);
+        driveForDistance(.04, Variables.Direction.BACKWARD, .2, globalTargetRotation);
+        sleep(100);
         goToDown();
+        driveForDistance(.39, Variables.Direction.LEFT, .4, globalTargetRotation);
+        driveForDistance(.50, Variables.Direction.FORWARD, .4, globalTargetRotation);
+        rotateWithBrake(90);
+        globalTargetRotation = 90;
+        driveForDistance(1, Variables.Direction.FORWARD, .4, globalTargetRotation);
+        GoToHeight(1000);
+        sleep(100);
+        driveForDistance(.2, Variables.Direction.FORWARD, .4, globalTargetRotation);
+        GoToHeight(615);
+        sleep(100);
+        clawClamp();
+        goToLow();
+        driveForDistance(.25, Variables.Direction.BACKWARD, .4, globalTargetRotation);
+        rotateWithBrake(180);
+        globalTargetRotation = 180;
+        driveForDistance(.15, Variables.Direction.FORWARD, .4, globalTargetRotation);
+        sleep(100);
+        clawRelease();
+
+
 //        switch(result){
 //            case "purple":
 //                //You're where you need to be!
