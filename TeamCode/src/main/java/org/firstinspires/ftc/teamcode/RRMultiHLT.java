@@ -11,8 +11,8 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-@Autonomous(name ="BBMultiHLT", group = "A")
-public class BBMultiHLT extends DriveMethods{
+@Autonomous(name ="RRMultiHLT", group = "A")
+public class RRMultiHLT extends DriveMethods{
     OpenCvWebcam webcam;
     private String result;
 
@@ -52,25 +52,25 @@ public class BBMultiHLT extends DriveMethods{
         waitForStart();
 
         GoToHeight(300);
-        driveForDistance(0.1, Variables.Direction.FORWARD,0.6, globalTargetRotation);
-        driveForDistance(0.65, Variables.Direction.LEFT,0.6, globalTargetRotation);
-        driveForDistance(0.63, Variables.Direction.FORWARD,0.6, globalTargetRotation);
-        driveForDistance(0.34, Variables.Direction.LEFT, 0.6, globalTargetRotation);
+        driveForDistance(0.1, Variables.Direction.FORWARD,0.35, globalTargetRotation);
+        driveForDistance(0.65, Variables.Direction.LEFT,0.35, globalTargetRotation);
+        driveForDistance(0.63, Variables.Direction.FORWARD,0.35, globalTargetRotation);
+        driveForDistance(0.34, Variables.Direction.LEFT, 0.35, globalTargetRotation);
         goToHigh();
-        driveForDistance(0.07, Variables.Direction.FORWARD,0.3, globalTargetRotation);
-        sleep(200);
+        driveForDistance(0.07, Variables.Direction.FORWARD,0.2, globalTargetRotation);
+        sleep(500);
         clawRelease();
         sleep(200);
         driveForDistance(0.135, Variables.Direction.BACKWARD,0.35, globalTargetRotation);
         goToDown();
-        sleep(200);
+        sleep(500);
         driveForDistance(0.35, Variables.Direction.RIGHT, 0.35, globalTargetRotation);
         driveForDistance(0.6, Variables.Direction.FORWARD, 0.35, globalTargetRotation);
         rotateWithBrake(-87);
         globalTargetRotation = -87;
         driveForDistance(.93, Variables.Direction.FORWARD, .45, globalTargetRotation);
         GoToHeight(1000);
-        sleep(250);
+        sleep(500);
         driveForDistance(.17, Variables.Direction.FORWARD, .45, globalTargetRotation);
         GoToHeight(615);
         sleep(250);
@@ -108,15 +108,17 @@ public class BBMultiHLT extends DriveMethods{
         //DOES NOT WORK YET
 
         switch(result){
-            case "purple":
-            // Your Where U Need to Be
+            case "green":
+                //You're where you need to be!
                 break;
             case "yellow":
-                driveForDistance(0.7, Variables.Direction.BACKWARD, 0.45, globalTargetRotation);
+                driveForDistance(0.7, Variables.Direction.RIGHT, 0.35, globalTargetRotation);
                 break;
-            case "green":
-                driveForDistance(1.3, Variables.Direction.BACKWARD, 0.45, globalTargetRotation);
+            case "purple":
+                driveForDistance(1.37, Variables.Direction.RIGHT, 0.35, globalTargetRotation);
                 break;
+
+
         }
 
 
