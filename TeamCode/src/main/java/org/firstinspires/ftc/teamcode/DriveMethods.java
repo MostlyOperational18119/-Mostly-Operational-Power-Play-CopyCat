@@ -571,6 +571,7 @@ public class DriveMethods extends LinearOpMode{
 
 
             public void GoToHeight ( int Clicks){
+                Timer daTimer = new Timer();
                 int target = (Clicks);
                 int dif = (target - Math.abs(motorSlide.getCurrentPosition()));
                 double aggressiveness = 2700;
@@ -584,8 +585,8 @@ public class DriveMethods extends LinearOpMode{
                     holdingPower = 0.18;
                 }
                 motorSlide.setPower((dif / aggressiveness));
-
-                while (Math.abs(dif) >= 150) { // doesn't work when trying to go down
+                daTimer.startTimer();
+                while (Math.abs(dif) >= 150 && daTimer.getTime()<3.0) { // doesn't work when trying to go down
                     telemetry.addLine(dif + "..difference");
                     telemetry.addLine(Math.abs(motorSlide.getCurrentPosition()) + "..position");
                     telemetry.addLine(target + "..target");
@@ -597,6 +598,8 @@ public class DriveMethods extends LinearOpMode{
                         aggressiveness = 250;
                     }
                 }
+                daTimer.stopTimer();
+                daTimer = null;
                 motorSlide.setPower(holdingPower);
             }
 
