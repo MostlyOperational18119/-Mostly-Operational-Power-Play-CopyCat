@@ -598,7 +598,7 @@ public class DriveMethods extends LinearOpMode{
                         aggressiveness = 250;
                     }
                 }
-                daTimer.stopTimer();
+                daTimer.cleanup();
                 daTimer = null;
                 motorSlide.setPower(holdingPower);
             }

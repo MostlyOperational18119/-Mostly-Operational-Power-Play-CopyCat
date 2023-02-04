@@ -23,4 +23,9 @@ public class Timer {
         }
         return cTime;
     }
+    public void cleanup() {
+        timerStopped =  null;
+        daTime = null;
+        stopTimer();
+    }
 }
