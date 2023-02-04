@@ -204,7 +204,7 @@ public class VisionTeleopQT extends DriveMethods {
                     if (targetHeight < 0) {
                         targetHeight = 0;
                     }
-                    sleep(150);
+                    sleep(250);
                 }
                 switch (targetHeight) {
                     case 0:
@@ -391,9 +391,9 @@ public class VisionTeleopQT extends DriveMethods {
             }
 
             //Button triggers
-//            if (gamepad2.y && getLevel2Capable()) {
-//                visionAutoActivated = true;
-//            }
+            if (gamepad2.y && getLevel2Capable()) {
+                visionAutoActivated = true;
+            }
 
 
             if (gamepad2.b) {
@@ -448,29 +448,35 @@ public class VisionTeleopQT extends DriveMethods {
 
                 if (levelCounter == 1 && level1Aligned == false) {
 
-                    motorFL.setPower(-alignPowerAddedX);
-                    motorBL.setPower(-alignPowerAddedX);
-                    motorFR.setPower(alignPowerAddedX);
-                    motorBR.setPower(alignPowerAddedX);
+                    targetHeading = getCumulativeZ() + errorX*(0.04559197) + (0.007277*errorX) - 1; //The 0.045591... constant is derived from the width of camera view (angle) divided by the wide of the frame (pixels) to get degrees/pixel
+                    telemetry.addLine("Target heading: " + targetHeading);
+                    telemetry.addLine("Error heading: " + (errorX*(0.04559197)));
+                    telemetry.addLine("Actual heading: " + getCumulativeZ());
+
+                    rotateSmallWithBrake(targetHeading);
 
                 }
 
                 //Level2 below (untested at the moment - 1/17/23)
-                if (levelCounter == 2 && getLevel2Assigment() == true && getLargestObjectWidth() > 10) {
-                    targetDistance = 0;
-                    currentWidth = getLargestObjectWidth();
-                    targetDistance = (((640.0/(currentWidth*getBoxWidth()))*1.27)/(0.260284))-Math.pow(0.93,currentWidth-50) - 15; //This is in CENTImeters!
+                if (levelCounter == 2 && getLevel2Assigment() == true) {
+                    currentWidth = getLargestObjectWidth();                                                             //5.2 is an error adjustment
+                    targetDistance = (((640.0/(currentWidth*getBoxWidth()))*1.27)/(0.260284))-Math.pow(0.93,currentWidth-50) - 3 ; //This is the full distancefrom the pole in CENTImeters!
 
-                    telemetry.addLine("current width: " + currentWidth);
-                    telemetry.addLine("Box width: " + getBoxWidth());
-//
-//
-                    driveForDistance(targetDistance/100.0, Direction.FORWARD, 0.2, imuHeading); //Get right by of the pole while using the imu
-//
-                    levelCounter = 3;
-                    level2Aligned = true;
-                    telemetry.addLine("Target Distance: " + targetDistance);
-                    telemetry.addLine("Level2 Complete!");
+                    //After curve fitting, this is some simple double-read code
+                    if(currentWidth < 25){
+                        driveForDistance((targetDistance/100) - 0.25, FORWARD, 0.25, imuHeading);
+                        level2Aligned = false;
+                    }else if(currentWidth > 40){
+                        driveForDistance(0.1, BACKWARD, 0.2, imuHeading);
+                        level2Aligned = false;
+                    }else{                                          // 1.5 is camera vs grabber differene, 15 is for reading height well
+                        driveForDistance((targetDistance- 1.5 - 15)/100, FORWARD, 0.25, imuHeading);
+                        level2Aligned = true;
+                        levelCounter = 3;
+                    }
+
+                    telemetry.addLine("Target Distance: " + targetDistance + " cm");
+                    telemetry.addLine("Boxes Width: " + currentWidth);
 
                 }
 
@@ -480,41 +486,48 @@ public class VisionTeleopQT extends DriveMethods {
                     telemetry.addLine("level3Aligned: " + level3Aligned);
                     telemetry.addLine("Percent Color: " + getPercentColor());
                     telemetry.update();
+
+
                 }
 
                 if (levelCounter == 3 && level3Aligned == false) {
                     clawClamp();
-                    motorSlide.setPower(0.65);
+                    motorSlide.setPower(1);
                     slidePosition = motorSlide.getCurrentPosition();
                     telemetry.addLine("Measuring the pole height!");
                     telemetry.addLine("Slide Position: " + motorSlide.getCurrentPosition());
                     telemetry.addLine("Percent Color: " + getPercentColor());
+
                 }
 
                 //For all the marbles, this is the sequence that stacks
                 if (level3Aligned == true) {
                     slidePosition = motorSlide.getCurrentPosition();
                     stopMotors();
-                    telemetry.addLine("Stacking time!!");
+                    telemetry.addLine("We going to the top babeeeeeeee");
                     telemetry.addLine("Slide position: " + slidePosition);
                     telemetry.addLine("targetHeight: " + targetHeight);
-
+                    telemetry.update();
+//                    sleep(500);
                     if (slidePosition >= 0 && slidePosition <= 1300) {
-                        targetHeight = lowHeight + 50;
+                        targetHeight = lowHeight;
                     } else if (slidePosition > 1300 && slidePosition <= 2500) {
-                        targetHeight = midHeight + 75;
+                        targetHeight = midHeight;
                     } else if (slidePosition > 2500) {
-                        targetHeight = highHeight + 10;
+                        targetHeight = highHeight;
                     }
 
                     clawClamp();
                     GoToHeight(targetHeight);
                     sleep(300);
-                    driveForDistance(0.1, FORWARD, 0.2, imuHeading);
+                    driveForDistance(0.15, FORWARD, 0.2, imuHeading);
+//                    sleep(250);
+                    GoToHeight(targetHeight - 60);
+                    sleep(300);
                     clawRelease();
                     sleep(200);
                     GoToHeight(targetHeight);
-                    sleep(300);
+                    sleep(250);
                     driveForDistance(0.15, BACKWARD, 0.2, imuHeading);
                     goToDown();
 
@@ -523,8 +536,8 @@ public class VisionTeleopQT extends DriveMethods {
                     level2Aligned = false;
                     level3Aligned = false;
                     visionAutoActivated = false;
-                    targetX = 225;
-
+                    targetX = 225; //TODO Avoid hard coding this value? Or maybe just take from the original resolution setting above
+//                    dividerX = 200;
                     //Back to manual driving!!!
 
                 }

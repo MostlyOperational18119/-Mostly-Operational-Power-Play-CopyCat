@@ -1,6 +1,42 @@
 package org.firstinspires.ftc.teamcode;
 
-import static org.firstinspires.ftc.teamcode.Variables.*;
+import static org.firstinspires.ftc.teamcode.Variables.boxBL_x;
+import static org.firstinspires.ftc.teamcode.Variables.boxBL_y;
+import static org.firstinspires.ftc.teamcode.Variables.box_height;
+import static org.firstinspires.ftc.teamcode.Variables.box_width;
+import static org.firstinspires.ftc.teamcode.Variables.centerX;
+import static org.firstinspires.ftc.teamcode.Variables.centersX;
+import static org.firstinspires.ftc.teamcode.Variables.centersXDraw;
+import static org.firstinspires.ftc.teamcode.Variables.centersY;
+import static org.firstinspires.ftc.teamcode.Variables.centersYDraw;
+import static org.firstinspires.ftc.teamcode.Variables.focusRect;
+import static org.firstinspires.ftc.teamcode.Variables.focusRect2;
+import static org.firstinspires.ftc.teamcode.Variables.focusRectHeight;
+import static org.firstinspires.ftc.teamcode.Variables.focusRectWidth;
+import static org.firstinspires.ftc.teamcode.Variables.gridX;
+import static org.firstinspires.ftc.teamcode.Variables.gridY;
+import static org.firstinspires.ftc.teamcode.Variables.highestX;
+import static org.firstinspires.ftc.teamcode.Variables.highestY;
+import static org.firstinspires.ftc.teamcode.Variables.identifiedBoxesBoolean;
+import static org.firstinspires.ftc.teamcode.Variables.largestObjectHighestX;
+import static org.firstinspires.ftc.teamcode.Variables.largestObjectLowestX;
+import static org.firstinspires.ftc.teamcode.Variables.largestObjectWidth;
+import static org.firstinspires.ftc.teamcode.Variables.largestSize;
+import static org.firstinspires.ftc.teamcode.Variables.level1Assigment;
+import static org.firstinspires.ftc.teamcode.Variables.level2Assignment;
+import static org.firstinspires.ftc.teamcode.Variables.level2Capable;
+import static org.firstinspires.ftc.teamcode.Variables.level3Assignment;
+import static org.firstinspires.ftc.teamcode.Variables.levelString;
+import static org.firstinspires.ftc.teamcode.Variables.lowestX;
+import static org.firstinspires.ftc.teamcode.Variables.lowestY;
+import static org.firstinspires.ftc.teamcode.Variables.matsGrid;
+import static org.firstinspires.ftc.teamcode.Variables.minimumHeight;
+import static org.firstinspires.ftc.teamcode.Variables.minimumWidth;
+import static org.firstinspires.ftc.teamcode.Variables.percentColor;
+import static org.firstinspires.ftc.teamcode.Variables.rectanglesGrid;
+import static org.firstinspires.ftc.teamcode.Variables.rectanglesGridDraw;
+import static org.firstinspires.ftc.teamcode.Variables.x_resolution;
+import static org.firstinspires.ftc.teamcode.Variables.y_resolution;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -15,7 +51,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class PipePoleTracker extends OpenCvPipeline {
+public class PipeConeTracker extends OpenCvPipeline {
 
     //TODO substitute the focusRect for the below testRect (focusRect should be the problem)
     Rect testRect = new Rect(new Point(0,0), new Point(300,300));
@@ -27,6 +63,7 @@ public class PipePoleTracker extends OpenCvPipeline {
     Mat inputMaskOriginal = new Mat();
     Mat mat = new Mat();
     Mat focusSubMat = new Mat();
+    String color;
 
 
 
@@ -43,17 +80,24 @@ public class PipePoleTracker extends OpenCvPipeline {
 
 
 
-    PipePoleTracker(String level){
+    PipeConeTracker(String level, String COLOR){
         levelString = level;
+        color = COLOR;
     }
 
     @Override
     public Mat processFrame(Mat input) {
 
-
-
         Imgproc.cvtColor(input,inputHSV,Imgproc.COLOR_BGR2HSV);
-        Core.inRange(inputHSV, new Scalar(81, 115, 164), new Scalar(107, 255, 255), inputMask);
+
+
+        if(color.equals("RED")){
+            Core.inRange(inputHSV, new Scalar(81, 115, 164), new Scalar(107, 255, 255), inputMask); //TODO need to find correct
+        }else if(color.equals("BLUE")){
+            Core.inRange(inputHSV, new Scalar(81, 115, 164), new Scalar(107, 255, 255), inputMask); //TODO for blue & red
+
+        }
+        
 
 
 
