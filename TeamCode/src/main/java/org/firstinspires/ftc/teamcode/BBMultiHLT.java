@@ -54,12 +54,12 @@ public class BBMultiHLT extends DriveMethods{
         GoToHeight(300);
         driveForDistance(0.1, Variables.Direction.FORWARD,0.4, globalTargetRotation);
         driveForDistance(0.65, Variables.Direction.LEFT,0.4, globalTargetRotation);
-        driveForDistance(0.4, Variables.Direction.FORWARD,0.4, globalTargetRotation);
+        driveForDistance(0.36, Variables.Direction.FORWARD,0.4, globalTargetRotation);
         driveForDistance(0.34, Variables.Direction.LEFT, 0.4, globalTargetRotation);
         goToHigh();
         sleep(200);
         driveForDistance(0.15, Variables.Direction.FORWARD,0.2, globalTargetRotation);
-        sleep(300);3
+        sleep(300);
         clawRelease();
         sleep(200);
         driveForDistance(0.135, Variables.Direction.BACKWARD,0.35, globalTargetRotation);
@@ -75,11 +75,11 @@ public class BBMultiHLT extends DriveMethods{
         driveForDistance(.17, Variables.Direction.FORWARD, .4, globalTargetRotation);
         sleep(100);
         GoToHeight(615);
-        sleep(250);
+        sleep(200);
         clawClamp();
-        sleep(250);
+        sleep(200);
         goToLow();
-        driveForDistance(.5, Variables.Direction.BACKWARD, .45, globalTargetRotation);
+        driveForDistance(.4, Variables.Direction.BACKWARD, .45, globalTargetRotation);
         rotateAngle(-178);
         globalTargetRotation = -178;
         driveForDistance(.07, Variables.Direction.FORWARD, .6, globalTargetRotation);
