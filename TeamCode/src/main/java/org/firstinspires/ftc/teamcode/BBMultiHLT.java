@@ -52,10 +52,10 @@ public class BBMultiHLT extends DriveMethods{
         waitForStart();
 
         GoToHeight(300);
-        driveForDistance(0.1, Variables.Direction.FORWARD,0.6, globalTargetRotation);
-        driveForDistance(0.65, Variables.Direction.LEFT,0.6, globalTargetRotation);
-        driveForDistance(0.63, Variables.Direction.FORWARD,0.6, globalTargetRotation);
-        driveForDistance(0.34, Variables.Direction.LEFT, 0.6, globalTargetRotation);
+        driveForDistance(0.1, Variables.Direction.FORWARD,0.4, globalTargetRotation);
+        driveForDistance(0.65, Variables.Direction.LEFT,0.4, globalTargetRotation);
+        driveForDistance(0.60, Variables.Direction.FORWARD,0.4, globalTargetRotation);
+        driveForDistance(0.34, Variables.Direction.LEFT, 0.4, globalTargetRotation);
         goToHigh();
         driveForDistance(0.07, Variables.Direction.FORWARD,0.3, globalTargetRotation);
         sleep(200);
