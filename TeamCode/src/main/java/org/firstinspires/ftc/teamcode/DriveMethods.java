@@ -513,6 +513,66 @@ public class DriveMethods extends LinearOpMode{
         }
         stopMotors();
     }
+
+    public void rotateSmallWithBrake(double heading){
+        double target = heading;
+        double current = getCumulativeZ();
+        double error = target - current;
+        int sign = 0;
+
+        int brakeWindow = (int)(error/55)*19;
+        double maxPower = Math.abs(error/55);
+        int reversalTime = (int)(error/55)*55; // This is in milliseconds (for sleep command)
+
+        if((Math.abs(error/55)) > 1){
+            brakeWindow = 19;
+            maxPower = 1;
+            reversalTime = 55;
+        }else{
+            maxPower = maxPower*0.85;
+        }
+
+        if(maxPower < 0.14){
+            maxPower = 0.14;
+        }
+
+//        if(Math.abs(error) < 50 && Math.abs(error) >= 30){
+//            maxPower= maxPower*0.85;
+//        }
+
+        while(Math.abs(error) > 1){
+            current = getCumulativeZ();
+            error = target - current;
+            sign = (int)(error/Math.abs(error));
+
+            motorFL.setPower(sign*-maxPower);
+            motorBL.setPower(sign*-maxPower);
+            motorFR.setPower(sign*maxPower);
+            motorBR.setPower(sign*maxPower);
+
+            telemetry.addLine("Current: " + getCumulativeZ());
+            telemetry.addLine("Target: " + target);
+            telemetry.addLine("Error: " + error);
+            telemetry.addLine("Max Power: " + maxPower);
+            telemetry.addLine("Brake Window: " + brakeWindow);
+            telemetry.addLine("Reversal Time: " + reversalTime);
+            telemetry.update();
+
+
+            if(Math.abs(error) < brakeWindow){
+                sign = (int)(error/Math.abs(error));
+
+                motorFL.setPower(sign*maxPower);
+                motorBL.setPower(sign*maxPower);
+                motorFR.setPower(sign*-maxPower);
+                motorBR.setPower(sign*-maxPower);
+                sleep(reversalTime);
+                break;
+            }
+        }
+        stopMotors();
+
+    }
 //    public void rotateToHeading ( int angleHeading, double power){
 //        telemetry.addLine("Trying to rotate!");
 //        telemetry.update();
@@ -581,12 +641,12 @@ public class DriveMethods extends LinearOpMode{
                     holdingPower = 0;
                 }
                 if (dif > 0) {
-                    aggressiveness = 1300;
+                    aggressiveness = 1050;
                     holdingPower = 0.18;
                 }
                 motorSlide.setPower((dif / aggressiveness));
                 daTimer.startTimer();
-                while (Math.abs(dif) >= 150 && daTimer.getTime()<3.0) { // doesn't work when trying to go down
+                while (Math.abs(dif) >= 100 && daTimer.getTime()<3.0) { // doesn't work when trying to go down
                     telemetry.addLine(dif + "..difference");
                     telemetry.addLine(Math.abs(motorSlide.getCurrentPosition()) + "..position");
                     telemetry.addLine(target + "..target");
