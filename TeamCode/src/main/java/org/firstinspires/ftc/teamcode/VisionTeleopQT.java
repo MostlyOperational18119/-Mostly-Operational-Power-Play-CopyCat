@@ -1,38 +1,19 @@
 package org.firstinspires.ftc.teamcode;
 
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getBoxBL_X;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getBoxBL_Y;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getBoxHeight;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getBoxWidth;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getCenterX;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getHighestX;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getHighestY;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLargestObjectWidth;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLargestSize;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevel1Assigment;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevel2Assigment;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevel2Capable;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevelString;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLowestX;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLowestY;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getMinRectHeight;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getMinRectWidth;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getPercentColor;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getRectHeight;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getRectWidth;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getXResolution;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getYResolution;
+import static CVPipelines.PipePoleTracker.getBoxWidth;
+import static CVPipelines.PipePoleTracker.getCenterX;
+import static CVPipelines.PipePoleTracker.getLargestObjectWidth;
+import static CVPipelines.PipePoleTracker.getLargestSize;
+import static CVPipelines.PipePoleTracker.getLevel2Assigment;
+import static CVPipelines.PipePoleTracker.getLevel2Capable;
+import static CVPipelines.PipePoleTracker.getLevelString;
+import static CVPipelines.PipePoleTracker.getPercentColor;
 
 import static org.firstinspires.ftc.teamcode.Variables.*;
 import static org.firstinspires.ftc.teamcode.Variables.Direction.BACKWARD;
-import static org.firstinspires.ftc.teamcode.Variables.Direction;
 import static org.firstinspires.ftc.teamcode.Variables.Direction.FORWARD;
-import static org.firstinspires.ftc.teamcode.Variables.Direction.LEFT;
-import static org.firstinspires.ftc.teamcode.Variables.Direction.RIGHT;
 
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -40,6 +21,8 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
+
+import CVPipelines.PipePoleTracker;
 
 @TeleOp(name="VisionTeleopQT", group="A")
 public class VisionTeleopQT extends DriveMethods {
