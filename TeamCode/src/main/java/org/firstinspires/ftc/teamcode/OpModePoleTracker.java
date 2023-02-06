@@ -1,13 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
-import static CVPipelines.PipePoleTracker.getBoxWidth;
-import static CVPipelines.PipePoleTracker.getCenterX;
-import static CVPipelines.PipePoleTracker.getLargestObjectWidth;
-import static CVPipelines.PipePoleTracker.getLargestSize;
-import static CVPipelines.PipePoleTracker.getLevel2Assigment;
-import static CVPipelines.PipePoleTracker.getLevel2Capable;
-import static CVPipelines.PipePoleTracker.getLevelString;
-import static CVPipelines.PipePoleTracker.getPercentColor;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getBoxWidth;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getCenterX;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLargestObjectWidth;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLargestSize;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevel2Assigment;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevel2Capable;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevelString;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getPercentColor;
 
 import static org.firstinspires.ftc.teamcode.Variables.*;
 import static org.firstinspires.ftc.teamcode.Variables.Direction.BACKWARD;
@@ -21,8 +21,6 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-
-import CVPipelines.PipePoleTracker;
 
 @Autonomous(name="PoleTracker", group="A")
 //@Disabled
@@ -315,7 +313,7 @@ public class OpModePoleTracker extends DriveMethods {
                         clawClamp();
                         GoToHeight(targetHeight);
                         sleep(300);
-                        driveForDistance(0.15, FORWARD, 0.2, imuHeading);
+                        driveForDistance(0.15, FORWARD, 0.25, imuHeading);
 //                    sleep(250);
                         GoToHeight(targetHeight - 75);
                         sleep(350);
@@ -323,7 +321,7 @@ public class OpModePoleTracker extends DriveMethods {
                         sleep(200);
                         GoToHeight(targetHeight);
                         sleep(300);
-                        driveForDistance(0.15, BACKWARD, 0.2, imuHeading);
+                        driveForDistance(0.15, BACKWARD, 0.25, imuHeading);
                         goToDown();
 
                         levelCounter = 1;

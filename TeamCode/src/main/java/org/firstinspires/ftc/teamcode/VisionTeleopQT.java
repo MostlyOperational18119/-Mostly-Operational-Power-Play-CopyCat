@@ -1,13 +1,16 @@
 package org.firstinspires.ftc.teamcode;
 
-import static CVPipelines.PipePoleTracker.getBoxWidth;
-import static CVPipelines.PipePoleTracker.getCenterX;
-import static CVPipelines.PipePoleTracker.getLargestObjectWidth;
-import static CVPipelines.PipePoleTracker.getLargestSize;
-import static CVPipelines.PipePoleTracker.getLevel2Assigment;
-import static CVPipelines.PipePoleTracker.getLevel2Capable;
-import static CVPipelines.PipePoleTracker.getLevelString;
-import static CVPipelines.PipePoleTracker.getPercentColor;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getBoxWidth;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getCenterX;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLargestObjectWidth;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLargestSize;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevel1Assigment;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevel2Assigment;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevel2Capable;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevel2FullyAssigned;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevel3Assigment;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevelString;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getPercentColor;
 
 import static org.firstinspires.ftc.teamcode.Variables.*;
 import static org.firstinspires.ftc.teamcode.Variables.Direction.BACKWARD;
@@ -21,8 +24,6 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-
-import CVPipelines.PipePoleTracker;
 
 @TeleOp(name="VisionTeleopQT", group="A")
 public class VisionTeleopQT extends DriveMethods {
@@ -47,6 +48,7 @@ public class VisionTeleopQT extends DriveMethods {
     double leftX;
     double leftY;
     double rightX;
+    double addedDistance = 0;
 
 
     //The unit here is boxes
@@ -401,7 +403,7 @@ public class VisionTeleopQT extends DriveMethods {
             errorX = targetX - getCenterX();
             errorWidth = targetWidth - getLargestObjectWidth();
 
-            dividerX = 400;
+            dividerX = 200;
 
 
             if (visionAutoActivated) {
@@ -411,8 +413,8 @@ public class VisionTeleopQT extends DriveMethods {
                 alignPowerAddedWidth = (double) errorWidth / 45;
 
 
-                if (Math.abs(alignPowerAddedX) > 0.14) {
-                    alignPowerAddedX = (errorX / (Math.abs(errorX))) * 0.14;
+                if (Math.abs(alignPowerAddedX) > 0.145) {
+                    alignPowerAddedX = (errorX / (Math.abs(errorX))) * 0.145;
                 }
 
                 if (levelCounter == 1 && Math.abs(errorX) < 32) {//TODO will need to add distance condition
@@ -436,21 +438,27 @@ public class VisionTeleopQT extends DriveMethods {
                     telemetry.addLine("Error heading: " + (errorX*(0.04559197)));
                     telemetry.addLine("Actual heading: " + getCumulativeZ());
 
-                    rotateSmallWithBrake(targetHeading);
+                        rotateSmallWithBrake(targetHeading);
 
                 }
 
                 //Level2 below (untested at the moment - 1/17/23)
-                if (levelCounter == 2 && getLevel2Assigment() == true) {
+                if (levelCounter == 2 && getLevel2FullyAssigned() == true) {
+                    rotateSmallWithBrake(imuHeading);
+                    sleep(150);
                     currentWidth = getLargestObjectWidth();                                                             //5.2 is an error adjustment
                     targetDistance = (((640.0/(currentWidth*getBoxWidth()))*1.27)/(0.260284))-Math.pow(0.93,currentWidth-50) - 3 ; //This is the full distancefrom the pole in CENTImeters!
-
+//                    telemetry.addLine("Target Distance: " + targetDistance + " cm");
+//                    telemetry.addLine("Boxes Width: " + currentWidth);
+//                    telemetry.addLine("Level2Assigment: " + getLevel2Assigment());
+//                    telemetry.update();
+//                    sleep(10000);
                     //After curve fitting, this is some simple double-read code
                     if(currentWidth < 25){
                         driveForDistance((targetDistance/100) - 0.25, FORWARD, 0.25, imuHeading);
                         level2Aligned = false;
                     }else if(currentWidth > 40){
-                        driveForDistance(0.1, BACKWARD, 0.2, imuHeading);
+                        driveForDistance(0.1, BACKWARD, 0.25, imuHeading);
                         level2Aligned = false;
                     }else{                                          // 1.5 is camera vs grabber differene, 15 is for reading height well
                         driveForDistance((targetDistance- 1.5 - 15)/100, FORWARD, 0.25, imuHeading);
@@ -460,6 +468,7 @@ public class VisionTeleopQT extends DriveMethods {
 
                     telemetry.addLine("Target Distance: " + targetDistance + " cm");
                     telemetry.addLine("Boxes Width: " + currentWidth);
+
 
                 }
 
@@ -499,11 +508,17 @@ public class VisionTeleopQT extends DriveMethods {
                     } else if (slidePosition > 2500) {
                         targetHeight = highHeight;
                     }
+                    if(targetHeight == lowHeight){
+                        addedDistance = 0.03;
+                    }else{
+                        addedDistance = 0;
+                    }
 
+                    rotateSmallWithBrake(imuHeading);
                     clawClamp();
                     GoToHeight(targetHeight);
                     sleep(300);
-                    driveForDistance(0.15, FORWARD, 0.2, imuHeading);
+                    driveForDistance(0.15 + addedDistance, FORWARD, 0.2, imuHeading);
 //                    sleep(250);
                     GoToHeight(targetHeight - 60);
                     sleep(300);
@@ -511,7 +526,7 @@ public class VisionTeleopQT extends DriveMethods {
                     sleep(200);
                     GoToHeight(targetHeight);
                     sleep(250);
-                    driveForDistance(0.15, BACKWARD, 0.2, imuHeading);
+                    driveForDistance(0.15 + addedDistance, BACKWARD, 0.2, imuHeading);
                     goToDown();
 
                     levelCounter = 1;
@@ -544,9 +559,12 @@ public class VisionTeleopQT extends DriveMethods {
             telemetry.addLine("Level 2 Capable?: " + getLevel2Capable());
             telemetry.addLine("Current Width (boxes): " + currentWidth);
             telemetry.addLine("errorX: " + errorX);//
-            telemetry.addLine("Percent Color: " + getPercentColor());
+            telemetry.addLine("Percent Col]or: " + getPercentColor());
             telemetry.addLine("Power Applied X: " + alignPowerAddedX);
             telemetry.addLine("Activated?: " + visionAutoActivated);
+            telemetry.addLine("Level1Assigment: " + getLevel1Assigment());
+            telemetry.addLine("Level2Assigment: " + getLevel2Assigment());
+            telemetry.addLine("Level3Assigment: " + getLevel3Assigment());
             telemetry.update();
 
             pipePoleTracker = new PipePoleTracker(level);
