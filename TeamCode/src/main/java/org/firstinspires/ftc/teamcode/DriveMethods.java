@@ -379,6 +379,10 @@ public class DriveMethods extends LinearOpMode{
             telemetry.addLine("Current Z " + getCurrentZ());
             telemetry.addLine("Error " + rotateError);
             telemetry.update();
+
+            if(gamepad2.b){
+                break;
+            }
         }
 
         motorFL.setPower(0);

@@ -1,4 +1,4 @@
-package CVPipelines;
+package org.firstinspires.ftc.teamcode;
 
 import static org.firstinspires.ftc.teamcode.Variables.*;
 
@@ -142,6 +142,8 @@ public class PipePoleTracker extends OpenCvPipeline {
                     level1Assigment = true;
                     level2Assignment = false;
                     level3Assignment = false;
+                    level2FullyAssigned = false;
+
                 }
 
                 /**
@@ -167,6 +169,8 @@ public class PipePoleTracker extends OpenCvPipeline {
                     y_resolution = focusRect.height;
 
                     percentColor = ((Core.countNonZero(inputMask))/focusRect.area())*100;
+
+                    level2FullyAssigned = true;
 
 
                 }
@@ -217,6 +221,8 @@ public class PipePoleTracker extends OpenCvPipeline {
                     level2Assignment = true;
                     level1Assigment = false;
                     level3Assignment = false;
+                    level2FullyAssigned = false;
+
                 }
 
 //                boxBL_x = rectanglesGridDraw[gridY-1][gridX-1].x;
@@ -695,6 +701,8 @@ public class PipePoleTracker extends OpenCvPipeline {
                 level2Assignment = false;
                 level1Assigment = false;
                 level3Assignment = true;
+                level2FullyAssigned = false;
+
             }
 
 
@@ -825,6 +833,10 @@ public class PipePoleTracker extends OpenCvPipeline {
 
     public static int getLargestObjectWidth(){
         return largestObjectWidth;
+    }
+
+    public static boolean getLevel2FullyAssigned(){
+        return level2FullyAssigned;
     }
 
 
