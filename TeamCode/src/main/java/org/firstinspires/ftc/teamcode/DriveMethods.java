@@ -655,6 +655,7 @@ public class DriveMethods extends LinearOpMode{
                     telemetry.addLine(Math.abs(motorSlide.getCurrentPosition()) + "..position");
                     telemetry.addLine(target + "..target");
                     telemetry.addLine(((dif / aggressiveness) + holdingPower) + "..power");
+                    telemetry.addLine("" + daTimer.getTime());
                     telemetry.update();
                     dif = (target - Math.abs(motorSlide.getCurrentPosition()));
                     motorSlide.setPower(((dif / aggressiveness) + holdingPower));

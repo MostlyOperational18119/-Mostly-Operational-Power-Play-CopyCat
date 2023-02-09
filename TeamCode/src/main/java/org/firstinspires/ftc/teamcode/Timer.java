@@ -8,7 +8,7 @@ public class Timer {
     double cTime = 0;
     public void startTimer() {
         daTime.startTime();
-        timerStopped = true;
+        timerStopped = false;
     }
     public void resetTimer() {
         daTime.reset();
@@ -21,7 +21,7 @@ public class Timer {
         if (!timerStopped) {
             cTime = daTime.seconds();
         }
-        return cTime;
+        return 2;
     }
     public void cleanup() {
         stopTimer();
