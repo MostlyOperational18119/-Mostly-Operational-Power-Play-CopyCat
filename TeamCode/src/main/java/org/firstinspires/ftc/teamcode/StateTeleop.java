@@ -91,6 +91,10 @@ public class StateTeleop extends DriveMethods {
             }
             if(gamepad2.right_trigger==1) {
                 isManualControl = true;
+                slideTarget = lowHeight;
+                aggressiveness = 1000;
+                holdingPower = 0.06;
+                targetHeight = 2;
             }
             if((gamepad2.dpad_up || gamepad2.dpad_down) & isManualControl){
                 if(gamepad2.dpad_up) {
@@ -165,7 +169,7 @@ public class StateTeleop extends DriveMethods {
                         break;
                     case 3:
                         slideTarget = 290;
-                        aggressiveness = 1000;
+                        aggressiveness = 1800;
                         holdingPower = 0.18;
                         break;
                     case 4:
