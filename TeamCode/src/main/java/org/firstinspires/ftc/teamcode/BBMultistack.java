@@ -13,7 +13,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
 @Autonomous(name ="BBMultistack", group = "A")
-@Disabled
+//@Disabled
 public class BBMultistack extends DriveMethods{
     OpenCvWebcam webcam;
     private String result;
@@ -55,7 +55,7 @@ public class BBMultistack extends DriveMethods{
         GoToHeight(300);
         driveForDistance(0.1, Variables.Direction.FORWARD,0.35, globalTargetRotation);
         driveForDistance(0.625, Variables.Direction.LEFT,0.35, globalTargetRotation);
-        driveForDistance(1.22, Variables.Direction.FORWARD,0.35, globalTargetRotation);
+        driveForDistance(0.5, Variables.Direction.FORWARD,0.35, globalTargetRotation);
         driveForDistance(0.30, Variables.Direction.RIGHT, 0.35, globalTargetRotation);
         goToHigh();
         driveForDistance(0.1, Variables.Direction.FORWARD,0.2, globalTargetRotation);
