@@ -119,13 +119,12 @@ public class VisionTeleopQT extends DriveMethods {
         int targetHeight = 0;
         double sPosition = motorSlide.getCurrentPosition();
         boolean isManualControl = true;
-        int coneStackHeight = 7;
-
+        int coneStackHeight = 6;
         /**
          * Vision variables below, regular Teleop variables above
          */
 
-        targetX = 225; //<-- this SHOULD be the resolution at level1 (check-able)
+        targetX = 225; 
         targetWidth = 15;
         level1Aligned = false;
         level2Aligned = false;
@@ -168,13 +167,20 @@ public class VisionTeleopQT extends DriveMethods {
             if(gamepad1.b) {
                 speedDiv = 2;
             }
-//
+
             if(gamepad2.left_trigger==1) {
                 isManualControl = false;
-                coneStackHeight = 7;
+                coneStackHeight = 6;
+                slideTarget = 1150;
+                aggressiveness = 1200;
+                holdingPower = 0.18;
             }
             if(gamepad2.right_trigger==1) {
                 isManualControl = true;
+                slideTarget = lowHeight;
+                aggressiveness = 1000;
+                holdingPower = 0.06;
+                targetHeight = 2;
             }
             if((gamepad2.dpad_up || gamepad2.dpad_down) & isManualControl){
                 if(gamepad2.dpad_up) {
@@ -189,7 +195,7 @@ public class VisionTeleopQT extends DriveMethods {
                     if (targetHeight < 0) {
                         targetHeight = 0;
                     }
-                    sleep(250);
+                    sleep(150);
                 }
                 switch (targetHeight) {
                     case 0:
@@ -221,62 +227,56 @@ public class VisionTeleopQT extends DriveMethods {
                 }
             }
             if((gamepad2.dpad_up || gamepad2.dpad_down) & !isManualControl) {
-                if(gamepad2.dpad_up && coneStackHeight!=7) {
+                if(gamepad2.dpad_up && coneStackHeight!=6) {
                     coneStackHeight++;
                     sleep(150);
                 }
-                if(gamepad2.dpad_down && coneStackHeight!=0) {
+                if(gamepad2.dpad_down && coneStackHeight!=1) {
                     coneStackHeight--;
                     sleep(150);
                 }
-                //1283 for 7
-                //615 for 5
-                //460 for 4
-                //290 for 3
-                //190 for 2
-                //000 for 1 and 0
+
                 switch (coneStackHeight) {
-                    case 0:
+//                    case 0:
                     case 1:
                         slideTarget = 0;
-                        aggressiveness = 1800;
+                        aggressiveness = 1200;
                         holdingPower = 0;
                         break;
                     case 2:
-                        slideTarget = 190;
-                        aggressiveness = 1800;
+                        slideTarget = /*1*/40; // Originally 190
+                        aggressiveness = 1200;
                         holdingPower = 0.06;
                         break;
                     case 3:
-                        slideTarget = 290;
-                        aggressiveness = 1000;
+                        slideTarget = 110;
+                        aggressiveness = 1200;
                         holdingPower = 0.18;
                         break;
                     case 4:
-                        slideTarget = 460;
-                        aggressiveness = 1800;
+                        slideTarget = 290;
+                        aggressiveness = 1200;
                         holdingPower = 0.18;
                         break;
                     case 5:
-                        slideTarget = 615;
-                        aggressiveness = 1800;
+                        slideTarget = 460;
+                        aggressiveness = 1200;
                         holdingPower = 0.18;
                         break;
                     case 6:
-                        slideTarget = 815;
-                        aggressiveness = 1800;
+                        slideTarget = 1150;
+                        aggressiveness = 1200;
                         holdingPower = 0.18;
                         break;
-                    case 7:
-                        slideTarget = 1300;
-                        aggressiveness = 1800;
-                        holdingPower = 0.18;
-                        break;
+//                    case 7:
+//                        slideTarget = 1300;
+//                        aggressiveness = 1800;
+//                        holdingPower = 0.18;
+//                        break;
                 }
             }
             //Change the target height based on the height of the linear slide at the time.
 
-            //LAST QUARTER UNCOMMENTED
             if(gamepad2.right_bumper){
                 targetHeight = 4;
                 sleep(50);
@@ -313,9 +313,9 @@ public class VisionTeleopQT extends DriveMethods {
                 slideTarget = 4400;
             }
 
-            if(motorSlide.getCurrentPosition()<150){
-                aggressiveness = 1750;
-            }
+//            if(motorSlide.getCurrentPosition()<150){
+//                aggressiveness = 1750;
+//            }
 
             if(slideTarget == 0 && motorSlide.getCurrentPosition() < 150 && motorSlide.getCurrentPosition() >= 50){
                 aggressiveness = 700;
@@ -330,18 +330,13 @@ public class VisionTeleopQT extends DriveMethods {
 
             slideDifference = (slideTarget - Math.abs(motorSlide.getCurrentPosition()));
 
-            if(!visionAutoActivated) {
-                motorSlide.setPower(((slideDifference / aggressiveness) + holdingPower));
-            }
+            motorSlide.setPower(((slideDifference / aggressiveness) + holdingPower));
 
             telemetry.addLine(slideDifference + "..difference");
             telemetry.addLine(Math.abs(motorSlide.getCurrentPosition()) + "..position");
             telemetry.addLine(slideTarget + "..target");
             telemetry.addLine(((slideDifference / aggressiveness) + holdingPower) + "..power");
             telemetry.addLine("Target Height: " + targetHeight);
-
-//            motorSlide.setPower(holdingPower);
-
 
 
             // Show the elapsed game time and wheel power.
@@ -455,13 +450,13 @@ public class VisionTeleopQT extends DriveMethods {
 //                    sleep(10000);
                     //After curve fitting, this is some simple double-read code
                     if(currentWidth < 25){
-                        driveForDistance((targetDistance/100) - 0.25, FORWARD, 0.25, imuHeading);
+                        driveForDistanceBrake((targetDistance/100) - 0.25, FORWARD, 0.35, imuHeading);
                         level2Aligned = false;
                     }else if(currentWidth > 40){
-                        driveForDistance(0.1, BACKWARD, 0.25, imuHeading);
+                        driveForDistanceBrake(0.1, BACKWARD, 0.35, imuHeading);
                         level2Aligned = false;
                     }else{                                          // 1.5 is camera vs grabber differene, 15 is for reading height well
-                        driveForDistance((targetDistance- 1.5 - 15)/100, FORWARD, 0.25, imuHeading);
+                        driveForDistanceBrake((targetDistance- 1.5 - 15)/100, FORWARD, 0.35, imuHeading);
                         level2Aligned = true;
                         levelCounter = 3;
                     }
@@ -579,101 +574,123 @@ public class VisionTeleopQT extends DriveMethods {
 
 
 
-//    public void driveForDistanceCorrectly(double distanceMeters, Direction movementDirection, double power, double heading) { // distance: 2, strafe: false, power: 0.5
-//        targetZ = heading;
-//        motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        motorBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        motorBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        double distanceTraveled = 0;
-//        int targetPos = (int) ((distanceMeters * clicksPerRotation * rotationsPerMeter) / 1.15);
-//
-//        motorFL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        motorBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        motorFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        motorBR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        int doRotateOnly = 0;
-//        power = Math.abs(power);
-//        switch (movementDirection) {
-//            case FORWARD:
-//                motorFL.setPower(power);
-//                motorBL.setPower(power);
-//                motorFR.setPower(power);
-//                motorBR.setPower(power);
-//                //targetZ = 0;
-//                break;
-//            case BACKWARD:
-//                motorFL.setPower(-power);
-//                motorBL.setPower(-power);
-//                motorFR.setPower(-power);
-//                motorBR.setPower(-power);
-//                //targetZ = 0;
-//                break;
-//            case RIGHT:
-//                motorFL.setPower(power);
-//                motorBL.setPower(-power);
-//                motorFR.setPower(-power);
-//                motorBR.setPower(power);
-//                break;
-//            case LEFT:
-//                motorFL.setPower(-power);
-//                motorBL.setPower(power);
-//                motorFR.setPower(power);
-//                motorBR.setPower(-power);
-//                break;
-//
-//        }
-//        /*
-//        if(rotateToTargetRotation) {
-//            targetZ = targetRotation;
-//        }
-//        */
-//        int currentPos = 0;
-//        int FLPosition;
-//        int BLPosition;
-//        int FRPosition;
-//        int BRPosition;
-//        int avgPosition = 0;
-//        double FLPower = motorFL.getPower();
-//        double BLPower = motorBL.getPower();
-//        double FRPower = motorFR.getPower();
-//        double BRPower = motorBR.getPower();
-//
-//        double currentZ = getCumulativeZ();
-//        double rotateError = targetZ - currentZ;
-//
-//        while ((targetPos >= avgPosition)) {
-//            FLPosition = Math.abs(motorFL.getCurrentPosition());
-//            BLPosition = Math.abs(motorBL.getCurrentPosition());
-//            FRPosition = Math.abs(motorFR.getCurrentPosition());
-//            BRPosition = Math.abs(motorBR.getCurrentPosition());
-//
-//            currentZ = getCumulativeZ();
-//            rotateError = targetZ - currentZ;
-//
-//            avgPosition = (int) (FLPosition + BLPosition + FRPosition + BRPosition) / 4;
-//            motorFL.setPower(FLPower - (rotateError / 150));
-//            motorBL.setPower(BLPower - (rotateError / 150));
-//            motorFR.setPower(FRPower + (rotateError / 150));
-//            motorBR.setPower(BRPower + (rotateError / 150));
-//
-//            telemetry.addLine("MotorFL Power " + motorFL.getPower());
-//            telemetry.addLine("MotorBL Power " + motorBL.getPower());
-//            telemetry.addLine("MotorFR Power " + motorFR.getPower());
-//            telemetry.addLine("MotorBR Power " + motorBR.getPower());
-//
-//            telemetry.addLine("Current Position: " + avgPosition);
-//            telemetry.addLine("targetPos " + targetPos);
-//
-//            telemetry.addLine("Cumulative Z " + getCumulativeZ());
-//            telemetry.addLine("Current Z " + getCurrentZ());
-//            telemetry.addLine("Error " + rotateError);
-//            telemetry.update();
-//        }
-//
-//        motorFL.setPower(0);
-//        motorBL.setPower(0);
-//        motorFR.setPower(0);
-//        motorBR.setPower(0);
-//    }
+    public void driveForDistanceBrake(double distanceMeters, Variables.Direction movementDirection, double power, double heading) { // distance: 2, strafe: false, power: 0.5
+        targetZ = heading;
+        motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        double distanceTraveled = 0;
+        int targetPos = (int) ((distanceMeters * clicksPerRotation * rotationsPerMeter) / 1.15);
+
+        motorFL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        int doRotateOnly = 0;
+
+
+        power = Math.abs(power);
+        switch (movementDirection) {
+            case FORWARD:
+                motorFL.setPower(power);
+                motorBL.setPower(power);
+                motorFR.setPower(power);
+                motorBR.setPower(power);
+                //targetZ = 0;
+                break;
+            case BACKWARD:
+                motorFL.setPower(-power);
+                motorBL.setPower(-power);
+                motorFR.setPower(-power);
+                motorBR.setPower(-power);
+                //targetZ = 0;
+                break;
+            case RIGHT:
+                motorFL.setPower(power);
+                motorBL.setPower(-power);
+                motorFR.setPower(-power);
+                motorBR.setPower(power);
+                break;
+            case LEFT:
+                motorFL.setPower(-power);
+                motorBL.setPower(power);
+                motorFR.setPower(power);
+                motorBR.setPower(-power);
+                break;
+
+        }
+        /*
+        if(rotateToTargetRotation) {
+            targetZ = targetRotation;
+        }
+        */
+        int currentPos = 0;
+        int FLPosition;
+        int BLPosition;
+        int FRPosition;
+        int BRPosition;
+        int avgPosition = 0;
+        double FLPower = motorFL.getPower();
+        double BLPower = motorBL.getPower();
+        double FRPower = motorFR.getPower();
+        double BRPower = motorBR.getPower();
+
+        double currentZ = getCumulativeZ();
+        double rotateError = targetZ - currentZ;
+
+        double errorPosition = targetPos - avgPosition;
+//        int brakeWindow = (int)(errorPosition/500)*100; //This might also be a way of managing the break window
+        int brakeWindow = Math.abs((int)(power)*100);
+
+//        double maxPower = Math.abs(errorPosition/500);
+//        int reversalTime = (int)(errorPosition/500)*55;
+
+        if(brakeWindow > 100){
+            brakeWindow = 100;
+        }
+
+        while ((targetPos >= avgPosition)) {
+            FLPosition = Math.abs(motorFL.getCurrentPosition());
+            BLPosition = Math.abs(motorBL.getCurrentPosition());
+            FRPosition = Math.abs(motorFR.getCurrentPosition());
+            BRPosition = Math.abs(motorBR.getCurrentPosition());
+
+            currentZ = getCumulativeZ();
+            rotateError = targetZ - currentZ;
+
+            avgPosition = (int) (FLPosition + BLPosition + FRPosition + BRPosition) / 4;
+            errorPosition = targetPos - avgPosition;
+
+            motorFL.setPower(FLPower - (rotateError / 150));
+            motorBL.setPower(BLPower - (rotateError / 150));
+            motorFR.setPower(FRPower + (rotateError / 150));
+            motorBR.setPower(BRPower + (rotateError / 150));
+
+            telemetry.addLine("MotorFL Power " + motorFL.getPower());
+            telemetry.addLine("MotorBL Power " + motorBL.getPower());
+            telemetry.addLine("MotorFR Power " + motorFR.getPower());
+            telemetry.addLine("MotorBR Power " + motorBR.getPower());
+
+            telemetry.addLine("Current Position: " + avgPosition);
+            telemetry.addLine("targetPos " + targetPos);
+
+            telemetry.addLine("Cumulative Z " + getCumulativeZ());
+            telemetry.addLine("Current Z " + getCurrentZ());
+            telemetry.addLine("Error " + rotateError);
+            telemetry.update();
+
+            if(errorPosition < brakeWindow){
+                motorFL.setPower(-FLPower);
+                motorBL.setPower(-BLPower);
+                motorFR.setPower(-FRPower);
+                motorBR.setPower(-BRPower);
+                sleep(65);
+                break;
+            }
+        }
+
+        stopMotors();
+
+    }
 }

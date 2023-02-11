@@ -646,11 +646,11 @@ public class DriveMethods extends LinearOpMode{
                 }
                 if (dif > 0) {
                     aggressiveness = 1050;
-                    holdingPower = 0.18;
+                    holdingPower = 0.21;
                 }
                 motorSlide.setPower((dif / aggressiveness));
                 daTimer.startTimer();
-                while (Math.abs(dif) >= 100 && daTimer.getTime()<3.0) { // doesn't work when trying to go down
+                while (Math.abs(dif) >= 100 && daTimer.getTime()<2.0) { // doesn't work when trying to go down
                     telemetry.addLine(dif + "..difference");
                     telemetry.addLine(Math.abs(motorSlide.getCurrentPosition()) + "..position");
                     telemetry.addLine(target + "..target");

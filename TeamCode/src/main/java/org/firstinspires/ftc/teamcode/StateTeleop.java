@@ -49,7 +49,7 @@ public class StateTeleop extends DriveMethods {
         int targetHeight = 0;
         double sPosition = motorSlide.getCurrentPosition();
         boolean isManualControl = true;
-        int coneStackHeight = 7;
+        int coneStackHeight = 6;
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             sPosition = motorSlide.getCurrentPosition();
@@ -87,7 +87,10 @@ public class StateTeleop extends DriveMethods {
 
             if(gamepad2.left_trigger==1) {
                 isManualControl = false;
-                coneStackHeight = 7;
+                coneStackHeight = 6;
+                slideTarget = 1150;
+                aggressiveness = 1200;
+                holdingPower = 0.18;
             }
             if(gamepad2.right_trigger==1) {
                 isManualControl = true;
@@ -141,57 +144,52 @@ public class StateTeleop extends DriveMethods {
                     }
                 }
             if((gamepad2.dpad_up || gamepad2.dpad_down) & !isManualControl) {
-                if(gamepad2.dpad_up && coneStackHeight!=7) {
+                if(gamepad2.dpad_up && coneStackHeight!=6) {
                     coneStackHeight++;
                     sleep(150);
                 }
-                if(gamepad2.dpad_down && coneStackHeight!=0) {
+                if(gamepad2.dpad_down && coneStackHeight!=1) {
                     coneStackHeight--;
                     sleep(150);
                 }
-                //1283 for 7
-                //615 for 5
-                //460 for 4
-                //290 for 3
-                //190 for 2
-                //000 for 1 and 0
+
                 switch (coneStackHeight) {
-                    case 0:
+//                    case 0:
                     case 1:
                         slideTarget = 0;
-                        aggressiveness = 1800;
+                        aggressiveness = 1200;
                         holdingPower = 0;
                         break;
                     case 2:
-                        slideTarget = 190;
-                        aggressiveness = 1800;
+                        slideTarget = /*1*/40; // Originally 190
+                        aggressiveness = 1200;
                         holdingPower = 0.06;
                         break;
                     case 3:
-                        slideTarget = 290;
-                        aggressiveness = 1800;
+                        slideTarget = 110;
+                        aggressiveness = 1200;
                         holdingPower = 0.18;
                         break;
                     case 4:
-                        slideTarget = 460;
-                        aggressiveness = 1800;
+                        slideTarget = 290;
+                        aggressiveness = 1200;
                         holdingPower = 0.18;
                         break;
                     case 5:
-                        slideTarget = 615;
-                        aggressiveness = 1800;
+                        slideTarget = 460;
+                        aggressiveness = 1200;
                         holdingPower = 0.18;
                         break;
                     case 6:
-                        slideTarget = 815;
-                        aggressiveness = 1800;
+                        slideTarget = 1150;
+                        aggressiveness = 1200;
                         holdingPower = 0.18;
                         break;
-                    case 7:
-                        slideTarget = 1300;
-                        aggressiveness = 1800;
-                        holdingPower = 0.18;
-                        break;
+//                    case 7:
+//                        slideTarget = 1300;
+//                        aggressiveness = 1800;
+//                        holdingPower = 0.18;
+//                        break;
                 }
             }
             //Change the target height based on the height of the linear slide at the time.

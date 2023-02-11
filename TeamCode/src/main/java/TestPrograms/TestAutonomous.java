@@ -6,6 +6,7 @@ import static org.firstinspires.ftc.teamcode.Variables.motorBR;
 import static org.firstinspires.ftc.teamcode.Variables.motorFL;
 import static org.firstinspires.ftc.teamcode.Variables.motorFR;
 import static org.firstinspires.ftc.teamcode.Variables.rotationsPerMeter;
+import static org.firstinspires.ftc.teamcode.Variables.targetZ;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -27,116 +28,30 @@ public class TestAutonomous extends DriveMethods {
 
         waitForStart();
 
-        angle = 15;
-        interval = angle - getCumulativeZ();
-        rotateWithBrake(angle);
-        telemetry.addLine("Target: " + angle);
-        telemetry.addLine("Current: " + getCumulativeZ());
-        telemetry.addLine("Interval: " + interval);
-        telemetry.addLine("Error: " + (angle-getCumulativeZ()));
-        telemetry.update();
+        driveForDistanceBrake(0.4, Variables.Direction.FORWARD,0.4,0);
         sleep(3000);
-        angle = 0;
-        interval = angle - getCumulativeZ();
-        rotateWithBrake(angle);
-        telemetry.addLine("Target: " + angle);
-        telemetry.addLine("Current: " + getCumulativeZ());
-        telemetry.addLine("Interval: " + interval);
-        telemetry.addLine("Error: " + (angle-getCumulativeZ()));
-        telemetry.update();
+        driveForDistanceBrake(0.4, Variables.Direction.BACKWARD,0.4,0);
         sleep(3000);
-        angle = -15;
-        interval = angle - getCumulativeZ();
-        rotateWithBrake(angle);
-        telemetry.addLine("Target: " + angle);
-        telemetry.addLine("Current: " + getCumulativeZ());
-        telemetry.addLine("Interval: " + interval);
-        telemetry.addLine("Error: " + (angle-getCumulativeZ()));
-        telemetry.update();
+        driveForDistanceBrake(0.4, Variables.Direction.RIGHT,0.4,0);
         sleep(3000);
-        angle = 0;
-        interval = angle - getCumulativeZ();
-        rotateWithBrake(angle);
-        telemetry.addLine("Target: " + angle);
-        telemetry.addLine("Current: " + getCumulativeZ());
-        telemetry.addLine("Interval: " + interval);
-        telemetry.addLine("Error: " + (angle-getCumulativeZ()));
-        telemetry.update();
+        driveForDistanceBrake(0.4, Variables.Direction.LEFT,0.4,0);
         sleep(3000);
-        angle = 10;
-        interval = angle - getCumulativeZ();
-        rotateWithBrake(angle);
-        telemetry.addLine("Target: " + angle);
-        telemetry.addLine("Current: " + getCumulativeZ());
-        telemetry.addLine("Interval: " + interval);
-        telemetry.addLine("Error: " + (angle-getCumulativeZ()));
-        telemetry.update();
+        driveForDistanceBrake(0.4, Variables.Direction.FORWARD,0.3,0);
         sleep(3000);
-        angle = 0;
-        interval = angle - getCumulativeZ();
-        rotateWithBrake(angle);
-        telemetry.addLine("Target: " + angle);
-        telemetry.addLine("Current: " + getCumulativeZ());
-        telemetry.addLine("Interval: " + interval);
-        telemetry.addLine("Error: " + (angle-getCumulativeZ()));
-        telemetry.update();
+        driveForDistanceBrake(0.4, Variables.Direction.BACKWARD,0.3,0);
         sleep(3000);
-        angle = -10;
-        interval = angle - getCumulativeZ();
-        rotateWithBrake(angle);
-        telemetry.addLine("Target: " + angle);
-        telemetry.addLine("Current: " + getCumulativeZ());
-        telemetry.addLine("Interval: " + interval);
-        telemetry.addLine("Error: " + (angle-getCumulativeZ()));
-        telemetry.update();
+        driveForDistanceBrake(0.4, Variables.Direction.RIGHT,0.3,0);
         sleep(3000);
-        angle = 0;
-        interval = angle - getCumulativeZ();
-        rotateWithBrake(angle);
-        telemetry.addLine("Target: " + angle);
-        telemetry.addLine("Current: " + getCumulativeZ());
-        telemetry.addLine("Interval: " + interval);
-        telemetry.addLine("Error: " + (angle-getCumulativeZ()));
-        telemetry.update();
+        driveForDistanceBrake(0.4, Variables.Direction.LEFT,0.3,0);
         sleep(3000);
-        angle = 5;
-        interval = angle - getCumulativeZ();
-        rotateWithBrake(angle);
-        telemetry.addLine("Target: " + angle);
-        telemetry.addLine("Current: " + getCumulativeZ());
-        telemetry.addLine("Interval: " + interval);
-        telemetry.addLine("Error: " + (angle-getCumulativeZ()));
-        telemetry.update();
+        driveForDistanceBrake(0.4, Variables.Direction.FORWARD,0.2,0);
         sleep(3000);
-        angle = 0;
-        interval = angle - getCumulativeZ();
-        rotateWithBrake(angle);
-        telemetry.addLine("Target: " + angle);
-        telemetry.addLine("Current: " + getCumulativeZ());
-        telemetry.addLine("Interval: " + interval);
-        telemetry.addLine("Error: " + (angle-getCumulativeZ()));
-        telemetry.update();
+        driveForDistanceBrake(0.4, Variables.Direction.BACKWARD,0.2,0);
         sleep(3000);
-        angle = -5;
-        interval = angle - getCumulativeZ();
-        rotateWithBrake(angle);
-        telemetry.addLine("Target: " + angle);
-        telemetry.addLine("Current: " + getCumulativeZ());
-        telemetry.addLine("Interval: " + interval);
-        telemetry.addLine("Error: " + (angle-getCumulativeZ()));
-        telemetry.update();
+        driveForDistanceBrake(0.4, Variables.Direction.RIGHT,0.2,0);
         sleep(3000);
-        angle = 0;
-        interval = angle - getCumulativeZ();
-        rotateWithBrake(angle);
-        telemetry.addLine("Target: " + angle);
-        telemetry.addLine("Current: " + getCumulativeZ());
-        telemetry.addLine("Interval: " + interval);
-        telemetry.addLine("Error: " + (angle-getCumulativeZ()));
-        telemetry.update();
+        driveForDistanceBrake(0.4, Variables.Direction.LEFT,0.2,0);
         sleep(3000);
-
-
 
 
 
@@ -271,19 +186,21 @@ public class TestAutonomous extends DriveMethods {
 
 
     public void driveForDistanceBrake(double distanceMeters, Variables.Direction movementDirection, double power, double heading) { // distance: 2, strafe: false, power: 0.5
-        double targetZ = heading;
+        targetZ = heading;
         motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         double distanceTraveled = 0;
-        int targetPos = (int) ((distanceMeters * clicksPerRotation * rotationsPerMeter) * 1.1 / 1.15);
+        int targetPos = (int) ((distanceMeters * clicksPerRotation * rotationsPerMeter) / 1.15);
 
         motorFL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorBR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         int doRotateOnly = 0;
+
+
         power = Math.abs(power);
         switch (movementDirection) {
             case FORWARD:
@@ -332,7 +249,17 @@ public class TestAutonomous extends DriveMethods {
 
         double currentZ = getCumulativeZ();
         double rotateError = targetZ - currentZ;
+
         double errorPosition = targetPos - avgPosition;
+//        int brakeWindow = (int)(errorPosition/500)*100; //This might also be a way of managing the break window
+        int brakeWindow = Math.abs((int)(power)*100);
+
+//        double maxPower = Math.abs(errorPosition/500);
+//        int reversalTime = (int)(errorPosition/500)*55;
+
+        if(brakeWindow > 100){
+            brakeWindow = 100;
+        }
 
         while ((targetPos >= avgPosition)) {
             FLPosition = Math.abs(motorFL.getCurrentPosition());
@@ -344,8 +271,8 @@ public class TestAutonomous extends DriveMethods {
             rotateError = targetZ - currentZ;
 
             avgPosition = (int) (FLPosition + BLPosition + FRPosition + BRPosition) / 4;
-
             errorPosition = targetPos - avgPosition;
+
             motorFL.setPower(FLPower - (rotateError / 150));
             motorBL.setPower(BLPower - (rotateError / 150));
             motorFR.setPower(FRPower + (rotateError / 150));
@@ -364,37 +291,12 @@ public class TestAutonomous extends DriveMethods {
             telemetry.addLine("Error " + rotateError);
             telemetry.update();
 
-            if (gamepad2.a) {
-                telemetry.addLine("Breaking out of drive for distance command!");
-                telemetry.update();
-                break;
-            }
-
-            if(power > 0.5 && Math.abs(errorPosition) < 125){
-                FLPower = motorFL.getPower() / (Math.abs(motorFL.getPower()));
-                BLPower = motorBL.getPower() / (Math.abs(motorBL.getPower()));
-                FRPower = motorFR.getPower() / (Math.abs(motorFR.getPower()));
-                BRPower = motorBR.getPower() / (Math.abs(motorBR.getPower()));
-
-                motorFL.setPower(-FLPower * power * 2);
-                motorBL.setPower(-BLPower * power * 2);
-                motorFR.setPower(-FRPower * power * 2);
-                motorBR.setPower(-BRPower * power * 2);
-                sleep(50);
-                break;
-            }
-
-            if(power >= 0.3 && Math.abs(errorPosition) < 70){
-                FLPower = motorFL.getPower() / (Math.abs(motorFL.getPower()));
-                BLPower = motorBL.getPower() / (Math.abs(motorBL.getPower()));
-                FRPower = motorFR.getPower() / (Math.abs(motorFR.getPower()));
-                BRPower = motorBR.getPower() / (Math.abs(motorBR.getPower()));
-
-                motorFL.setPower(-FLPower * power * 2);
-                motorBL.setPower(-BLPower * power * 2);
-                motorFR.setPower(-FRPower * power * 2);
-                motorBR.setPower(-BRPower * power * 2);
-                sleep(40);
+            if(errorPosition < brakeWindow){
+                motorFL.setPower(-FLPower);
+                motorBL.setPower(-BLPower);
+                motorFR.setPower(-FRPower);
+                motorBR.setPower(-BRPower);
+                sleep(65);
                 break;
             }
         }
