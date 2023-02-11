@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 public class HTTPTeleOp extends DriveMethods {
     private int port;
     private String ipaddr;
+    private Boolean srvRunning;
 
     @Override
     public void runOpMode() {
@@ -12,12 +13,26 @@ public class HTTPTeleOp extends DriveMethods {
         telemetry.addLine("Init");
         telemetry.update();
         waitForStart();
-        TinyWebServer.startServer(ipaddr,port,"/Users/damienbrown/Desktop/web/public_html");
+        TinyWebServer.startServer(ipaddr,port,"/");
+        srvRunning = true;
         while (opModeIsActive()) {
-            telemetry.addLine("Still active :|");
+            if (gamepad1.a && !srvRunning) {
+                TinyWebServer.startServer(ipaddr,port,"/");
+            }
+            if (gamepad1.b && srvRunning) {
+                TinyWebServer.stopServer();
+            }
+            if (srvRunning) {
+                telemetry.addLine("Currently active.");
+            } else {
+                telemetry.addLine("Currently stopped, start me!");
+            }
             telemetry.addLine("Hosting at " + ipaddr + ":" + port + ".");
             telemetry.update();
         }
-        TinyWebServer.stopServer();
+        if (srvRunning) {
+            TinyWebServer.stopServer();
+        }
+        srvRunning = false;
     }
 }
