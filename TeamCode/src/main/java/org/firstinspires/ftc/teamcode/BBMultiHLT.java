@@ -62,18 +62,19 @@ public class BBMultiHLT extends DriveMethods{
         sleep(100);
         clawRelease();
         sleep(100);
-        driveForDistance(0.11, Variables.Direction.BACKWARD,0.4, globalTargetRotation);
+        driveForDistance(0.10, Variables.Direction.BACKWARD,0.4, globalTargetRotation);
         GoToHeight(1000);
         sleep(100);
         driveForDistance(0.35, Variables.Direction.RIGHT, 0.5, globalTargetRotation);
-        driveForDistance(0.68, Variables.Direction.FORWARD, 0.5, globalTargetRotation);
+        driveForDistance(0.7, Variables.Direction.FORWARD, 0.5, globalTargetRotation);
         rotateWithBrake(-90);
+
         globalTargetRotation = -90;
-        driveForDistance(.8, Variables.Direction.FORWARD, .4, globalTargetRotation);
-        driveForDistance(.02, Variables.Direction.LEFT, .4, globalTargetRotation);
+        driveForDistance(.9, Variables.Direction.FORWARD, .5, globalTargetRotation);
+        driveForDistance(.02, Variables.Direction.LEFT, .5, globalTargetRotation);
         GoToHeight(1200);
         sleep(100);
-        driveForDistance(.45, Variables.Direction.FORWARD, .25, globalTargetRotation);
+        driveForDistance(.4, Variables.Direction.FORWARD, .25, globalTargetRotation);
         sleep(100);
         GoToHeight(615);
         sleep(200);
@@ -101,8 +102,8 @@ public class BBMultiHLT extends DriveMethods{
         GoToHeight(1000);
         driveForDistance(.07, Variables.Direction.BACKWARD, .6, globalTargetRotation);
         goToCollect();
-        rotateAngle(-178);
-        globalTargetRotation = -178;
+        rotateWithBrake(-180);
+        globalTargetRotation = -180;
         driveForDistance(1.2, Variables.Direction.FORWARD, .4, globalTargetRotation);
         sleep(500);
         driveForDistance(.3, Variables.Direction.LEFT, 1, globalTargetRotation);
@@ -113,8 +114,6 @@ public class BBMultiHLT extends DriveMethods{
         sleep(500);
         driveForDistance(.3, Variables.Direction.RIGHT, .6, globalTargetRotation);
         driveForDistance(.1, Variables.Direction.BACKWARD, .6, globalTargetRotation);
-        rotateAngle(-87);
-        globalTargetRotation = -87;
         //DOES NOT WORK YET
 
         switch(result){
