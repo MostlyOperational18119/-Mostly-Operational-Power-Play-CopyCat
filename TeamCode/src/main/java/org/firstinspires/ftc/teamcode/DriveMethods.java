@@ -15,12 +15,23 @@ import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getBoxWidth;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getCenterX;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLargestObjectWidth;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLargestSize;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevel2Assigment;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getPercentColor;
 import static org.firstinspires.ftc.teamcode.Variables.*;
+import static org.firstinspires.ftc.teamcode.Variables.Direction.BACKWARD;
+import static org.firstinspires.ftc.teamcode.Variables.Direction.FORWARD;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvWebcam;
 
 
 public class DriveMethods extends LinearOpMode {
@@ -690,6 +701,7 @@ public class DriveMethods extends LinearOpMode {
         servoGrabberThing.setPosition(Clamp);
     }
 
+
     public void clawRelease() {
         servoGrabberThing.setPosition(Release);
     }
@@ -863,4 +875,186 @@ public class DriveMethods extends LinearOpMode {
     }
 }
 
+    public void alignToPole(OpenCvCamera camera) {
+        String level = "one";
+        int levelCounter = 1;
+        double errorX;
+        int errorWidth;
+        double currentWidth;
+        double dividerX = 300;
+        int targetX = 225; //<-- this SHOULD be the resolution at level1 (check-able)
 
+        int targetWidth = 15;
+        level1Aligned = false;
+        level2Aligned = false;
+        level3Aligned = false;
+        int targetHeight = 0;
+//        isIMURecorded = false;
+        visionAutoActivated = false;
+        double alignPowerAddedX;
+//        double alignPowerAddedWidth;
+
+//        GoToHeight(collectHeight);
+        boolean tryingToStack = true;
+        while (tryingToStack) {
+            errorX = targetX - getCenterX();
+            errorWidth = targetWidth - getLargestObjectWidth();
+            double slidePosition = motorSlide.getCurrentPosition();
+            if (!level2Capable && !visionAutoActivated) {
+                pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
+                blinkinLedDriver.setPattern(pattern);
+            }
+            if (level2Capable && !visionAutoActivated) {
+                pattern = RevBlinkinLedDriver.BlinkinPattern.YELLOW;
+                blinkinLedDriver.setPattern(pattern);
+            }
+            if (visionAutoActivated && levelCounter == 1 || levelCounter == 2) {
+                pattern = RevBlinkinLedDriver.BlinkinPattern.YELLOW;
+                blinkinLedDriver.setPattern(pattern);
+            }
+
+            if (visionAutoActivated && levelCounter == 3) {
+                pattern = RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE;
+                blinkinLedDriver.setPattern(pattern);
+            }
+            if (levelCounter != 3 && getLargestSize() == 0) {
+                levelCounter = 1;
+                level1Aligned = false;
+                level2Aligned = false;
+                level3Aligned = false;
+                visionAutoActivated = false;
+            }
+            alignPowerAddedX = errorX / dividerX;
+
+            double alignPowerAddedWidth = (double) errorWidth / 45;
+
+
+            if (Math.abs(alignPowerAddedX) > 0.14) {
+                alignPowerAddedX = (errorX / (Math.abs(errorX))) * 0.14;
+            }
+
+            if (levelCounter == 1 && Math.abs(errorX) < 32) {//TODO will need to add distance condition
+                level1Aligned = true;
+                imuHeading = getCumulativeZ() + 1.5;
+                levelCounter = 2;
+                telemetry.addLine("level1 complete!");
+                telemetry.addLine("IMU Heading: " + imuHeading);
+                telemetry.addLine("errorX: " + errorX);
+                telemetry.addLine("errorX divide thingy: " + (errorX / (Math.abs(errorX))));
+
+                telemetry.update();
+                stopMotors();
+                //Robot is in front of pole well enough, entering level2...
+            }
+
+            if (levelCounter == 1 && !level1Aligned) {
+
+                targetHeading = getCumulativeZ() + errorX * (0.04559197) + (0.007277 * errorX) - 1; //The 0.045591... constant is derived from the width of camera view (angle) divided by the wide of the frame (pixels) to get degrees/pixel
+                telemetry.addLine("Target heading: " + targetHeading);
+                telemetry.addLine("Error heading: " + (errorX * (0.04559197)));
+                telemetry.addLine("Actual heading: " + getCumulativeZ());
+
+                rotateSmallWithBrake(targetHeading);
+
+
+            }
+
+            //Level2 below (untested at the moment - 1/17/23)
+            if (levelCounter == 2 && getLevel2Assigment()) {
+                currentWidth = getLargestObjectWidth();                                                             //5.2 is an error adjustment
+                targetDistance = (((640.0 / (currentWidth * getBoxWidth())) * 1.27) / (0.260284)) - Math.pow(0.93, currentWidth - 50) - 2; //This is the full distancefrom the pole in CENTImeters!
+
+                //TODO: After curve fitting, this is some simple double-read code
+                if (currentWidth < 25) {
+                    driveForDistance((targetDistance / 100) - 0.25, FORWARD, 0.25, imuHeading);
+                    level2Aligned = false;
+                } else if (currentWidth > 40) {
+                    driveForDistance(0.11, BACKWARD, 0.2, imuHeading);
+                    level2Aligned = false;
+                } else {
+                    driveForDistance((targetDistance - 1.5 - 15) / 100, FORWARD, 0.2, imuHeading);
+                    level2Aligned = true;
+                    levelCounter = 3;
+                }
+
+
+                telemetry.addLine("Target Distance: " + targetDistance + " cm");
+                telemetry.addLine("Boxes Width: " + currentWidth);
+
+
+                if (levelCounter == 3 && level3Assignment && getPercentColor() < 10) {
+                    level3Aligned = true;
+                    telemetry.addLine("We're at the top of the pole!");
+                    telemetry.addLine("level3Aligned: " + level3Aligned);
+                    telemetry.addLine("Percent Color: " + getPercentColor());
+                    telemetry.update();
+//                    sleep(1000);
+                }
+
+                if (levelCounter == 3 && level3Aligned == false) {
+                    clawClamp();
+                    motorSlide.setPower(0.65);
+                    slidePosition = motorSlide.getCurrentPosition();
+                    telemetry.addLine("Measuring the pole height!");
+                    telemetry.addLine("Slide Position: " + motorSlide.getCurrentPosition());
+                    telemetry.addLine("Percent Color: " + getPercentColor());
+                    //Slide go up <-- Honestly just use a consistent power for ease
+                }
+                //For all the marbles, this is the sequence that stacks
+                if (level3Aligned == true) {
+                    slidePosition = motorSlide.getCurrentPosition();
+                    stopMotors();
+                    telemetry.addLine("We going to the top babeeeeeeee");
+                    telemetry.addLine("Slide position: " + slidePosition);
+                    telemetry.addLine("targetHeight: " + targetHeight);
+                    telemetry.update();
+
+                    if (slidePosition >= 0 && slidePosition <= 1300) {
+                        targetHeight = lowHeight;
+                    } else if (slidePosition > 1300 && slidePosition <= 2500) {
+                        targetHeight = midHeight;
+                    } else if (slidePosition > 2500) {
+                        targetHeight = highHeight;
+                    }
+
+                    clawClamp();
+                    GoToHeight(targetHeight);
+                    sleep(300);
+                    driveForDistance(0.15, FORWARD, 0.25, imuHeading);
+
+                    GoToHeight(targetHeight - 75);
+                    sleep(350);
+                    clawRelease();
+                    sleep(200);
+                    GoToHeight(targetHeight);
+                    sleep(300);
+                    driveForDistance(0.15, BACKWARD, 0.25, imuHeading);
+                    goToDown();
+
+                    levelCounter = 1;
+                    level1Aligned = false;
+                    level2Aligned = false;
+                    level3Aligned = false;
+                    visionAutoActivated = false;
+                    targetX = 225; //TODO Avoid hard coding this value? Or maybe just take from the original resolution setting above
+
+                    //Back to manual driving!!!
+                    tryingToStack = false;
+                }
+                if (levelCounter == 1) {
+                    level = "one";
+                }
+
+                if (levelCounter == 2) {
+                    level = "two";
+                }
+
+                if (levelCounter == 3) {
+                    level = "three";
+                }
+                PipePoleTracker pipePoleTracker = new PipePoleTracker(level);
+                camera.setPipeline(pipePoleTracker);
+            }
+        }
+    }
+}
