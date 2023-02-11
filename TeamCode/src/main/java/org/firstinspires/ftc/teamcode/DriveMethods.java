@@ -15,18 +15,30 @@ import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getBoxWidth;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getCenterX;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLargestObjectWidth;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLargestSize;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevel2Assigment;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getPercentColor;
 import static org.firstinspires.ftc.teamcode.Variables.*;
+import static org.firstinspires.ftc.teamcode.Variables.Direction.BACKWARD;
+import static org.firstinspires.ftc.teamcode.Variables.Direction.FORWARD;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvWebcam;
 
 
-public class DriveMethods extends LinearOpMode{
+public class DriveMethods extends LinearOpMode {
 
     @Override
-    public void runOpMode() {}
+    public void runOpMode() {
+    }
 
     /*
     public void driveForDistance(double distanceMeters, boolean doStrafe, double power) { // distance: 2, strafe: false, power: 0.5
@@ -226,17 +238,16 @@ public class DriveMethods extends LinearOpMode{
 //    }
 
 
-
     /**
      * Above code is for REV internal IMU
      * BELOW is code for NavX IMU
      */
 
-    public void calibrateNavXIMU(){
+    public void calibrateNavXIMU() {
         navxMicro = hardwareMap.get(NavxMicroNavigationSensor.class, "navx");
-        gyro = (IntegratingGyroscope)navxMicro;
+        gyro = (IntegratingGyroscope) navxMicro;
 
-        while (navxMicro.isCalibrating())  {
+        while (navxMicro.isCalibrating()) {
             telemetry.addLine("calibrating...");
             telemetry.update();
             sleep(50);
@@ -245,18 +256,18 @@ public class DriveMethods extends LinearOpMode{
         telemetry.update();
     }
 
-    public double getCurrentZ(){
+    public double getCurrentZ() {
         Orientation angles = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         return angles.firstAngle;
     }
 
-    public double getCumulativeZ(){
+    public double getCumulativeZ() {
         double currentHeading = getCurrentZ();
         double deltaHeading = currentHeading - previousHeading;
-        if(deltaHeading <= -180) {
+        if (deltaHeading <= -180) {
             deltaHeading += 360;
-        } else if(deltaHeading >= 180) {
-            deltaHeading -=360;
+        } else if (deltaHeading >= 180) {
+            deltaHeading -= 360;
         }
 
         intergratedHeading += deltaHeading;
@@ -267,7 +278,7 @@ public class DriveMethods extends LinearOpMode{
     }
 
     /**
-     *Above is NavX IMU stuff
+     * Above is NavX IMU stuff
      **/
 //    public void recenterRobotZRotation(double targetRotationZ) {
 //        double FLPower = motorFL.getPower();
@@ -285,8 +296,6 @@ public class DriveMethods extends LinearOpMode{
 //            motorBR.setPower(BRPower + (rotateError / 100));
 //        }
 //    }
-
-
     public void driveForDistance(double distanceMeters, Direction movementDirection, double power, double heading) { // distance: 2, strafe: false, power: 0.5
         targetZ = heading;
         motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -363,9 +372,9 @@ public class DriveMethods extends LinearOpMode{
 
             avgPosition = (int) (FLPosition + BLPosition + FRPosition + BRPosition) / 4;
             motorFL.setPower(FLPower - (rotateError / 150));
-                motorBL.setPower(BLPower - (rotateError / 150));
-                motorFR.setPower(FRPower + (rotateError / 150));
-                motorBR.setPower(BRPower + (rotateError / 150));
+            motorBL.setPower(BLPower - (rotateError / 150));
+            motorFR.setPower(FRPower + (rotateError / 150));
+            motorBR.setPower(BRPower + (rotateError / 150));
 
             telemetry.addLine("MotorFL Power " + motorFL.getPower());
             telemetry.addLine("MotorBL Power " + motorBL.getPower());
@@ -380,7 +389,7 @@ public class DriveMethods extends LinearOpMode{
             telemetry.addLine("Error " + rotateError);
             telemetry.update();
 
-            if(gamepad2.b){
+            if (gamepad2.b) {
                 break;
             }
         }
@@ -429,19 +438,19 @@ public class DriveMethods extends LinearOpMode{
         double power = 0;
         while (Math.abs(error) > 1) {
             error = target - getCumulativeZ();
-           if (Math.abs(error) > 20) {
-               power = error / 120;
-           } else {
-               power = error / 40 + .15*(Math.abs(error)/error);
-           }
-               motorFL.setPower(-power);
-               motorBL.setPower(-power);
-               motorFR.setPower(power);
-               motorBR.setPower(power);
-               telemetry.addLine("Current (Cumulative) Z:  " + getCumulativeZ());
-               telemetry.addLine("Rotating power: " + power);
-               telemetry.update();
-               //This is a universal heading
+            if (Math.abs(error) > 20) {
+                power = error / 120;
+            } else {
+                power = error / 40 + .15 * (Math.abs(error) / error);
+            }
+            motorFL.setPower(-power);
+            motorBL.setPower(-power);
+            motorFR.setPower(power);
+            motorBR.setPower(power);
+            telemetry.addLine("Current (Cumulative) Z:  " + getCumulativeZ());
+            telemetry.addLine("Rotating power: " + power);
+            telemetry.update();
+            //This is a universal heading
         }
         stopMotors();
     }
@@ -453,7 +462,7 @@ public class DriveMethods extends LinearOpMode{
         double power = 0;
         int sign = 0;
 
-        if(Math.abs(error) > 30) {
+        if (Math.abs(error) > 30) {
             while (Math.abs(error) > 1) {
                 current = getCumulativeZ();
                 error = target - current;
@@ -518,25 +527,25 @@ public class DriveMethods extends LinearOpMode{
         stopMotors();
     }
 
-    public void rotateSmallWithBrake(double heading){
+    public void rotateSmallWithBrake(double heading) {
         double target = heading;
         double current = getCumulativeZ();
         double error = target - current;
         int sign = 0;
 
-        int brakeWindow = (int)(error/55)*19;
-        double maxPower = Math.abs(error/55);
-        int reversalTime = (int)(error/55)*55; // This is in milliseconds (for sleep command)
+        int brakeWindow = (int) (error / 55) * 19;
+        double maxPower = Math.abs(error / 55);
+        int reversalTime = (int) (error / 55) * 55; // This is in milliseconds (for sleep command)
 
-        if((Math.abs(error/55)) > 1){
+        if ((Math.abs(error / 55)) > 1) {
             brakeWindow = 19;
             maxPower = 1;
             reversalTime = 55;
-        }else{
-            maxPower = maxPower*0.85;
+        } else {
+            maxPower = maxPower * 0.85;
         }
 
-        if(maxPower < 0.14){
+        if (maxPower < 0.14) {
             maxPower = 0.14;
         }
 
@@ -544,15 +553,15 @@ public class DriveMethods extends LinearOpMode{
 //            maxPower= maxPower*0.85;
 //        }
 
-        while(Math.abs(error) > 1){
+        while (Math.abs(error) > 1) {
             current = getCumulativeZ();
             error = target - current;
-            sign = (int)(error/Math.abs(error));
+            sign = (int) (error / Math.abs(error));
 
-            motorFL.setPower(sign*-maxPower);
-            motorBL.setPower(sign*-maxPower);
-            motorFR.setPower(sign*maxPower);
-            motorBR.setPower(sign*maxPower);
+            motorFL.setPower(sign * -maxPower);
+            motorBL.setPower(sign * -maxPower);
+            motorFR.setPower(sign * maxPower);
+            motorBR.setPower(sign * maxPower);
 
             telemetry.addLine("Current: " + getCumulativeZ());
             telemetry.addLine("Target: " + target);
@@ -563,13 +572,13 @@ public class DriveMethods extends LinearOpMode{
             telemetry.update();
 
 
-            if(Math.abs(error) < brakeWindow){
-                sign = (int)(error/Math.abs(error));
+            if (Math.abs(error) < brakeWindow) {
+                sign = (int) (error / Math.abs(error));
 
-                motorFL.setPower(sign*maxPower);
-                motorBL.setPower(sign*maxPower);
-                motorFR.setPower(sign*-maxPower);
-                motorBR.setPower(sign*-maxPower);
+                motorFL.setPower(sign * maxPower);
+                motorBL.setPower(sign * maxPower);
+                motorFR.setPower(sign * -maxPower);
+                motorBR.setPower(sign * -maxPower);
                 sleep(reversalTime);
                 break;
             }
@@ -634,39 +643,39 @@ public class DriveMethods extends LinearOpMode{
 //    }
 
 
-            public void GoToHeight ( int Clicks){
-                Timer daTimer = new Timer();
-                int target = (Clicks);
-                int dif = (target - Math.abs(motorSlide.getCurrentPosition()));
-                double aggressiveness = 2700;
-                double holdingPower = 0;
-                if (dif < 0) {
-                    aggressiveness = 1500;
-                    holdingPower = 0;
-                }
-                if (dif > 0) {
-                    aggressiveness = 1050;
-                    holdingPower = 0.21;
-                }
-                motorSlide.setPower((dif / aggressiveness));
-                daTimer.startTimer();
-                while (Math.abs(dif) >= 100 && daTimer.getTime()<2.0) { // doesn't work when trying to go down
-                    telemetry.addLine(dif + "..difference");
-                    telemetry.addLine(Math.abs(motorSlide.getCurrentPosition()) + "..position");
-                    telemetry.addLine(target + "..target");
-                    telemetry.addLine(((dif / aggressiveness) + holdingPower) + "..power");
-                    telemetry.addLine("" + daTimer.getTime());
-                    telemetry.update();
-                    dif = (target - Math.abs(motorSlide.getCurrentPosition()));
-                    motorSlide.setPower(((dif / aggressiveness) + holdingPower));
-                    if (target == 0 && motorSlide.getCurrentPosition() < 150) {
-                        aggressiveness = 250;
-                    }
-                }
-                daTimer.cleanup();
-                daTimer = null;
-                motorSlide.setPower(holdingPower);
+    public void GoToHeight(int Clicks) {
+        Timer daTimer = new Timer();
+        int target = (Clicks);
+        int dif = (target - Math.abs(motorSlide.getCurrentPosition()));
+        double aggressiveness = 2700;
+        double holdingPower = 0;
+        if (dif < 0) {
+            aggressiveness = 1500;
+            holdingPower = 0;
+        }
+        if (dif > 0) {
+            aggressiveness = 1050;
+            holdingPower = 0.21;
+        }
+        motorSlide.setPower((dif / aggressiveness));
+        daTimer.startTimer();
+        while (Math.abs(dif) >= 100 && daTimer.getTime() < 2.0) { // doesn't work when trying to go down
+            telemetry.addLine(dif + "..difference");
+            telemetry.addLine(Math.abs(motorSlide.getCurrentPosition()) + "..position");
+            telemetry.addLine(target + "..target");
+            telemetry.addLine(((dif / aggressiveness) + holdingPower) + "..power");
+            telemetry.addLine("" + daTimer.getTime());
+            telemetry.update();
+            dif = (target - Math.abs(motorSlide.getCurrentPosition()));
+            motorSlide.setPower(((dif / aggressiveness) + holdingPower));
+            if (target == 0 && motorSlide.getCurrentPosition() < 150) {
+                aggressiveness = 250;
             }
+        }
+        daTimer.cleanup();
+        daTimer = null;
+        motorSlide.setPower(holdingPower);
+    }
 
     public void GoToHeightFast(int Clicks1) {
         int target1 = (Clicks1);
@@ -674,133 +683,328 @@ public class DriveMethods extends LinearOpMode{
         double holdingPower1 = 0;
         if (dif1 < 0) {
             holdingPower1 = 0;
-        } if (dif1 > 0) {
+        }
+        if (dif1 > 0) {
             holdingPower1 = 0.18;
             motorSlide.setPower(dif1);
         }
         motorSlide.setPower(holdingPower1);
     }
 
-//    public void clawClamp(){
+    //    public void clawClamp(){
 //        servoGrabberThing.setPosition(0.76);
 //    }
 //    public void clawRelease(){
 //        servoGrabberThing.setPosition(0.66);
 //    }
-            public void clawClamp () {
-                servoGrabberThing.setPosition(Clamp);
-            }
-            public void clawRelease () {
-                servoGrabberThing.setPosition(Release);
-            }
-            public void goToDown () {
-                GoToHeight(downHeight);
-            }
-            public void goToCollect () {
-                GoToHeight(collectHeight);
-            }
-            public void goToLow () {
-                GoToHeight(lowHeight);
-            }
-            public void goToMid () {
-                GoToHeight(midHeight);
-            }
-            public void goToHigh () {
-                GoToHeight(highHeight);
-            }
-            public void goToFifth () {
-                GoToHeight(fifthHeight);
-            }
-            public void goToFourth () {
-                GoToHeight(fourthHeight);
-            }
+    public void clawClamp() {
+        servoGrabberThing.setPosition(Clamp);
+    }
+
+    public void clawRelease() {
+        servoGrabberThing.setPosition(Release);
+    }
+
+    public void goToDown() {
+        GoToHeight(downHeight);
+    }
+
+    public void goToCollect() {
+        GoToHeight(collectHeight);
+    }
+
+    public void goToLow() {
+        GoToHeight(lowHeight);
+    }
+
+    public void goToMid() {
+        GoToHeight(midHeight);
+    }
+
+    public void goToHigh() {
+        GoToHeight(highHeight);
+    }
+
+    public void goToFifth() {
+        GoToHeight(fifthHeight);
+    }
+
+    public void goToFourth() {
+        GoToHeight(fourthHeight);
+    }
 
 
-            public void initMotorsSecondBot () {
-                motorFL = hardwareMap.get(DcMotor.class, "motorFL");
-                motorBL = hardwareMap.get(DcMotor.class, "motorBL");
-                motorFR = hardwareMap.get(DcMotor.class, "motorFR");
-                motorBR = hardwareMap.get(DcMotor.class, "motorBR");
+    public void initMotorsSecondBot() {
+        motorFL = hardwareMap.get(DcMotor.class, "motorFL");
+        motorBL = hardwareMap.get(DcMotor.class, "motorBL");
+        motorFR = hardwareMap.get(DcMotor.class, "motorFR");
+        motorBR = hardwareMap.get(DcMotor.class, "motorBR");
 
-                motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
-                motorBL.setDirection(DcMotorSimple.Direction.FORWARD);
-                motorFR.setDirection(DcMotorSimple.Direction.FORWARD);
-                motorBR.setDirection(DcMotorSimple.Direction.FORWARD);
-            }
+        motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorBL.setDirection(DcMotorSimple.Direction.FORWARD);
+        motorFR.setDirection(DcMotorSimple.Direction.FORWARD);
+        motorBR.setDirection(DcMotorSimple.Direction.FORWARD);
+    }
 
-            public void initMotorsBlue () {
-                motorFL = hardwareMap.get(DcMotor.class, "motorFL");
-                motorBL = hardwareMap.get(DcMotor.class, "motorBL");
-                motorFR = hardwareMap.get(DcMotor.class, "motorFR");
-                motorBR = hardwareMap.get(DcMotor.class, "motorBR");
-                motorSlide = hardwareMap.get(DcMotor.class, "motorLS");
-                servoGrabberThing = hardwareMap.get(Servo.class, "grabber");
+    public void initMotorsBlue() {
+        motorFL = hardwareMap.get(DcMotor.class, "motorFL");
+        motorBL = hardwareMap.get(DcMotor.class, "motorBL");
+        motorFR = hardwareMap.get(DcMotor.class, "motorFR");
+        motorBR = hardwareMap.get(DcMotor.class, "motorBR");
+        motorSlide = hardwareMap.get(DcMotor.class, "motorLS");
+        servoGrabberThing = hardwareMap.get(Servo.class, "grabber");
 
-                motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
-                motorBL.setDirection(DcMotorSimple.Direction.REVERSE);
-                motorFR.setDirection(DcMotorSimple.Direction.FORWARD);
-                motorBR.setDirection(DcMotorSimple.Direction.FORWARD);
-                calibrateNavXIMU();
-            }
-            public void initMotorsBlueBlinkin () {
-                motorFL = hardwareMap.get(DcMotor.class, "motorFL");
-                motorBL = hardwareMap.get(DcMotor.class, "motorBL");
-                motorFR = hardwareMap.get(DcMotor.class, "motorFR");
-                motorBR = hardwareMap.get(DcMotor.class, "motorBR");
-                motorSlide = hardwareMap.get(DcMotor.class, "motorLS");
-                servoGrabberThing = hardwareMap.get(Servo.class, "grabber");
+        motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorBL.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorFR.setDirection(DcMotorSimple.Direction.FORWARD);
+        motorBR.setDirection(DcMotorSimple.Direction.FORWARD);
+        calibrateNavXIMU();
+    }
 
-                blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+    public void initMotorsBlueBlinkin() {
+        motorFL = hardwareMap.get(DcMotor.class, "motorFL");
+        motorBL = hardwareMap.get(DcMotor.class, "motorBL");
+        motorFR = hardwareMap.get(DcMotor.class, "motorFR");
+        motorBR = hardwareMap.get(DcMotor.class, "motorBR");
+        motorSlide = hardwareMap.get(DcMotor.class, "motorLS");
+        servoGrabberThing = hardwareMap.get(Servo.class, "grabber");
 
-                motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
-                motorBL.setDirection(DcMotorSimple.Direction.REVERSE);
-                motorFR.setDirection(DcMotorSimple.Direction.FORWARD);
-                motorBR.setDirection(DcMotorSimple.Direction.FORWARD);
-                calibrateNavXIMU();
+        blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
 
+        motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorBL.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorFR.setDirection(DcMotorSimple.Direction.FORWARD);
+        motorBR.setDirection(DcMotorSimple.Direction.FORWARD);
+        calibrateNavXIMU();
+
+        pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
+        blinkinLedDriver.setPattern(pattern);
+    }
+
+    public void initBlinkinOnly() {
+        blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+        pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
+        blinkinLedDriver.setPattern(pattern);
+    }
+
+    public void setBlinkinColor(BlinkinColor colorEnum) {
+        switch (colorEnum) {
+            case RAINBOW:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE;
+                break;
+            case RED:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
+                break;
+            case ORANGE:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.ORANGE;
+                break;
+            case GREEN:
                 pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
+                break;
+            case YELLOW:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.YELLOW;
+                break;
+            case BLUE:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
+                break;
+            case PURPLE:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.HOT_PINK;
+                break;
+            case PINK:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.HOT_PINK;
+                break;
+            case GREEN_PULSE:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_FOREST_PALETTE;
+                break;
+            case ORANGE_PULSE:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE;
+            case RED_PULSE:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.STROBE_RED;
+        }
+        sleep(1000);
+        blinkinLedDriver.setPattern(pattern);
+    }
+
+    public void alignToPole(OpenCvCamera camera) {
+        String level = "one";
+        int levelCounter = 1;
+        double errorX;
+        int errorWidth;
+        double currentWidth;
+        double dividerX = 300;
+        int targetX = 225; //<-- this SHOULD be the resolution at level1 (check-able)
+
+        int targetWidth = 15;
+        level1Aligned = false;
+        level2Aligned = false;
+        level3Aligned = false;
+        int targetHeight = 0;
+//        isIMURecorded = false;
+        visionAutoActivated = false;
+        double alignPowerAddedX;
+//        double alignPowerAddedWidth;
+
+//        GoToHeight(collectHeight);
+        boolean tryingToStack = true;
+        while (tryingToStack) {
+            errorX = targetX - getCenterX();
+            errorWidth = targetWidth - getLargestObjectWidth();
+            double slidePosition = motorSlide.getCurrentPosition();
+            if (!level2Capable && !visionAutoActivated) {
+                pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
                 blinkinLedDriver.setPattern(pattern);
             }
-            public void initBlinkinOnly () {
-                blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
-                pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
+            if (level2Capable && !visionAutoActivated) {
+                pattern = RevBlinkinLedDriver.BlinkinPattern.YELLOW;
                 blinkinLedDriver.setPattern(pattern);
             }
-            public void setBlinkinColor (BlinkinColor colorEnum){
-                switch (colorEnum) {
-                    case RAINBOW:
-                        pattern = RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE;
-                        break;
-                    case RED:
-                        pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
-                        break;
-                    case ORANGE:
-                        pattern = RevBlinkinLedDriver.BlinkinPattern.ORANGE;
-                        break;
-                    case GREEN:
-                        pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
-                        break;
-                    case YELLOW:
-                        pattern = RevBlinkinLedDriver.BlinkinPattern.YELLOW;
-                        break;
-                    case BLUE:
-                        pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
-                        break;
-                    case PURPLE:
-                        pattern = RevBlinkinLedDriver.BlinkinPattern.HOT_PINK;
-                        break;
-                    case PINK:
-                        pattern = RevBlinkinLedDriver.BlinkinPattern.HOT_PINK;
-                        break;
-                    case GREEN_PULSE:
-                        pattern = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_FOREST_PALETTE;
-                        break;
-                    case ORANGE_PULSE:
-                        pattern = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE;
-                    case RED_PULSE:
-                        pattern = RevBlinkinLedDriver.BlinkinPattern.STROBE_RED;
+            if (visionAutoActivated && levelCounter == 1 || levelCounter == 2) {
+                pattern = RevBlinkinLedDriver.BlinkinPattern.YELLOW;
+                blinkinLedDriver.setPattern(pattern);
+            }
+
+            if (visionAutoActivated && levelCounter == 3) {
+                pattern = RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE;
+                blinkinLedDriver.setPattern(pattern);
+            }
+            if (levelCounter != 3 && getLargestSize() == 0) {
+                levelCounter = 1;
+                level1Aligned = false;
+                level2Aligned = false;
+                level3Aligned = false;
+                visionAutoActivated = false;
+            }
+            alignPowerAddedX = errorX / dividerX;
+
+            double alignPowerAddedWidth = (double) errorWidth / 45;
+
+
+            if (Math.abs(alignPowerAddedX) > 0.14) {
+                alignPowerAddedX = (errorX / (Math.abs(errorX))) * 0.14;
+            }
+
+            if (levelCounter == 1 && Math.abs(errorX) < 32) {//TODO will need to add distance condition
+                level1Aligned = true;
+                imuHeading = getCumulativeZ() + 1.5;
+                levelCounter = 2;
+                telemetry.addLine("level1 complete!");
+                telemetry.addLine("IMU Heading: " + imuHeading);
+                telemetry.addLine("errorX: " + errorX);
+                telemetry.addLine("errorX divide thingy: " + (errorX / (Math.abs(errorX))));
+
+                telemetry.update();
+                stopMotors();
+                //Robot is in front of pole well enough, entering level2...
+            }
+
+            if (levelCounter == 1 && !level1Aligned) {
+
+                targetHeading = getCumulativeZ() + errorX * (0.04559197) + (0.007277 * errorX) - 1; //The 0.045591... constant is derived from the width of camera view (angle) divided by the wide of the frame (pixels) to get degrees/pixel
+                telemetry.addLine("Target heading: " + targetHeading);
+                telemetry.addLine("Error heading: " + (errorX * (0.04559197)));
+                telemetry.addLine("Actual heading: " + getCumulativeZ());
+
+                rotateSmallWithBrake(targetHeading);
+
+
+            }
+
+            //Level2 below (untested at the moment - 1/17/23)
+            if (levelCounter == 2 && getLevel2Assigment()) {
+                currentWidth = getLargestObjectWidth();                                                             //5.2 is an error adjustment
+                targetDistance = (((640.0 / (currentWidth * getBoxWidth())) * 1.27) / (0.260284)) - Math.pow(0.93, currentWidth - 50) - 2; //This is the full distancefrom the pole in CENTImeters!
+
+                //TODO: After curve fitting, this is some simple double-read code
+                if (currentWidth < 25) {
+                    driveForDistance((targetDistance / 100) - 0.25, FORWARD, 0.25, imuHeading);
+                    level2Aligned = false;
+                } else if (currentWidth > 40) {
+                    driveForDistance(0.11, BACKWARD, 0.2, imuHeading);
+                    level2Aligned = false;
+                } else {
+                    driveForDistance((targetDistance - 1.5 - 15) / 100, FORWARD, 0.2, imuHeading);
+                    level2Aligned = true;
+                    levelCounter = 3;
                 }
-                sleep(1000);
-                blinkinLedDriver.setPattern(pattern);
+
+
+                telemetry.addLine("Target Distance: " + targetDistance + " cm");
+                telemetry.addLine("Boxes Width: " + currentWidth);
+
+
+                if (levelCounter == 3 && level3Assignment && getPercentColor() < 10) {
+                    level3Aligned = true;
+                    telemetry.addLine("We're at the top of the pole!");
+                    telemetry.addLine("level3Aligned: " + level3Aligned);
+                    telemetry.addLine("Percent Color: " + getPercentColor());
+                    telemetry.update();
+//                    sleep(1000);
+                }
+
+                if (levelCounter == 3 && level3Aligned == false) {
+                    clawClamp();
+                    motorSlide.setPower(0.65);
+                    slidePosition = motorSlide.getCurrentPosition();
+                    telemetry.addLine("Measuring the pole height!");
+                    telemetry.addLine("Slide Position: " + motorSlide.getCurrentPosition());
+                    telemetry.addLine("Percent Color: " + getPercentColor());
+                    //Slide go up <-- Honestly just use a consistent power for ease
+                }
+                //For all the marbles, this is the sequence that stacks
+                if (level3Aligned == true) {
+                    slidePosition = motorSlide.getCurrentPosition();
+                    stopMotors();
+                    telemetry.addLine("We going to the top babeeeeeeee");
+                    telemetry.addLine("Slide position: " + slidePosition);
+                    telemetry.addLine("targetHeight: " + targetHeight);
+                    telemetry.update();
+
+                    if (slidePosition >= 0 && slidePosition <= 1300) {
+                        targetHeight = lowHeight;
+                    } else if (slidePosition > 1300 && slidePosition <= 2500) {
+                        targetHeight = midHeight;
+                    } else if (slidePosition > 2500) {
+                        targetHeight = highHeight;
+                    }
+
+                    clawClamp();
+                    GoToHeight(targetHeight);
+                    sleep(300);
+                    driveForDistance(0.15, FORWARD, 0.25, imuHeading);
+
+                    GoToHeight(targetHeight - 75);
+                    sleep(350);
+                    clawRelease();
+                    sleep(200);
+                    GoToHeight(targetHeight);
+                    sleep(300);
+                    driveForDistance(0.15, BACKWARD, 0.25, imuHeading);
+                    goToDown();
+
+                    levelCounter = 1;
+                    level1Aligned = false;
+                    level2Aligned = false;
+                    level3Aligned = false;
+                    visionAutoActivated = false;
+                    targetX = 225; //TODO Avoid hard coding this value? Or maybe just take from the original resolution setting above
+
+                    //Back to manual driving!!!
+                    tryingToStack = false;
+                }
+                if (levelCounter == 1) {
+                    level = "one";
+                }
+
+                if (levelCounter == 2) {
+                    level = "two";
+                }
+
+                if (levelCounter == 3) {
+                    level = "three";
+                }
+                PipePoleTracker pipePoleTracker = new PipePoleTracker(level);
+                camera.setPipeline(pipePoleTracker);
             }
         }
+    }
+}
