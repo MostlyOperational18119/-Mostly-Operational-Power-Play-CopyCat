@@ -873,7 +873,6 @@ public class DriveMethods extends LinearOpMode {
 
         }
     }
-}
 
     public void alignToPole(OpenCvCamera camera) {
         String level = "one";
