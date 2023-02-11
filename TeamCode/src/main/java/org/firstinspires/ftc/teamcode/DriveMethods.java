@@ -860,6 +860,78 @@ public class DriveMethods extends LinearOpMode {
                 break;
 
         }
+        /*
+        if(rotateToTargetRotation) {
+            targetZ = targetRotation;
+        }
+        */
+        int currentPos = 0;
+        int FLPosition;
+        int BLPosition;
+        int FRPosition;
+        int BRPosition;
+        int avgPosition = 0;
+        double FLPower = motorFL.getPower();
+        double BLPower = motorBL.getPower();
+        double FRPower = motorFR.getPower();
+        double BRPower = motorBR.getPower();
+
+        double currentZ = getCumulativeZ();
+        double rotateError = targetZ - currentZ;
+
+        double errorPosition = targetPos - avgPosition;
+//        int brakeWindow = (int)(errorPosition/500)*100; //This might also be a way of managing the break window
+        int brakeWindow = Math.abs((int)(power)*100);
+
+//        double maxPower = Math.abs(errorPosition/500);
+//        int reversalTime = (int)(errorPosition/500)*55;
+
+        if(brakeWindow > 100){
+            brakeWindow = 100;
+        }
+
+        while ((targetPos >= avgPosition)) {
+            FLPosition = Math.abs(motorFL.getCurrentPosition());
+            BLPosition = Math.abs(motorBL.getCurrentPosition());
+            FRPosition = Math.abs(motorFR.getCurrentPosition());
+            BRPosition = Math.abs(motorBR.getCurrentPosition());
+
+            currentZ = getCumulativeZ();
+            rotateError = targetZ - currentZ;
+
+            avgPosition = (int) (FLPosition + BLPosition + FRPosition + BRPosition) / 4;
+            errorPosition = targetPos - avgPosition;
+
+            motorFL.setPower(FLPower - (rotateError / 150));
+            motorBL.setPower(BLPower - (rotateError / 150));
+            motorFR.setPower(FRPower + (rotateError / 150));
+            motorBR.setPower(BRPower + (rotateError / 150));
+
+            telemetry.addLine("MotorFL Power " + motorFL.getPower());
+            telemetry.addLine("MotorBL Power " + motorBL.getPower());
+            telemetry.addLine("MotorFR Power " + motorFR.getPower());
+            telemetry.addLine("MotorBR Power " + motorBR.getPower());
+
+            telemetry.addLine("Current Position: " + avgPosition);
+            telemetry.addLine("targetPos " + targetPos);
+
+            telemetry.addLine("Cumulative Z " + getCumulativeZ());
+            telemetry.addLine("Current Z " + getCurrentZ());
+            telemetry.addLine("Error " + rotateError);
+            telemetry.update();
+
+            if(errorPosition < brakeWindow){
+                motorFL.setPower(-FLPower);
+                motorBL.setPower(-BLPower);
+                motorFR.setPower(-FRPower);
+                motorBR.setPower(-BRPower);
+                sleep(65);
+                break;
+            }
+        }
+
+        stopMotors();
+
     }
 }
 
