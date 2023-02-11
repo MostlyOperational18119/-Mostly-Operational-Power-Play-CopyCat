@@ -5,9 +5,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class Timer {
     ElapsedTime daTime = new ElapsedTime();
     Boolean timerStopped = true;
-    double cTime = 0;
+    double cTime = 6.9;
     public void startTimer() {
-        daTime.startTime();
+        daTime.reset();
         timerStopped = false;
     }
     public void resetTimer() {
@@ -21,7 +21,7 @@ public class Timer {
         if (!timerStopped) {
             cTime = daTime.seconds();
         }
-        return 2;
+        return cTime;
     }
     public void cleanup() {
         stopTimer();

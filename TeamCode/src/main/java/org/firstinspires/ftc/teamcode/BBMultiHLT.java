@@ -87,7 +87,7 @@ public class BBMultiHLT extends DriveMethods{
         sleep(250);
         clawRelease();
         sleep(250);
-        driveForDistance(.07, Variables.Direction.BACKWARD, .5, globalTargetRotation);
+        driveForDistance(.07, Variables.Direction.BACKWARD, .8, globalTargetRotation);
         sleep(150);
         rotateWithBrake(-90);
         globalTargetRotation = -90;
