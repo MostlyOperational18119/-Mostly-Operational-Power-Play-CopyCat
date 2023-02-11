@@ -363,7 +363,7 @@ public class TinyWebServer extends Thread {
 
     public String getResultByName(String name, HashMap qparms) {
         try {
-            String ClassName = "appapis.queryfiles.AppApis";
+            String ClassName = "org.firstinspires.ftc.teamcode.AppApis";
             Class<?> rClass = Class.forName(ClassName); // convert string classname to class
             Object obj = rClass.newInstance();          // invoke empty constructor
             Method getNameMethod = obj.getClass().getMethod(name, HashMap.class);
@@ -398,8 +398,8 @@ public class TinyWebServer extends Thread {
         CONTENT_TYPE = "text/html";
         //customize your page here
         return "<!DOCTYPE html>"
-                + "<html><head><title>Page not found | Firefly web server</title>"
-                + "</head><body><h3>Requested page not found</h3></body></html>";
+                + "<html><head><title>Page not found | Weird robot web server. (Firefly web server)</title>"
+                + "</head><body><h3>Requested page not found :(</h3></body></html>";
     }
 
     //hashtable initilization for content types
