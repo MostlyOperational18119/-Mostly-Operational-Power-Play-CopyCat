@@ -56,7 +56,7 @@ public class RRMultistack extends DriveMethods{
         driveForDistance(0.1, Variables.Direction.FORWARD,0.35, globalTargetRotation);
         driveForDistance(0.625, Variables.Direction.RIGHT,0.35, globalTargetRotation);
         driveForDistance(1.22, Variables.Direction.FORWARD,0.35, globalTargetRotation);
-        driveForDistance(0.36, Variables.Direction.LEFT, 0.35, globalTargetRotation);
+        driveForDistance(0.41, Variables.Direction.LEFT, 0.35, globalTargetRotation);
         goToHigh();
         driveForDistance(0.14, Variables.Direction.FORWARD,0.2, globalTargetRotation);
         sleep(500);

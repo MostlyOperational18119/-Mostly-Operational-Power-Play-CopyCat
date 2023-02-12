@@ -55,10 +55,10 @@ public class BBMultistack extends DriveMethods{
         GoToHeight(300);
         driveForDistance(0.1, Variables.Direction.FORWARD,0.35, globalTargetRotation);
         driveForDistance(0.625, Variables.Direction.LEFT,0.35, globalTargetRotation);
-        driveForDistance(0.5, Variables.Direction.FORWARD,0.35, globalTargetRotation);
+        driveForDistance(1.22, Variables.Direction.FORWARD,0.35, globalTargetRotation);
         driveForDistance(0.30, Variables.Direction.RIGHT, 0.35, globalTargetRotation);
         goToHigh();
-        driveForDistance(0.1, Variables.Direction.FORWARD,0.2, globalTargetRotation);
+        driveForDistance(0.2, Variables.Direction.FORWARD,0.2, globalTargetRotation);
         sleep(500);
         GoToHeight(highHeight-10);
         clawRelease();
@@ -81,7 +81,7 @@ public class BBMultistack extends DriveMethods{
         rotateAngle(0);
         globalTargetRotation = 0;
         goToHigh();
-        driveForDistance(.06, Variables.Direction.FORWARD, .35, globalTargetRotation);
+        driveForDistance(.12, Variables.Direction.FORWARD, .35, globalTargetRotation);
         sleep(250);
         GoToHeight(highHeight-10);
         sleep(250);
