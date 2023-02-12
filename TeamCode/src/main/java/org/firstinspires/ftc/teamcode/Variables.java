@@ -94,6 +94,7 @@ public class Variables {
 
     public static double percentColor;
     public static String levelString = "one";
+    public static String color = "";
     public static boolean level2Capable = false;
     public static int x_resolution;
     public static int y_resolution;

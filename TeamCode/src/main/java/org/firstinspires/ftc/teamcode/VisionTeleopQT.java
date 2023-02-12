@@ -1,17 +1,18 @@
 package org.firstinspires.ftc.teamcode;
 
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getBoxWidth;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getCenterX;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLargestObjectWidth;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLargestSize;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevel1Assigment;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevel2Assigment;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevel2Capable;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevel2FullyAssigned;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevel3Assigment;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevelString;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getPercentColor;
 
+
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getBoxWidthPole;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getCenterXPole;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLargestObjectWidthPole;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLargestSizePole;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevel1AssigmentPole;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevel2AssigmentPole;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevel2CapablePole;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevel2FullyAssignedPole;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevel3AssigmentPole;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevelStringPole;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getPercentColorPole;
 import static org.firstinspires.ftc.teamcode.Variables.*;
 import static org.firstinspires.ftc.teamcode.Variables.Direction.BACKWARD;
 import static org.firstinspires.ftc.teamcode.Variables.Direction.FORWARD;
@@ -330,7 +331,9 @@ public class VisionTeleopQT extends DriveMethods {
 
             slideDifference = (slideTarget - Math.abs(motorSlide.getCurrentPosition()));
 
-            motorSlide.setPower(((slideDifference / aggressiveness) + holdingPower));
+            if(!visionAutoActivated) {
+                motorSlide.setPower(((slideDifference / aggressiveness) + holdingPower));
+            }
 
             telemetry.addLine(slideDifference + "..difference");
             telemetry.addLine(Math.abs(motorSlide.getCurrentPosition()) + "..position");
@@ -371,7 +374,7 @@ public class VisionTeleopQT extends DriveMethods {
             }
 
             //Button triggers
-            if (gamepad2.y && getLevel2Capable()) {
+            if (gamepad2.y && getLevel2CapablePole()) {
                 visionAutoActivated = true;
             }
 
@@ -387,7 +390,7 @@ public class VisionTeleopQT extends DriveMethods {
             }
 
             //this means we are no longer looking at our object of choice
-            if (levelCounter != 3 && getLargestSize() == 0) {
+            if (levelCounter != 3 && getLargestSizePole() == 0) {
                 levelCounter = 1;
                 level1Aligned = false;
                 level2Aligned = false;
@@ -395,8 +398,8 @@ public class VisionTeleopQT extends DriveMethods {
                 visionAutoActivated = false;
             }
 
-            errorX = targetX - getCenterX();
-            errorWidth = targetWidth - getLargestObjectWidth();
+            errorX = targetX - getCenterXPole();
+            errorWidth = targetWidth - getLargestObjectWidthPole();
 
             dividerX = 200;
 
@@ -438,11 +441,11 @@ public class VisionTeleopQT extends DriveMethods {
                 }
 
                 //Level2 below (untested at the moment - 1/17/23)
-                if (levelCounter == 2 && getLevel2FullyAssigned() == true) {
+                if (levelCounter == 2 && getLevel2FullyAssignedPole() == true) {
                     rotateSmallWithBrake(imuHeading);
                     sleep(150);
-                    currentWidth = getLargestObjectWidth();                                                             //5.2 is an error adjustment
-                    targetDistance = (((640.0/(currentWidth*getBoxWidth()))*1.27)/(0.260284))-Math.pow(0.93,currentWidth-50) - 3 ; //This is the full distancefrom the pole in CENTImeters!
+                    currentWidth = getLargestObjectWidthPole();                                                             //5.2 is an error adjustment
+                    targetDistance = (((640.0/(currentWidth*getBoxWidthPole()))*1.27)/(0.260284))-Math.pow(0.93,currentWidth-50) - 3 ; //This is the full distancefrom the pole in CENTImeters!
 //                    telemetry.addLine("Target Distance: " + targetDistance + " cm");
 //                    telemetry.addLine("Boxes Width: " + currentWidth);
 //                    telemetry.addLine("Level2Assigment: " + getLevel2Assigment());
@@ -467,23 +470,23 @@ public class VisionTeleopQT extends DriveMethods {
 
                 }
 
-                if (levelCounter == 3 && level3Assignment && getPercentColor() < 10) {
+                if (levelCounter == 3 && getLevel3AssigmentPole() && getPercentColorPole() < 10) {
                     level3Aligned = true;
                     telemetry.addLine("We're at the top of the pole!");
                     telemetry.addLine("level3Aligned: " + level3Aligned);
-                    telemetry.addLine("Percent Color: " + getPercentColor());
+                    telemetry.addLine("Percent Color: " + getPercentColorPole());
                     telemetry.update();
 
 
                 }
 
-                if (levelCounter == 3 && level3Aligned == false) {
+                if (levelCounter == 3 && getLevel3AssigmentPole() && level3Aligned == false) {
                     clawClamp();
                     motorSlide.setPower(1);
                     slidePosition = motorSlide.getCurrentPosition();
                     telemetry.addLine("Measuring the pole height!");
                     telemetry.addLine("Slide Position: " + motorSlide.getCurrentPosition());
-                    telemetry.addLine("Percent Color: " + getPercentColor());
+                    telemetry.addLine("Percent Color: " + getPercentColorPole());
 
                 }
 
@@ -515,8 +518,8 @@ public class VisionTeleopQT extends DriveMethods {
                     sleep(300);
                     driveForDistance(0.15 + addedDistance, FORWARD, 0.2, imuHeading);
 //                    sleep(250);
-                    GoToHeight(targetHeight - 60);
-                    sleep(300);
+//                    GoToHeight(targetHeight - 60);
+//                    sleep(300);
                     clawRelease();
                     sleep(200);
                     GoToHeight(targetHeight);
@@ -550,16 +553,16 @@ public class VisionTeleopQT extends DriveMethods {
             }
 
             telemetry.addLine("Target Distance: " + targetDistance);
-            telemetry.addLine("Current Level: " + getLevelString());
-            telemetry.addLine("Level 2 Capable?: " + getLevel2Capable());
+            telemetry.addLine("Current Level: " + getLevelStringPole());
+            telemetry.addLine("Level 2 Capable?: " + getLevel2CapablePole());
             telemetry.addLine("Current Width (boxes): " + currentWidth);
             telemetry.addLine("errorX: " + errorX);//
-            telemetry.addLine("Percent Col]or: " + getPercentColor());
+            telemetry.addLine("Percent Col]or: " + getPercentColorPole());
             telemetry.addLine("Power Applied X: " + alignPowerAddedX);
             telemetry.addLine("Activated?: " + visionAutoActivated);
-            telemetry.addLine("Level1Assigment: " + getLevel1Assigment());
-            telemetry.addLine("Level2Assigment: " + getLevel2Assigment());
-            telemetry.addLine("Level3Assigment: " + getLevel3Assigment());
+            telemetry.addLine("Level1Assigment: " + getLevel1AssigmentPole());
+            telemetry.addLine("Level2Assigment: " + getLevel2AssigmentPole());
+            telemetry.addLine("Level3Assigment: " + getLevel3AssigmentPole());
             telemetry.update();
 
             pipePoleTracker = new PipePoleTracker(level);

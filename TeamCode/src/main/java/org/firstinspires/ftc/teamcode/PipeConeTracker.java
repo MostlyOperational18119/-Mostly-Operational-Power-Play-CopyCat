@@ -15,7 +15,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class PipePoleTracker extends OpenCvPipeline {
+public class PipeConeTracker extends OpenCvPipeline {
 
     //TODO substitute the focusRect for the below testRect (focusRect should be the problem)
     Rect testRect = new Rect(new Point(0,0), new Point(300,300));
@@ -43,17 +43,24 @@ public class PipePoleTracker extends OpenCvPipeline {
 
 
 
-    public PipePoleTracker(String level){
+    public PipeConeTracker(String level, String Color){
         levelString = level;
+        color = Color;
     }
 
     @Override
     public Mat processFrame(Mat input) {
 
 
+        if(color.equals("red")){
+            Imgproc.cvtColor(input,inputHSV,Imgproc.COLOR_BGR2HSV);
+            Core.inRange(inputHSV, new Scalar(111, 115, 164), new Scalar(130, 255, 255), inputMask);
+        }else if(color.equals("blue")){
+            Imgproc.cvtColor(input,inputHSV,Imgproc.COLOR_BGR2HSV);
+            Core.inRange(inputHSV, new Scalar(0, 115, 164), new Scalar(35, 255, 255), inputMask);
+        }
 
-        Imgproc.cvtColor(input,inputHSV,Imgproc.COLOR_BGR2HSV);
-        Core.inRange(inputHSV, new Scalar(81, 115, 164), new Scalar(107, 255, 255), inputMask);
+
 
 
 
@@ -62,9 +69,6 @@ public class PipePoleTracker extends OpenCvPipeline {
 
 
 
-            //TODO The below color filtered is being done twice here
-            Imgproc.cvtColor(input,inputHSV,Imgproc.COLOR_BGR2HSV);
-            Core.inRange(inputHSV,  new Scalar(81, 115, 164), new Scalar(107, 255, 255), inputMask);
 
 
             //"input" is image operated on, whereas "inputOriginal" will be drawn on
@@ -747,95 +751,95 @@ public class PipePoleTracker extends OpenCvPipeline {
     }
 
 
-    public static double getPercentColorPole(){
+    public static double getPercentColorCone(){
         return percentColor;
     }
-    public static String getLevelStringPole(){
+    public static String getLevelStringCone(){
         return levelString;
     }
-    public static boolean getLevel2CapablePole(){
+    public static boolean getLevel2CapableCone(){
         return level2Capable;
     }
 
-    public static int getXResolutionPole(){
+    public static int getXResolutionCone(){
         return x_resolution;
     }
 
-    public static int getYResolutionPole(){
+    public static int getYResolutionCone(){
         return y_resolution;
     }
 
-    public static int getRectWidthPole(){
+    public static int getRectWidthCone(){
         return focusRectWidth;
     }
 
-    public static int getRectHeightPole(){
+    public static int getRectHeightCone(){
         return focusRectHeight;
     }
 
-    public static int getMinRectWidthPole(){
+    public static int getMinRectWidthCone(){
         return minimumWidth;
     }
 
-    public static int getMinRectHeightPole(){
+    public static int getMinRectHeightCone(){
         return minimumHeight;
     }
 
-    public static int getBoxWidthPole(){
+    public static int getBoxWidthCone(){
         return box_width;
     }
 
-    public static int getBoxHeightPole(){
+    public static int getBoxHeightCone(){
         return box_height;
     }
 
-    public static int getLowestXPole(){
+    public static int getLowestXCone(){
         return lowestX;
     }
 
-    public static int getHighestXPole(){
+    public static int getHighestXCone(){
         return highestX;
     }
 
-    public static int getLowestYPole(){
+    public static int getLowestYCone(){
         return lowestY;
     }
 
-    public static int getHighestYPole(){
+    public static int getHighestYCone(){
         return highestY;
     }
 
-    public static int getBoxBL_XPole(){return boxBL_x;}
+    public static int getBoxBL_XCone(){return boxBL_x;}
 
-    public static int getBoxBL_YPole(){
+    public static int getBoxBL_YCone(){
         return boxBL_y;
     }
 
-    public static boolean getLevel1AssigmentPole(){
+    public static boolean getLevel1AssigmentCone(){
         return level1Assigment;
     }
 
-    public static boolean getLevel2AssigmentPole(){
+    public static boolean getLevel2AssigmentCone(){
         return level2Assignment;
     }
-    public static boolean getLevel3AssigmentPole(){
+    public static boolean getLevel3AssigmentCone(){
         return level3Assignment;
     }
 
 
-    public static int getCenterXPole(){
+    public static int getCenterXCone(){
         return centerX;
     }
 
-    public static int getLargestSizePole(){
+    public static int getLargestSizeCone(){
         return largestSize;
     }
 
-    public static int getLargestObjectWidthPole(){
+    public static int getLargestObjectWidthCone(){
         return largestObjectWidth;
     }
 
-    public static boolean getLevel2FullyAssignedPole(){
+    public static boolean getLevel2FullyAssignedCone(){
         return level2FullyAssigned;
     }
 
