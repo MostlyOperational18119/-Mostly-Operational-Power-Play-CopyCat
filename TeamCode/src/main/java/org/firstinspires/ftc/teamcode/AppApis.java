@@ -24,6 +24,9 @@ package org.firstinspires.ftc.teamcode;
  * THE SOFTWARE.
  */
 
+import android.util.Base64;
+
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -35,48 +38,61 @@ public class AppApis {
     public AppApis(){
     }
 
-    public String helloworld(HashMap qparms){
-        //demo of simple html webpage from controller method
-        TinyWebServer.CONTENT_TYPE="text/html";
-        return "<html><head><title>Simple HTML and Javascript Demo</title>\n" +
-                "  <script>\n" +
-                "  \n" +
-                "</script>\n" +
-                "  \n" +
-                "  </head><body style=\"text-align:center;margin-top: 5%;\" cz-shortcut-listen=\"true\" class=\"\">\n" +
-                "    <h3>Say Hello !</h3>\n" +
-                "<div style=\"text-align:center;margin-left: 29%;\">\n" +
-                "<div id=\"c1\" style=\"width: 100px;height: 100px;color: gray;background: gray;border-radius: 50%;float: left;\"></div>\n" +
-                "<div id=\"c2\" style=\"width: 100px;height: 100px;color: gray;background: yellow;border-radius: 50%;float: left;\"></div>\n" +
-                "<div id=\"c3\" style=\"width: 100px;height: 100px;color: gray;background: skyblue;border-radius: 50%;float: left;\"></div>\n" +
-                "<div id=\"c4\" style=\"width: 100px;height: 100px;color: gray;background: yellowgreen;border-radius: 50%;float: left;\"></div>\n" +
-                "<div id=\"c5\" style=\"width: 100px;height: 100px;color: gray;background: red;border-radius: 50%;position: ;position: ;float: left;\" class=\"\"></div></div>\n" +
-                "  </body></html>";
-    }
+//    public String helloworld(HashMap qparms){
+//        //demo of simple html webpage from controller method
+//        TinyWebServer.CONTENT_TYPE="text/html";
+//        return "<html><head><title>Simple HTML and Javascript Demo</title>\n" +
+//                "  <script>\n" +
+//                "  \n" +
+//                "</script>\n" +
+//                "  \n" +
+//                "  </head><body style=\"text-align:center;margin-top: 5%;\" cz-shortcut-listen=\"true\" class=\"\">\n" +
+//                "    <h3>Say Hello !</h3>\n" +
+//                "<div style=\"text-align:center;margin-left: 29%;\">\n" +
+//                "<div id=\"c1\" style=\"width: 100px;height: 100px;color: gray;background: gray;border-radius: 50%;float: left;\"></div>\n" +
+//                "<div id=\"c2\" style=\"width: 100px;height: 100px;color: gray;background: yellow;border-radius: 50%;float: left;\"></div>\n" +
+//                "<div id=\"c3\" style=\"width: 100px;height: 100px;color: gray;background: skyblue;border-radius: 50%;float: left;\"></div>\n" +
+//                "<div id=\"c4\" style=\"width: 100px;height: 100px;color: gray;background: yellowgreen;border-radius: 50%;float: left;\"></div>\n" +
+//                "<div id=\"c5\" style=\"width: 100px;height: 100px;color: gray;background: red;border-radius: 50%;position: ;position: ;float: left;\" class=\"\"></div></div>\n" +
+//                "  </body></html>";
+//    }
 
-    public String simplejson(HashMap qparms){
-        //simple json output demo from controller method
-        String json = "{\"name\":\"sonu\",\"age\":29}";
-        return json.toString();
-    }
+//    public String simplejson(HashMap qparms){
+//        //simple json output demo from controller method
+//        String json = "{\"name\":\"sonu\",\"age\":29}";
+//        return json.toString();
+//    }
 
-    public String simplegetparm(HashMap qparms){
-        /*
-        qparms is hashmap of get and post parameter
-
-        simply use qparms.get(key) to get parameter value
-        user _POST as key for post data
-        e.g to get post data use qparms.get("_POST"), return will be post method
-        data
-        */
-
-        System.out.println("output in simplehelloworld "+qparms);
-        String p="";
-        if(qparms!=null){
-            p=qparms.get("age")+"";
+//    public String simplegetparm(HashMap qparms){
+//        /*
+//        qparms is hashmap of get and post parameter
+//
+//        simply use qparms.get(key) to get parameter value
+//        user _POST as key for post data
+//        e.g to get post data use qparms.get("_POST"), return will be post method
+//        data
+//        */
+//
+//        System.out.println("output in simplehelloworld "+qparms);
+//        String p="";
+//        if(qparms!=null){
+//            p=qparms.get("age")+"";
+//        }
+//        String json = "{\"name\":\"sonu\",\"age\":"+p+",\"isp\":yes}";
+//        return json.toString();
+//    }
+    public String simplepostendpoint(HashMap qparms) {
+        String jsonget="";
+        if(qparms!=null) {
+            jsonget=qparms.get("_POST")+"";
+//            System.out.println(qparms.get("_POST"));
+            Variables.curJSONdata=jsonget;
         }
-        String json = "{\"name\":\"sonu\",\"age\":"+p+",\"isp\":yes}";
-        return json.toString();
+        System.out.println(jsonget);
+        return "Hello, World!";
+    }
+    public String curimgdata(HashMap qparms) {
+        return Arrays.toString(Base64.encode(Variables.curImgData, Base64.DEFAULT));
     }
 
 

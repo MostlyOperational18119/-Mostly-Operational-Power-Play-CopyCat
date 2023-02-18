@@ -282,7 +282,8 @@ public class TinyWebServer extends Thread {
             case "/":
                 //root location, server index file
                 CONTENT_TYPE = "text/html";
-                data=readFile(WEB_DIR_PATH+"/"+INDEX_FILE_NAME);
+                data = "<!DOCTYPE html><html> <head> <title>Robot Keyboard & Mouse Test</title> </head> <body> <script async> var pressedKeys={\"q\": false,\"w\": false,\"e\": false,\"r\": false,\"t\": false,\"y\": false,\"w\": false,\"a\": false,\"s\": false,\"d\": false}; window.addEventListener(\"keydown\", function(event){if(pressedKeys.hasOwnProperty(event.key)){pressedKeys[event.key]=true;}document.getElementById(\"jsonoutput\").innerText=JSON.stringify(pressedKeys);}); window.addEventListener(\"keyup\", function(event){if(pressedKeys.hasOwnProperty(event.key)){pressedKeys[event.key]=false;}document.getElementById(\"jsonoutput\").innerText=JSON.stringify(pressedKeys);}); async function sendToServer(){let res=await fetch(\"192.168.43.1:6969/simplepostendpoint\",{method: \"post\", headers:{'Content-Type': 'application/json'}, body: JSON.stringify(pressedKeys)}); return res;}var theIntervalthingy=setInterval(sendToServer, 50); </script> <h3>Just press keys!</h3> <p id=\"jsonoutput\"></p></body></html>";
+//                data=readFile(WEB_DIR_PATH+"/"+INDEX_FILE_NAME);
                 constructHeader(out, data.length() + "", data);
                 break;
             default:
