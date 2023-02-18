@@ -147,8 +147,8 @@ public class Variables {
     public static int[][] centersXDraw = new int[gridY][gridX];
     public static int[][] centersY = new int[gridY][gridX];
     public static int[][] centersYDraw = new int[gridY][gridX];
-
-
+    public static String curJSONdata = "{}";
+    public static byte[] curImgData = new byte[4096];
 
 
     // Grbber #1 Clamp: 0.5, Release: 0.75
@@ -159,5 +159,6 @@ public class Variables {
     // ';y0/ Grabber #1 Clamp: 0.44, Release: 0.54,
     // 1/14/23 Flat #3 Clamp 0.48 Release 0.56
     // 1/27/23 Flat #1 Clamp 0.23, Release 0.35
+    // 2/18/23 Flat #4 Clamp 0.48, Release 0.56
 
 }

@@ -4,11 +4,13 @@ import static org.firstinspires.ftc.teamcode.Variables.*;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfByte;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.RotatedRect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
+import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
@@ -29,7 +31,6 @@ public class PipePoleTracker extends OpenCvPipeline {
     Mat focusSubMat = new Mat();
 
 
-
     Scalar white = new Scalar(0, 0, 0); // In grey scale
     Scalar grey = new Scalar(75, 0, 0); // In grey scale
     Scalar red = new Scalar(0, 0, 255); // in BGR
@@ -42,15 +43,15 @@ public class PipePoleTracker extends OpenCvPipeline {
 
 
 
-
     public PipePoleTracker(String level){
         levelString = level;
     }
 
     @Override
     public Mat processFrame(Mat input) {
-
-
+        MatOfByte matOfByte = new MatOfByte();
+        Imgcodecs.imencode(".jpg", mat, matOfByte);
+        Variables.curImgData = matOfByte.toArray();
 
         Imgproc.cvtColor(input,inputHSV,Imgproc.COLOR_BGR2HSV);
         Core.inRange(inputHSV, new Scalar(81, 115, 164), new Scalar(107, 255, 255), inputMask);
@@ -744,6 +745,7 @@ public class PipePoleTracker extends OpenCvPipeline {
             return inputOriginal;
 
         }
+
     }
 
 
