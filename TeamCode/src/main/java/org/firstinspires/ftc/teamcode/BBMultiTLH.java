@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import static org.firstinspires.ftc.teamcode.Variables.globalTargetRotation;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -11,8 +10,8 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-@Autonomous(name ="BBMultiHLT", group = "A")
-public class BBMultiHLT extends DriveMethods{
+@Autonomous(name ="BBMultiTLH", group = "A")
+public class BBMultiTLH extends DriveMethods{
     OpenCvWebcam webcam;
     private String result;
 

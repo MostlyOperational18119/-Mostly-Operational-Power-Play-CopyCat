@@ -147,8 +147,8 @@ public class Variables {
     public static int[][] centersXDraw = new int[gridY][gridX];
     public static int[][] centersY = new int[gridY][gridX];
     public static int[][] centersYDraw = new int[gridY][gridX];
-
-
+    public static String curJSONdata = "{}";
+    public static byte[] curImgData = new byte[4096];
 
     // grabber #2 Clamp: 0.42, Release: 0.5
     // 2/18/23 Flat #3 Clamp 0.78, Release 0.85
