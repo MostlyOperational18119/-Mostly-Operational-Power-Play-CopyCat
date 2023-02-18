@@ -754,6 +754,7 @@ public class DriveMethods extends LinearOpMode {
         motorBR = hardwareMap.get(DcMotor.class, "motorBR");
         motorSlide = hardwareMap.get(DcMotor.class, "motorLS");
         servoGrabberThing = hardwareMap.get(Servo.class, "grabber");
+        blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
 
         motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
         motorBL.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -889,7 +890,7 @@ public class DriveMethods extends LinearOpMode {
         level3Aligned = false;
         int targetHeight = 0;
 //        isIMURecorded = false;
-        visionAutoActivated = false;
+        visionAutoActivated = true;
         double alignPowerAddedX;
 //        double alignPowerAddedWidth;
 
@@ -979,6 +980,7 @@ public class DriveMethods extends LinearOpMode {
 
                 telemetry.addLine("Target Distance: " + targetDistance + " cm");
                 telemetry.addLine("Boxes Width: " + currentWidth);
+            }
 
 
                 if (levelCounter == 3 && level3Assignment && getPercentColor() < 10) {
@@ -1053,7 +1055,15 @@ public class DriveMethods extends LinearOpMode {
                 }
                 PipePoleTracker pipePoleTracker = new PipePoleTracker(level);
                 camera.setPipeline(pipePoleTracker);
+
+
+                telemetry.addLine("Cycling the vision stuff loop");
+                telemetry.addLine("Level is: " + level);
+                telemetry.update();
             }
+
+
+
         }
     }
-}
+
