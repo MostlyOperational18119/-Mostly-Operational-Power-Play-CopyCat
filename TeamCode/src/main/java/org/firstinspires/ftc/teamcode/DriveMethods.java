@@ -883,6 +883,7 @@ public class DriveMethods extends LinearOpMode {
         double currentWidth;
         double dividerX = 300;
         int targetX = 225; //<-- this SHOULD be the resolution at level1 (check-able)
+        Timer theTimeForTimeout = new Timer();
 
         int targetWidth = 15;
         level1Aligned = false;
@@ -896,7 +897,8 @@ public class DriveMethods extends LinearOpMode {
 
 //        GoToHeight(collectHeight);
         boolean tryingToStack = true;
-        while (tryingToStack) {
+        theTimeForTimeout.startTimer();
+        while (tryingToStack && theTimeForTimeout.getTime() < 10.0) {
             errorX = targetX - getCenterX();
             errorWidth = targetWidth - getLargestObjectWidth();
             double slidePosition = motorSlide.getCurrentPosition();
@@ -927,7 +929,6 @@ public class DriveMethods extends LinearOpMode {
             alignPowerAddedX = errorX / dividerX;
 
             double alignPowerAddedWidth = (double) errorWidth / 45;
-
 
             if (Math.abs(alignPowerAddedX) > 0.14) {
                 alignPowerAddedX = (errorX / (Math.abs(errorX))) * 0.14;
