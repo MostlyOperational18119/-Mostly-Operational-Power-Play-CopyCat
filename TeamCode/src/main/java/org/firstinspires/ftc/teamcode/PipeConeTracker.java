@@ -162,8 +162,8 @@ public class PipeConeTracker extends OpenCvPipeline {
 //                    gridY = 40;
 
 
-                    lowestX = 111;
-                    highestX = 336;
+                    lowestX = 100;
+                    highestX = 355;
                     focusRect = new Rect(new Point(lowestX, lowestY), new Point(highestX, highestY));
 
                     input = input.submat(focusRect);
@@ -181,7 +181,7 @@ public class PipeConeTracker extends OpenCvPipeline {
 
                 if (levelString.equals("two") && level2Assignment == false && focusRect != null) {
 
-                    gridX = 75;
+                    gridX = 85;
                     gridY = 5;
 
                     rectanglesGrid = new Rect[gridY][gridX];

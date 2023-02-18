@@ -16,12 +16,12 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getBoxWidth;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getCenterX;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLargestObjectWidth;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLargestSize;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevel2Assigment;
-import static org.firstinspires.ftc.teamcode.PipePoleTracker.getPercentColor;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getBoxWidthPole;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getCenterXPole;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLargestObjectWidthPole;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLargestSizePole;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getLevel2AssigmentPole;
+import static org.firstinspires.ftc.teamcode.PipePoleTracker.getPercentColorPole;
 import static org.firstinspires.ftc.teamcode.Variables.*;
 import static org.firstinspires.ftc.teamcode.Variables.Direction.BACKWARD;
 import static org.firstinspires.ftc.teamcode.Variables.Direction.FORWARD;
@@ -971,8 +971,8 @@ public class DriveMethods extends LinearOpMode {
         boolean tryingToStack = true;
         theTimeForTimeout.startTimer();
         while (tryingToStack && theTimeForTimeout.getTime() < 10.0) {
-            errorX = targetX - getCenterX();
-            errorWidth = targetWidth - getLargestObjectWidth();
+            errorX = targetX - getCenterXPole();
+            errorWidth = targetWidth - getLargestObjectWidthPole();
             double slidePosition = motorSlide.getCurrentPosition();
             if (!level2Capable && !visionAutoActivated) {
                 pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
@@ -991,7 +991,7 @@ public class DriveMethods extends LinearOpMode {
                 pattern = RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE;
                 blinkinLedDriver.setPattern(pattern);
             }
-            if (levelCounter != 3 && getLargestSize() == 0) {
+            if (levelCounter != 3 && getLargestSizePole() == 0) {
                 levelCounter = 1;
                 level1Aligned = false;
                 level2Aligned = false;
@@ -1033,9 +1033,9 @@ public class DriveMethods extends LinearOpMode {
             }
 
             //Level2 below (untested at the moment - 1/17/23)
-            if (levelCounter == 2 && getLevel2Assigment()) {
-                currentWidth = getLargestObjectWidth();                                                             //5.2 is an error adjustment
-                targetDistance = (((640.0 / (currentWidth * getBoxWidth())) * 1.27) / (0.260284)) - Math.pow(0.93, currentWidth - 50) - 2; //This is the full distancefrom the pole in CENTImeters!
+            if (levelCounter == 2 && getLevel2AssigmentPole()) {
+                currentWidth = getLargestObjectWidthPole();                                                             //5.2 is an error adjustment
+                targetDistance = (((640.0 / (currentWidth * getBoxWidthPole())) * 1.27) / (0.260284)) - Math.pow(0.93, currentWidth - 50) - 2; //This is the full distancefrom the pole in CENTImeters!
 
                 //TODO: After curve fitting, this is some simple double-read code
                 if (currentWidth < 25) {
@@ -1056,11 +1056,11 @@ public class DriveMethods extends LinearOpMode {
             }
 
 
-                if (levelCounter == 3 && level3Assignment && getPercentColor() < 10) {
+                if (levelCounter == 3 && level3Assignment && getPercentColorPole() < 10) {
                     level3Aligned = true;
                     telemetry.addLine("We're at the top of the pole!");
                     telemetry.addLine("level3Aligned: " + level3Aligned);
-                    telemetry.addLine("Percent Color: " + getPercentColor());
+                    telemetry.addLine("Percent Color: " + getPercentColorPole());
                     telemetry.update();
 //                    sleep(1000);
                 }
@@ -1071,7 +1071,7 @@ public class DriveMethods extends LinearOpMode {
                     slidePosition = motorSlide.getCurrentPosition();
                     telemetry.addLine("Measuring the pole height!");
                     telemetry.addLine("Slide Position: " + motorSlide.getCurrentPosition());
-                    telemetry.addLine("Percent Color: " + getPercentColor());
+                    telemetry.addLine("Percent Color: " + getPercentColorPole());
                     //Slide go up <-- Honestly just use a consistent power for ease
                 }
                 //For all the marbles, this is the sequence that stacks

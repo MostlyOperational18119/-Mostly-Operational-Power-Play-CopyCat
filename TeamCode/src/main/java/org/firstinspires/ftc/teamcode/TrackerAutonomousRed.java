@@ -195,7 +195,7 @@ public class TrackerAutonomousRed extends DriveMethods {
             errorX = targetX - getCenterXCone();
             errorWidth = targetWidth - getLargestObjectWidthCone();
 
-            dividerX = 275;
+            dividerX = 350;
 
 
             if (visionAutoActivated) {
@@ -209,7 +209,11 @@ public class TrackerAutonomousRed extends DriveMethods {
                     alignPowerAddedX = (errorX / (Math.abs(errorX))) * 0.3;
                 }
 
-                if (levelCounter == 1 && Math.abs(errorX) < 32) {//TODO will need to add distance condition
+                if(Math.abs(alignPowerAddedX) < 0.16){
+                    alignPowerAddedX = (errorX / (Math.abs(errorX))) * 0.18;
+                }
+
+                if (levelCounter == 1 && Math.abs(errorX) < 20) {//TODO will need to add distance condition
                     level1Aligned = true;
                     imuHeading = getCumulativeZ() + 1.5;
                     levelCounter = 2;
@@ -259,7 +263,7 @@ public class TrackerAutonomousRed extends DriveMethods {
 //                        levelCounter = 3;
 //                    }
 
-                    driveForDistance((targetDistance/100) - 0.15, FORWARD, 0.25, 0);
+//                    driveForDistance((targetDistance/100) - 0.15, FORWARD, 0.25, 0);
 
 
 
