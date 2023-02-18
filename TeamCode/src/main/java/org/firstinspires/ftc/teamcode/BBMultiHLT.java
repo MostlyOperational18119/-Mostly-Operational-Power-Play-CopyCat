@@ -52,76 +52,74 @@ public class BBMultiHLT extends DriveMethods{
         waitForStart();
 
         GoToHeight(300);
-        driveForDistance(0.06, Variables.Direction.FORWARD,0.4, globalTargetRotation);
-        driveForDistanceBrake(0.65, Variables.Direction.LEFT,0.4, globalTargetRotation);
-        driveForDistanceBrake(0.62, Variables.Direction.FORWARD,0.4, globalTargetRotation);
-        driveForDistanceBrake(0.40, Variables.Direction.LEFT, 0.4, globalTargetRotation);
-        goToHigh();
-        sleep(100);
-        driveForDistanceBrake(0.165, Variables.Direction.FORWARD,0.2, globalTargetRotation);
+        driveForDistance(.05, Variables.Direction.FORWARD, .3, globalTargetRotation);
+        rotateWithBrake(-90);
+        globalTargetRotation = -90;
+        driveForDistanceBrake(.82, Variables.Direction.FORWARD, .4, globalTargetRotation);
         sleep(100);
         clawRelease();
+        GoToHeight(550);
+        sleep(400);
+        driveForDistanceBrake(.13, Variables.Direction.BACKWARD, .3, globalTargetRotation);
+        rotateWithBrake(0);
+        globalTargetRotation = 0;
+        driveForDistanceBrake(1.34, Variables.Direction.FORWARD, .4, globalTargetRotation);
+        driveForDistanceBrake(.1, Variables.Direction.LEFT, .4, globalTargetRotation);
+        rotateWithBrake(-88);
+        globalTargetRotation = -88;
+        GoToHeight(1250);
         sleep(100);
-        driveForDistanceBrake(0.16, Variables.Direction.BACKWARD,0.4, globalTargetRotation);
-        GoToHeight(1000);
-        sleep(100);
-        driveForDistanceBrake(0.35, Variables.Direction.RIGHT, 0.5, globalTargetRotation);
-        driveForDistanceBrake(0.65, Variables.Direction.FORWARD, 0.5, globalTargetRotation);
-        rotateWithBrake(-90);
-
-        globalTargetRotation = -90;
-        driveForDistance(.85, Variables.Direction.FORWARD, .5, globalTargetRotation);
-        sleep(50);
-        driveForDistanceBrake(.05, Variables.Direction.LEFT, .5, globalTargetRotation);
-        GoToHeight(1200);
-        sleep(100);
-        driveForDistanceBrake(.45, Variables.Direction.FORWARD, .25, globalTargetRotation);
+        driveForDistanceBrake(.20, Variables.Direction.FORWARD, .25, globalTargetRotation);
         sleep(100);
         GoToHeight(615);
         sleep(200);
         clawClamp();
         sleep(200);
-        goToLow();
+        GoToHeight(1600);
         driveForDistanceBrake(.4, Variables.Direction.BACKWARD, .45, globalTargetRotation);
-        rotateAngle(-178);
-        globalTargetRotation = -178;
+        rotateAngle(-176);
+        globalTargetRotation = -176;
         sleep(100);
         driveForDistanceBrake(.14, Variables.Direction.FORWARD, .3, globalTargetRotation);
         sleep(250);
         clawRelease();
         sleep(250);
-        driveForDistanceBrake(.14, Variables.Direction.BACKWARD, .5, globalTargetRotation);
+        driveForDistanceBrake(.17, Variables.Direction.BACKWARD, .5, globalTargetRotation);
         sleep(150);
         rotateWithBrake(-90);
         globalTargetRotation = -90;
-        sleep(100);
-        driveForDistanceBrake(.42, Variables.Direction.FORWARD, .25, globalTargetRotation);
+        driveForDistanceBrake(.42, Variables.Direction.FORWARD, .35, globalTargetRotation);
         GoToHeight(460);
-        sleep(100);
+        sleep(200);
         clawClamp();
-        sleep(100);
-        GoToHeight(800);
-        driveForDistanceBrake(.1, Variables.Direction.BACKWARD, .4, globalTargetRotation);
-        goToCollect();
+        sleep(200);
+        GoToHeight(1600);
+        driveForDistanceBrake(1.76, Variables.Direction.BACKWARD, .5, globalTargetRotation);
         rotateWithBrake(-180);
         globalTargetRotation = -180;
-        driveForDistanceBrake(1.2, Variables.Direction.FORWARD, .6, globalTargetRotation);
-        driveForDistanceBrake(.3, Variables.Direction.LEFT, .3, globalTargetRotation);
+        goToHigh();
+        sleep(100);
+        driveForDistanceBrake(0.125, Variables.Direction.FORWARD,0.25, globalTargetRotation);
+        sleep(100);
         clawRelease();
-
-        //DOES NOT WORK YET
-
-//        switch(result){
-//            case "purple":
-//            // Your Where U Need to Be
-//                break;
-//            case "yellow":
-//                driveForDistanceBrake(0.7, Variables.Direction.BACKWARD, 0.45, globalTargetRotation);
-//                break;
-//            case "green":
-//                driveForDistanceBrake(1.3, Variables.Direction.BACKWARD, 0.45, globalTargetRotation);
-//                break;
-//        }
+        sleep(100);
+        driveForDistanceBrake(0.14, Variables.Direction.BACKWARD,0.5, globalTargetRotation);
+        goToLow();
+        sleep(100);
+        rotateWithBrake(-90);
+        globalTargetRotation = -90;
+        switch(result){
+            case "purple":
+                driveForDistanceBrake(1.45, Variables.Direction.FORWARD, .6, globalTargetRotation);
+                goToDown();
+                break;
+            case "yellow":
+                driveForDistanceBrake(.85, Variables.Direction.FORWARD, 0.6, globalTargetRotation);
+                break;
+            case "green":
+                driveForDistanceBrake(.15, Variables.Direction.FORWARD, 0.6, globalTargetRotation);
+                break;
+        }
 
 
         while (opModeIsActive()) {

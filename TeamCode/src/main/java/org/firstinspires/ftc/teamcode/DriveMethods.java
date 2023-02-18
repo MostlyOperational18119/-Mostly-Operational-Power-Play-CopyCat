@@ -644,7 +644,7 @@ public class DriveMethods extends LinearOpMode {
         }
         if (dif > 0) {
             aggressiveness = 1050;
-            holdingPower = 0.21;
+            holdingPower = 0.19;
         }
         motorSlide.setPower((dif / aggressiveness));
         daTimer.startTimer();
