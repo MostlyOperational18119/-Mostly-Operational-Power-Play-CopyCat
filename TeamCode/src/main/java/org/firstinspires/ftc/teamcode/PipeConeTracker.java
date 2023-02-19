@@ -193,8 +193,8 @@ public class PipeConeTracker extends OpenCvPipeline {
                     centersY = new int[gridY][gridX];
                     centersYDraw = new int[gridY][gridX];
 
-                    lowestX = 111;
-                    highestX = 336;
+                    lowestX = 100;
+                    highestX = 355;
                     focusRect = new Rect(new Point(lowestX, lowestY), new Point(highestX, highestY));
 
                     input = input.submat(focusRect);

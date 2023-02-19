@@ -1,6 +1,7 @@
 package TestPrograms;
 
 import static org.firstinspires.ftc.teamcode.Variables.clicksPerRotation;
+import static org.firstinspires.ftc.teamcode.Variables.globalTargetRotation;
 import static org.firstinspires.ftc.teamcode.Variables.motorBL;
 import static org.firstinspires.ftc.teamcode.Variables.motorBR;
 import static org.firstinspires.ftc.teamcode.Variables.motorFL;
@@ -13,50 +14,135 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.DriveMethods;
+import org.firstinspires.ftc.teamcode.PipeConeTracker;
+import org.firstinspires.ftc.teamcode.PipePoleTracker;
 import org.firstinspires.ftc.teamcode.Variables;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 
 @TeleOp(name = "TestAutonomous", group = "A")
 public class TestAutonomous extends DriveMethods {
     double angle = 0;
     double interval = 0;
+    double leftX;
+    double leftY;
+    double rightX;
 
     @Override
     public void runOpMode() {
         initMotorsBlue();
         calibrateNavXIMU();
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        WebcamName webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
+        OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(webcamName, cameraMonitorViewId);
 
+
+        PipePoleTracker pipePoleTracker = new PipePoleTracker("one");
+        camera.setPipeline(pipePoleTracker);
+
+
+        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+            @Override
+            public void onOpened() {
+                //Adjust this to reduce load?????
+                camera.startStreaming(640, 480, OpenCvCameraRotation.UPRIGHT);
+
+
+            }
+
+            @Override
+            public void onError(int errorCode) {
+                /*
+                 * This will be called if the camera could not be opened
+                 */
+            }
+        });
+
+        clawClamp();
         waitForStart();
 
-        driveForDistanceBrake(0.4, Variables.Direction.FORWARD,0.4,0);
-        sleep(3000);
-        driveForDistanceBrake(0.4, Variables.Direction.BACKWARD,0.4,0);
-        sleep(3000);
-        driveForDistanceBrake(0.4, Variables.Direction.RIGHT,0.4,0);
-        sleep(3000);
-        driveForDistanceBrake(0.4, Variables.Direction.LEFT,0.4,0);
-        sleep(3000);
-        driveForDistanceBrake(0.4, Variables.Direction.FORWARD,0.3,0);
-        sleep(3000);
-        driveForDistanceBrake(0.4, Variables.Direction.BACKWARD,0.3,0);
-        sleep(3000);
-        driveForDistanceBrake(0.4, Variables.Direction.RIGHT,0.3,0);
-        sleep(3000);
-        driveForDistanceBrake(0.4, Variables.Direction.LEFT,0.3,0);
-        sleep(3000);
-        driveForDistanceBrake(0.4, Variables.Direction.FORWARD,0.2,0);
-        sleep(3000);
-        driveForDistanceBrake(0.4, Variables.Direction.BACKWARD,0.2,0);
-        sleep(3000);
-        driveForDistanceBrake(0.4, Variables.Direction.RIGHT,0.2,0);
-        sleep(3000);
-        driveForDistanceBrake(0.4, Variables.Direction.LEFT,0.2,0);
-        sleep(3000);
+//        GoToHeight(450);
+//        PipePoleTracker pipePoleTracker = new PipePoleTracker("one");
+//        camera.setPipeline(pipePoleTracker);
+//        globalTargetRotation = 0;
+//        driveForDistanceBrake(0.1, Variables.Direction.FORWARD, 0.3, globalTargetRotation);
+//        driveForDistanceBrake(0.1, Variables.Direction.LEFT, 0.4, globalTargetRotation);
+//        driveForDistanceBrake(1.27, Variables.Direction.FORWARD, 0.4, globalTargetRotation);
+//        driveForDistanceBrake(0.26,Variables.Direction.RIGHT, 0.4, globalTargetRotation);
+//        alignToPole(camera);
+//        pipeConeTracker = new PipeConeTracker("one", "red");
+//        camera.setPipeline(pipeConeTracker);
+//        globalTargetRotation = 88;
+//        rotateWithBrake(globalTargetRotation);
+//        driveForDistanceBrake(0.9, Variables.Direction.FORWARD, 0.4, globalTargetRotation);
+//        alignToConeStack(camera, globalTargetRotation, "red");
+//        GoToHeight(1250);
+//        sleep(100);
+//        driveForDistanceBrake(.15, Variables.Direction.FORWARD, .25, globalTargetRotation);
+//        sleep(100);
+//        GoToHeight(615);
+//        sleep(200);
+//        clawClamp();
+//        sleep(200);
+//        GoToHeight(1600);
+//        pipePoleTracker = new PipePoleTracker("one");
+//        camera.setPipeline(pipePoleTracker);
+//        driveForDistanceBrake(.4, Variables.Direction.BACKWARD, .45, globalTargetRotation);
+//        GoToHeight(300);
+//        globalTargetRotation = 180;
+//        rotateWithBrake(globalTargetRotation);
+//        alignToPole(camera);
+
+
+
+
+
 
 
 
         while (opModeIsActive()) {
 
+            leftY = -gamepad1.left_stick_y;
+            leftX = gamepad1.left_stick_x;
+            rightX = gamepad1.right_stick_x;
+
+            motorFL.setPower((leftY + leftX + rightX) / 2);
+            motorBL.setPower((leftY - leftX + rightX) / 2);
+            motorFR.setPower((leftY - leftX - rightX) / 2);
+            motorBR.setPower((leftY + leftX - rightX) / 2);
+
+            if(gamepad1.y){
+                alignToPole(camera);
+            }
+            if(gamepad1.x){
+                PipeConeTracker pipeConeTracker = new PipeConeTracker("one", "red");
+                camera.setPipeline(pipeConeTracker);
+                sleep(1000);
+                alignToConeStack(camera, getCurrentZ(), "red");
+                }
+
+//            if(gamepad2.y){
+//                PipePoleTracker pipePoleTracker = new PipePoleTracker("one");
+//                camera.setPipeline(pipePoleTracker);
+//                sleep(2000);
+//                alignToPole(camera);
+//            }
+//            if(gamepad2.x){
+//                globalTargetRotation = 0;
+//                pipeConeTracker = new PipeConeTracker("one", "blue");
+//                camera.setPipeline(pipeConeTracker);
+//                alignToConeStack(camera, globalTargetRotation, "blue");
+//            }
+//            if(gamepad2.a){
+//                globalTargetRotation = 0;
+//                pipeConeTracker = new PipeConeTracker("one", "red");
+//                camera.setPipeline(pipeConeTracker);
+//                alignToConeStack(camera, globalTargetRotation, "red");
+//
+//            }
 
         }
     }

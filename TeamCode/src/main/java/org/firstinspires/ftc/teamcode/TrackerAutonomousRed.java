@@ -146,6 +146,10 @@ public class TrackerAutonomousRed extends DriveMethods {
                 clawRelease();
             }
 
+            if(gamepad1.x){
+                rotateSmallWithBrake(0);
+            }
+
             if (level2Capable == false && visionAutoActivated == false) {
                 pattern = RevBlinkinLedDriver.BlinkinPattern.WHITE;
                 blinkinLedDriver.setPattern(pattern);
@@ -200,30 +204,39 @@ public class TrackerAutonomousRed extends DriveMethods {
 
             if (visionAutoActivated) {
 
-                alignPowerAddedX = errorX / dividerX;
+//                alignPowerAddedX = errorX / dividerX;
 
                 alignPowerAddedWidth = (double) errorWidth / 45;
 
 
-                if (Math.abs(alignPowerAddedX) > 0.3) {
-                    alignPowerAddedX = (errorX / (Math.abs(errorX))) * 0.3;
-                }
+//                if (Math.abs(alignPowerAddedX) > 0.28) {
+//                    alignPowerAddedX = (errorX / (Math.abs(errorX))) * 0.3;
+//                }
+//
+//                if(Math.abs(alignPowerAddedX) < 0.1){
+//                    alignPowerAddedX = (errorX / (Math.abs(errorX))) * 0.195;
+//                }
 
-                if(Math.abs(alignPowerAddedX) < 0.16){
-                    alignPowerAddedX = (errorX / (Math.abs(errorX))) * 0.18;
-                }
+                alignPowerAddedX = (errorX / (Math.abs(errorX)))*0.21;
 
-                if (levelCounter == 1 && Math.abs(errorX) < 20) {//TODO will need to add distance condition
-                    level1Aligned = true;
+                if (levelCounter == 1 && Math.abs(errorX) < 45) {//TODO will need to add distance condition
+                    motorFL.setPower(alignPowerAddedX);
+                    motorBL.setPower(-alignPowerAddedX);
+                    motorFR.setPower(-alignPowerAddedX);
+                    motorBR.setPower(alignPowerAddedX);
+                    sleep(55);
+                    stopMotors();
+                    level1Aligned = false;
                     imuHeading = getCumulativeZ() + 1.5;
-                    levelCounter = 2;
+                    levelCounter = 1;
                     telemetry.addLine("level1 complete!");
                     telemetry.addLine("IMU Heading: " + imuHeading);
                     telemetry.addLine("errorX: " + errorX);
                     telemetry.addLine("errorX divide thingy: " + (errorX / (Math.abs(errorX))));
 
                     telemetry.update();
-                    stopMotors();
+
+                    sleep(2000);
                     //Robot is in front of pole well enough, entering level2...
                 }
 
