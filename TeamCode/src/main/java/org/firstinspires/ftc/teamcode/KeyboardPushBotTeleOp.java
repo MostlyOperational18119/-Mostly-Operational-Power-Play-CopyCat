@@ -62,13 +62,13 @@ public class KeyboardPushBotTeleOp extends DriveMethods {
             if(pressedKeys.containsKey("w") && Boolean.TRUE.equals(pressedKeys.get("w"))) {
                 emulatedlefty = 0.5;
             }
-            if(pressedKeys.containsKey("a") && Boolean.TRUE.equals(pressedKeys.get("w"))) {
+            if(pressedKeys.containsKey("a") && Boolean.TRUE.equals(pressedKeys.get("a"))) {
                 emulatedleftx = -0.5;
             }
-            if(pressedKeys.containsKey("s") && Boolean.TRUE.equals(pressedKeys.get("w"))) {
+            if(pressedKeys.containsKey("s") && Boolean.TRUE.equals(pressedKeys.get("s"))) {
                 emulatedlefty = -0.5;
             }
-            if(pressedKeys.containsKey("d") && Boolean.TRUE.equals(pressedKeys.get("w"))) {
+            if(pressedKeys.containsKey("d") && Boolean.TRUE.equals(pressedKeys.get("d"))) {
                 emulatedleftx = 0.5;
             }
 
