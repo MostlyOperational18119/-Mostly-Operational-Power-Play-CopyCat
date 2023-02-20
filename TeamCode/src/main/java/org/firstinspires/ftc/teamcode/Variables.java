@@ -153,6 +153,6 @@ public class Variables {
     // grabber #2 Clamp: 0.42, Release: 0.5
     // 2/18/23 Flat #3 Clamp 0.78, Release 0.85
     // 1/27/23 Flat #1 Clamp 0.23, Release 0.35
-    // 2/18/23 Flat #4 Clamp 0.84, Release 0.91
+    // 2/18/23 Flat #4 Clamp 0.84, Release 0.92
 
 }
