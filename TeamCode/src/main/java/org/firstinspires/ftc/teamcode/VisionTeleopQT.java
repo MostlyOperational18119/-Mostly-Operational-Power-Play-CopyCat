@@ -519,7 +519,7 @@ public class VisionTeleopQT extends DriveMethods {
                     driveForDistance(0.15 + addedDistance, FORWARD, 0.2, imuHeading);
 //                    sleep(250);
 //                    GoToHeight(targetHeight - 60);
-//                    sleep(300);
+                    sleep(300);
                     clawRelease();
                     sleep(200);
                     GoToHeight(targetHeight);

@@ -33,6 +33,8 @@ import static org.firstinspires.ftc.teamcode.PipePoleTracker.getPercentColorPole
 import static org.firstinspires.ftc.teamcode.Variables.*;
 import static org.firstinspires.ftc.teamcode.Variables.Direction.BACKWARD;
 import static org.firstinspires.ftc.teamcode.Variables.Direction.FORWARD;
+import static org.firstinspires.ftc.teamcode.Variables.Direction.LEFT;
+import static org.firstinspires.ftc.teamcode.Variables.Direction.RIGHT;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -1120,7 +1122,7 @@ public class DriveMethods extends LinearOpMode {
                 driveForDistance(0.15 + addedDistance, FORWARD, 0.2, imuHeading);
 //                    sleep(250);
 //                    GoToHeight(targetHeight - 60);
-                    sleep(300);
+                sleep(300);
                 clawRelease();
                 sleep(200);
                 GoToHeight(targetHeight);
@@ -1168,6 +1170,7 @@ public class DriveMethods extends LinearOpMode {
         int errorWidth;
         double currentWidth;
         double dividerX = 300;
+        double adjustDistance = 0;
         int targetX = 225; //<-- this SHOULD be the resolution at level1 (check-able)
         Timer theTimeForTimeout = new Timer();
 
@@ -1198,7 +1201,7 @@ public class DriveMethods extends LinearOpMode {
 
             alignPowerAddedX = (errorX / (Math.abs(errorX))) * 0.215;
 
-            if (levelCounter == 1 && Math.abs(errorX) < 45) {//TODO will need to add distance condition
+            if (levelCounter == 1 && Math.abs(errorX) < 32) {//TODO will need to add distance condition
                 motorFL.setPower(alignPowerAddedX);
                 motorBL.setPower(-alignPowerAddedX);
                 motorFR.setPower(-alignPowerAddedX);
@@ -1218,10 +1221,19 @@ public class DriveMethods extends LinearOpMode {
 
             if (levelCounter == 1 && level1Aligned == false) {
 
-                motorFL.setPower(-alignPowerAddedX);
-                motorBL.setPower(alignPowerAddedX);
-                motorFR.setPower(alignPowerAddedX);
-                motorBR.setPower(-alignPowerAddedX);
+                if(Math.abs(errorX) > 100){
+                    adjustDistance = 0.05;
+                }else if(Math.abs(errorX) <= 100 && Math.abs(errorX) >= 50){
+                    adjustDistance = 0.02;
+                }else if(Math.abs(errorX) < 40){
+                    adjustDistance = 0.01;
+                }
+
+                if(errorX < 0){
+                    driveForDistance(adjustDistance, RIGHT, 0.21, 0);
+                }else if(errorX > 0){
+                    driveForDistance(adjustDistance, LEFT, 0.21, 0);
+                }
 
             }
 

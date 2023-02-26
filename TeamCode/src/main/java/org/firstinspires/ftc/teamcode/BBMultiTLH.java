@@ -54,7 +54,7 @@ public class BBMultiTLH extends DriveMethods{
         driveForDistance(.05, Variables.Direction.FORWARD, .3, globalTargetRotation);
         rotateWithBrake(-90);
         globalTargetRotation = -90;
-        driveForDistanceBrake(.82, Variables.Direction.FORWARD, .4, globalTargetRotation);
+        driveForDistanceBrake(.82, Variables.Direction.FORWARD, .44, globalTargetRotation);
         sleep(100);
         clawRelease();
         GoToHeight(550);
@@ -62,8 +62,8 @@ public class BBMultiTLH extends DriveMethods{
         driveForDistanceBrake(.13, Variables.Direction.BACKWARD, .3, globalTargetRotation);
         rotateWithBrake(0);
         globalTargetRotation = 0;
-        driveForDistanceBrake(1.34, Variables.Direction.FORWARD, .4, globalTargetRotation);
-        driveForDistanceBrake(.1, Variables.Direction.LEFT, .4, globalTargetRotation);
+        driveForDistanceBrake(1.35, Variables.Direction.FORWARD, .45, globalTargetRotation);
+        driveForDistanceBrake(.1, Variables.Direction.LEFT, .45, globalTargetRotation);
         rotateWithBrake(-88);
         globalTargetRotation = -88;
         GoToHeight(1250);
@@ -107,16 +107,16 @@ public class BBMultiTLH extends DriveMethods{
         sleep(100);
         rotateWithBrake(-90);
         globalTargetRotation = -90;
+        goToDown();
         switch(result){
             case "purple":
-                driveForDistanceBrake(1.45, Variables.Direction.FORWARD, .6, globalTargetRotation);
-                goToDown();
+                driveForDistanceBrake(1.45, Variables.Direction.FORWARD, .65, globalTargetRotation);
                 break;
             case "yellow":
-                driveForDistanceBrake(.85, Variables.Direction.FORWARD, 0.6, globalTargetRotation);
+                driveForDistanceBrake(.85, Variables.Direction.FORWARD, 0.65, globalTargetRotation);
                 break;
             case "green":
-                driveForDistanceBrake(.15, Variables.Direction.FORWARD, 0.6, globalTargetRotation);
+                driveForDistanceBrake(.15, Variables.Direction.FORWARD, 0.65, globalTargetRotation);
                 break;
         }
 

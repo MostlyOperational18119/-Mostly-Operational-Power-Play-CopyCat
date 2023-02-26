@@ -12,6 +12,8 @@ import static org.firstinspires.ftc.teamcode.PipeConeTracker.getLevelStringCone;
 import static org.firstinspires.ftc.teamcode.PipeConeTracker.getPercentColorCone;
 import static org.firstinspires.ftc.teamcode.Variables.Direction.BACKWARD;
 import static org.firstinspires.ftc.teamcode.Variables.Direction.FORWARD;
+import static org.firstinspires.ftc.teamcode.Variables.Direction.LEFT;
+import static org.firstinspires.ftc.teamcode.Variables.Direction.RIGHT;
 import static org.firstinspires.ftc.teamcode.Variables.globalTargetRotation;
 import static org.firstinspires.ftc.teamcode.Variables.highHeight;
 import static org.firstinspires.ftc.teamcode.Variables.imuHeading;
@@ -59,11 +61,13 @@ public class TrackerAutonomousRed extends DriveMethods {
     double dividerX = 300;
     double alignPowerAddedX;
     double alignPowerAddedWidth;
+    double adjustDistance = 0;
     int slidePosition = 0;
     int targetHeight = 0;
     double leftX;
     double leftY;
     double rightX;
+
 
 
     //The unit here is boxes
@@ -219,7 +223,7 @@ public class TrackerAutonomousRed extends DriveMethods {
 
                 alignPowerAddedX = (errorX / (Math.abs(errorX)))*0.21;
 
-                if (levelCounter == 1 && Math.abs(errorX) < 45) {//TODO will need to add distance condition
+                if (levelCounter == 1 && Math.abs(errorX) < 32) {//TODO will need to add distance condition
                     motorFL.setPower(alignPowerAddedX);
                     motorBL.setPower(-alignPowerAddedX);
                     motorFR.setPower(-alignPowerAddedX);
@@ -250,10 +254,24 @@ public class TrackerAutonomousRed extends DriveMethods {
 //                            rotateSmallWithBrake(targetHeading);
 
 //                    }else {
-                        motorFL.setPower(-alignPowerAddedX);
-                        motorBL.setPower(alignPowerAddedX);
-                        motorFR.setPower(alignPowerAddedX);
-                        motorBR.setPower(-alignPowerAddedX);
+
+                    if(Math.abs(errorX) > 100){
+                        adjustDistance = 0.05;
+                    }else if(Math.abs(errorX) <= 100 && Math.abs(errorX) >= 50){
+                        adjustDistance = 0.02;
+                    }else if(Math.abs(errorX) < 40){
+                        adjustDistance = 0.01;
+                    }
+
+                    if(errorX < 0){
+                        driveForDistance(adjustDistance, RIGHT, 0.21, 0);
+                    }else if(errorX > 0){
+                        driveForDistance(adjustDistance, LEFT, 0.21, 0);
+                    }
+//                        motorFL.setPower(-alignPowerAddedX);
+//                        motorBL.setPower(alignPowerAddedX);
+//                        motorFR.setPower(alignPowerAddedX);
+//                        motorBR.setPower(-alignPowerAddedX);
 //                    }
 
                 }

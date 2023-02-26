@@ -49,9 +49,9 @@ public class PipePoleTracker extends OpenCvPipeline {
 
     @Override
     public Mat processFrame(Mat input) {
-        MatOfByte matOfByte = new MatOfByte();
-        Imgcodecs.imencode(".jpg", mat, matOfByte);
-        Variables.curImgData = matOfByte.toArray();
+//        MatOfByte matOfByte = new MatOfByte();
+//        Imgcodecs.imencode(".jpg", mat, matOfByte);
+//        Variables.curImgData = matOfByte.toArray();
 
         Imgproc.cvtColor(input,inputHSV,Imgproc.COLOR_BGR2HSV);
         Core.inRange(inputHSV, new Scalar(81, 115, 164), new Scalar(107, 255, 255), inputMask);
