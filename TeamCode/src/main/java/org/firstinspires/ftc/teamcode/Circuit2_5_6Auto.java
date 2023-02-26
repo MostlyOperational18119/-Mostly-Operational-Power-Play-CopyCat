@@ -10,8 +10,8 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-@Autonomous(name ="BBMultiTLH", group = "A")
-public class BBMultiTLH extends DriveMethods{
+@Autonomous(name ="Circuit 2_5_6", group = "A")
+public class Circuit2_5_6Auto extends DriveMethods{
     OpenCvWebcam webcam;
     private String result;
 
@@ -102,21 +102,20 @@ public class BBMultiTLH extends DriveMethods{
         sleep(100);
         clawRelease();
         sleep(100);
-        driveForDistanceBrake(0.14, Variables.Direction.BACKWARD,0.5, globalTargetRotation);
-        goToLow();
-        sleep(100);
+        driveForDistanceBrake(0.1, Variables.Direction.BACKWARD,0.5, globalTargetRotation);
+        goToDown();
+//        sleep(100);
         rotateWithBrake(-90);
         globalTargetRotation = -90;
-        goToDown();
         switch(result){
             case "purple":
-                driveForDistanceBrake(1.45, Variables.Direction.FORWARD, .65, globalTargetRotation);
+                driveForDistanceBrake(1.35, Variables.Direction.FORWARD, .85, globalTargetRotation);
                 break;
             case "yellow":
-                driveForDistanceBrake(.85, Variables.Direction.FORWARD, 0.65, globalTargetRotation);
+                driveForDistanceBrake(.85, Variables.Direction.FORWARD, 0.85, globalTargetRotation);
                 break;
             case "green":
-                driveForDistanceBrake(.15, Variables.Direction.FORWARD, 0.65, globalTargetRotation);
+                driveForDistanceBrake(.15, Variables.Direction.FORWARD, 0.85, globalTargetRotation);
                 break;
         }
 

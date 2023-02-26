@@ -10,8 +10,8 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-@Autonomous(name ="BBMultiGTM", group = "A")
-public class BBMultiGTM extends DriveMethods{
+@Autonomous(name ="Circuit 3_4", group = "A")
+public class Circuit3_4Auto extends DriveMethods{
     OpenCvWebcam webcam;
     private String result;
 

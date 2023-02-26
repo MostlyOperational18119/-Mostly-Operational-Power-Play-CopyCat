@@ -10,7 +10,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-@Autonomous(name ="Circuit1Auto", group = "A")
+@Autonomous(name ="Circuit 1", group = "A")
 public class Circuit1Auto extends DriveMethods{
     OpenCvWebcam webcam;
     private String result;
@@ -52,8 +52,8 @@ public class Circuit1Auto extends DriveMethods{
 
 
 
-        PipeConeTracker pipeConeTracker = new PipeConeTracker("one", "blue");
-        webcam.setPipeline(pipeConeTracker);
+//        PipeConeTracker pipeConeTracker = new PipeConeTracker("one", "blue");
+//        webcam.setPipeline(pipeConeTracker);
         GoToHeight(300);
         driveForDistanceBrake(0.1, Variables.Direction.FORWARD,0.45,globalTargetRotation);
         driveForDistanceBrake(0.5, Variables.Direction.LEFT,0.5,globalTargetRotation);
@@ -67,11 +67,11 @@ public class Circuit1Auto extends DriveMethods{
         driveForDistanceBrake(0.33, Variables.Direction.LEFT,0.45,globalTargetRotation);
         driveForDistanceBrake(1.23, Variables.Direction.FORWARD,0.45,globalTargetRotation);
         driveForDistanceBrake(0.25, Variables.Direction.RIGHT,0.45,globalTargetRotation);
-        GoToHeight(0);
+//        GoToHeight(0);
         rotateWithBrake(88);
         globalTargetRotation = 88;
-        sleep(500);
-        alignToConeStack(webcam,globalTargetRotation,"blue");
+//        sleep(500);
+//        alignToConeStack(webcam,globalTargetRotation,"blue");
         GoToHeight(1250);
         sleep(100);
         driveForDistance(.4, Variables.Direction.FORWARD, .25, globalTargetRotation);
@@ -94,17 +94,17 @@ public class Circuit1Auto extends DriveMethods{
         GoToHeight(550);
         sleep(300);
         driveForDistanceBrake(0.2, Variables.Direction.BACKWARD,0.65,globalTargetRotation);
-        driveForDistanceBrake(0.1, Variables.Direction.RIGHT,0.45,globalTargetRotation);
-        driveForDistanceBrake(0.41, Variables.Direction.BACKWARD,0.65,globalTargetRotation);
+        driveForDistanceBrake(0.15, Variables.Direction.RIGHT,0.45,globalTargetRotation);
+        driveForDistanceBrake(0.42, Variables.Direction.BACKWARD,0.65,globalTargetRotation);
         driveForDistanceBrake(0.1, Variables.Direction.RIGHT,0.45,globalTargetRotation);
         rotateWithBrake(88);
         globalTargetRotation = 88;
-        GoToHeight(200);
-        sleep(500);
-        alignToConeStack(webcam,globalTargetRotation,"blue");
+//        GoToHeight(200);
+//        sleep(500);
+//        alignToConeStack(webcam,globalTargetRotation,"blue");
         GoToHeight(1250);
         sleep(100);
-        driveForDistance(.23, Variables.Direction.FORWARD, 0.3, globalTargetRotation);
+        driveForDistance(.25, Variables.Direction.FORWARD, 0.3, globalTargetRotation);
         sleep(100);
         GoToHeight(540);
         sleep(200);
