@@ -29,10 +29,12 @@ public class KeyboardTeleOp extends DriveMethods {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             keysMap.forEach((key,val) -> {
-                if(val=="true") {
-                    parsedJson.put((String) key, true);
-                } else if ((String) val=="false") {
-                    parsedJson.put((String) key, false);
+                if(key.toString().length()==1) {
+                    if (val.toString() == "true") {
+                        parsedJson.put((String) key, true);
+                    } else if (val.toString() == "false") {
+                        parsedJson.put((String) key, false);
+                    }
                 }
             });
             return parsedJson;
@@ -163,6 +165,7 @@ public class KeyboardTeleOp extends DriveMethods {
             if(isKeyPressed("q",pressedKeys) && !isStacking) {
                 isStacking = true;
                 alignToPole(camera);
+                isStacking = false;
             }
 
             rightX = convertKeysToEmuJoystick("r","t",pressedKeys);
