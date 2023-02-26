@@ -13,6 +13,7 @@ public class rotate_right extends DriveMethods{
 
         while (opModeIsActive()) {
             telemetry.addLine("You are in teh loop!");
+            telemetry.update();
         }
     }
 }
