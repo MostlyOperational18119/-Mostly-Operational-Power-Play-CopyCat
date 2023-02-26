@@ -71,8 +71,8 @@ public class Variables {
     public static double rotationsPerMeter = 1/0.3015928947;
 
 
-    public static final double Clamp = 0.23;
-    public static final double Release = 0.35;
+    public static final double Clamp = 0.85;
+    public static final double Release = 0.92;
 
     public static final int downHeight = 0;
     public static final int collectHeight = 250;
@@ -150,7 +150,6 @@ public class Variables {
     public static String curJSONdata = "{}";
     public static byte[] curImgData = new byte[4096];
 
-    // grabber #2 Clamp: 0.42, Release: 0.5
     // 2/18/23 Flat #3 Clamp 0.78, Release 0.85
     // 1/27/23 Flat #1 Clamp 0.23, Release 0.35
     // 2/18/23 Flat #4 Clamp 0.84, Release 0.92
