@@ -18,6 +18,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.DriveMethods;
 
 @TeleOp(name="Meet3Teleop", group = "A")
+@Disabled
 public class Meet3Teleop extends DriveMethods {
 
    

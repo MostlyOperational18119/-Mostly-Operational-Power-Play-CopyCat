@@ -24,6 +24,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 @TeleOp(name = "TestAutonomous", group = "A")
+
 public class TestAutonomous extends DriveMethods {
     double angle = 0;
     double interval = 0;

@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.DriveMethods;
 
 @Autonomous(name="grib", group = "a")
+@Disabled
 public class GrbberTest extends DriveMethods {
     Servo grabber;
     public void runOpMode(){

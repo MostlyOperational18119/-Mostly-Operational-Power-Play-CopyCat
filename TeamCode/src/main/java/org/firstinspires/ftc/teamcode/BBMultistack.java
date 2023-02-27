@@ -13,7 +13,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
 @Autonomous(name ="BBMultistack", group = "A")
-//@Disabled
+@Disabled
 public class BBMultistack extends DriveMethods{
     OpenCvWebcam webcam;
     private String result;

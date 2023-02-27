@@ -654,6 +654,10 @@ public class PipePoleTracker extends OpenCvPipeline {
 
                         focusRect = new Rect(new Point(lowestX, lowestY), new Point(highestX, highestY));
 
+                        if(largestSize == 0){
+                            focusRect = new Rect(new Point(0,0), new Point(x_resolution, y_resolution));
+                            centerX = 225;
+                        }
 
                     }
 

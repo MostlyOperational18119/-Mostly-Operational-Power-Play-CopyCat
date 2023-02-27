@@ -2,12 +2,13 @@ package org.firstinspires.ftc.teamcode;
 
 import static org.firstinspires.ftc.teamcode.Variables.motorSlide;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name = "TimerTeleOp")
-// Because yes
+@Disabled
 public class TimerTeleOp extends DriveMethods {
     @Override
     public void runOpMode() {

@@ -18,6 +18,7 @@ import com.qualcomm.robotcore.util.Range;
 import static org.firstinspires.ftc.teamcode.PipeConeTracker.getBoxWidthCone;
 import static org.firstinspires.ftc.teamcode.PipeConeTracker.getCenterXCone;
 import static org.firstinspires.ftc.teamcode.PipeConeTracker.getLargestObjectWidthCone;
+import static org.firstinspires.ftc.teamcode.PipeConeTracker.getLevel1AssigmentCone;
 import static org.firstinspires.ftc.teamcode.PipeConeTracker.getLevel2AssigmentCone;
 import static org.firstinspires.ftc.teamcode.PipeConeTracker.getLevel2CapableCone;
 import static org.firstinspires.ftc.teamcode.PipeConeTracker.getLevelStringCone;
@@ -1193,6 +1194,10 @@ public class DriveMethods extends LinearOpMode {
         }
         if(coneColor.equals("blue")){
             blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
+        }
+
+        while(!getLevel1AssigmentCone()){
+            sleep(10);
         }
 
         while (tryingToAlign) {

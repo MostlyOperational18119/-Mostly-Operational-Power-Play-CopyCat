@@ -12,6 +12,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
 @Autonomous(name ="BRHLM", group = "A")
+@Disabled
 public class BRHLM extends DriveMethods{
     OpenCvWebcam webcam;
     private String result;

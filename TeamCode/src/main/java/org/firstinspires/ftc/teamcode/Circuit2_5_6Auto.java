@@ -51,18 +51,20 @@ public class Circuit2_5_6Auto extends DriveMethods{
         waitForStart();
 
         GoToHeight(300);
-        driveForDistance(.05, Variables.Direction.FORWARD, .3, globalTargetRotation);
+        driveForDistance(.03, Variables.Direction.FORWARD, .3, globalTargetRotation);
         rotateWithBrake(-90);
         globalTargetRotation = -90;
         driveForDistanceBrake(.82, Variables.Direction.FORWARD, .44, globalTargetRotation);
+        GoToHeight(100);
         sleep(100);
         clawRelease();
+        sleep(300);
         GoToHeight(550);
-        sleep(400);
+        sleep(300);
         driveForDistanceBrake(.13, Variables.Direction.BACKWARD, .3, globalTargetRotation);
         rotateWithBrake(0);
         globalTargetRotation = 0;
-        driveForDistanceBrake(1.35, Variables.Direction.FORWARD, .45, globalTargetRotation);
+        driveForDistanceBrake(1.37, Variables.Direction.FORWARD, .45, globalTargetRotation);
         driveForDistanceBrake(.1, Variables.Direction.LEFT, .45, globalTargetRotation);
         rotateWithBrake(-88);
         globalTargetRotation = -88;
@@ -98,21 +100,21 @@ public class Circuit2_5_6Auto extends DriveMethods{
         globalTargetRotation = -180;
         goToHigh();
         sleep(100);
-        driveForDistanceBrake(0.125, Variables.Direction.FORWARD,0.25, globalTargetRotation);
-        sleep(100);
+        driveForDistanceBrake(0.14, Variables.Direction.FORWARD,0.25, globalTargetRotation);
+        sleep(200);
         clawRelease();
         sleep(100);
-        driveForDistanceBrake(0.1, Variables.Direction.BACKWARD,0.5, globalTargetRotation);
+        driveForDistanceBrake(0.08, Variables.Direction.BACKWARD,0.5, globalTargetRotation);
         goToDown();
 //        sleep(100);
-        rotateWithBrake(-90);
-        globalTargetRotation = -90;
+        rotateWithBrake(-88);
+        globalTargetRotation = -88;
         switch(result){
             case "purple":
                 driveForDistanceBrake(1.35, Variables.Direction.FORWARD, .85, globalTargetRotation);
                 break;
             case "yellow":
-                driveForDistanceBrake(.85, Variables.Direction.FORWARD, 0.85, globalTargetRotation);
+                driveForDistanceBrake(.76, Variables.Direction.FORWARD, 0.85, globalTargetRotation);
                 break;
             case "green":
                 driveForDistanceBrake(.15, Variables.Direction.FORWARD, 0.85, globalTargetRotation);

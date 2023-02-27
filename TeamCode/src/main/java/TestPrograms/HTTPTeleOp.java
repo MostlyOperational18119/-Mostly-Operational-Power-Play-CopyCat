@@ -3,6 +3,7 @@ package TestPrograms;
 import android.os.Build;
 
 import com.google.gson.Gson;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.DriveMethods;
@@ -13,6 +14,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 @TeleOp(name="HTTPTeleOp")
+@Disabled
 public class HTTPTeleOp extends DriveMethods {
     private int port;
     private String ipaddr;

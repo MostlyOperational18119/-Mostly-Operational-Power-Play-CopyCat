@@ -6,12 +6,14 @@ import static org.firstinspires.ftc.teamcode.Variables.motorFL;
 import static org.firstinspires.ftc.teamcode.Variables.motorFR;
 import static org.firstinspires.ftc.teamcode.Variables.motorSlide;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.DriveMethods;
 
 @TeleOp(name="Meet2Teleop", group = "A")
+@Disabled
 public class Meet2Teleop extends DriveMethods {
 
     @Override

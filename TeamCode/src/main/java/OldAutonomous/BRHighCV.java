@@ -3,6 +3,7 @@ package OldAutonomous;
 import static org.firstinspires.ftc.teamcode.Variables.globalTargetRotation;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.DamienCVPipelineBR_RR;
@@ -14,7 +15,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
 @Autonomous(name ="BRHighCV", group = "A")
-//@Disabled
+@Disabled
 public class BRHighCV extends DriveMethods {
     OpenCvWebcam webcam;
     private String result;

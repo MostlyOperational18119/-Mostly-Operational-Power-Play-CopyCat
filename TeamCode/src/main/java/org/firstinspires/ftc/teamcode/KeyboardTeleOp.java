@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import android.os.Build;
 
 import com.google.gson.Gson;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -21,6 +22,7 @@ import static org.firstinspires.ftc.teamcode.Variables.motorFL;
 import static org.firstinspires.ftc.teamcode.Variables.motorFR;
 
 @TeleOp(name="KeyboardTeleOp")
+@Disabled
 public class KeyboardTeleOp extends DriveMethods {
     private HashMap<String, Boolean> getPressedKeysMap() throws JSONException {
         JSONObject reader = new JSONObject(Variables.curJSONdata);

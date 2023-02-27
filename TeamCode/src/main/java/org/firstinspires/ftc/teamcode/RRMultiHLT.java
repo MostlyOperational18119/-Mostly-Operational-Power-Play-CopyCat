@@ -12,6 +12,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
 @Autonomous(name ="RRMultiHLT", group = "A")
+@Disabled
 public class RRMultiHLT extends DriveMethods{
     OpenCvWebcam webcam;
     private String result;
