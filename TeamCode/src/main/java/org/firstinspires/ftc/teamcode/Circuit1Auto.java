@@ -111,7 +111,7 @@ public class Circuit1Auto extends DriveMethods{
         clawClamp();
         sleep(200);
         GoToHeight(1600);
-        driveForDistanceBrake(0.36, Variables.Direction.BACKWARD, .55, globalTargetRotation);
+        driveForDistanceBrake(0.39, Variables.Direction.BACKWARD, .55, globalTargetRotation);
         rotateWithBrake(180);
         globalTargetRotation = 180;
         goToLow();
